@@ -1,9 +1,7 @@
 const form = document.querySelector("#leadForm");
-const scoreLabel = document.querySelector("#scoreLabel");
-const scoreHint = document.querySelector("#scoreHint");
 const modal = document.querySelector("#resultModal");
 const modalClose = document.querySelector(".modal-close");
-const resultScore = document.querySelector("#resultScore");
+const resultStatus = document.querySelector("#resultStatus");
 const resultCopy = document.querySelector("#resultCopy");
 
 function getCheckedValues(name) {
@@ -65,36 +63,27 @@ function calculateScore() {
   if ((data.get("phone") || "").trim().length > 5) points += 5;
 
   const normalized = Math.min(points, 100);
-  let label = "C-Lead";
-  let hint = "Informationsinteresse. Für Nurturing oder E-Mail-Follow-up geeignet.";
-  let copy =
-    "Die Angaben zeigen erstes Interesse. In der Live-Version würde der Kontakt in ein Nurturing oder ein leichtes Follow-up laufen.";
+  let priority = "standard";
+  let copy = "Vielen Dank. GEBA hat Ihre Angaben erhalten und prüft, ob sich PV-Optimierung, Speicher oder Lastspitzenmanagement für Ihr Unternehmen sinnvoll darstellen lassen.";
 
   if (normalized >= 70) {
-    label = "A-Lead";
-    hint = "Hohe Priorität. Telefonische Kontaktaufnahme innerhalb von 24 Stunden.";
-    copy =
-      "Die Angaben sprechen für hohes Potenzial. Dieser Lead sollte schnell telefonisch qualifiziert und in ein GEBA-Beratungsgespräch überführt werden.";
+    priority = "urgent";
+    copy = "Vielen Dank. Ihre Angaben wurden übermittelt. GEBA prüft die Daten und meldet sich mit einer ersten Einschätzung zu Speicher, Eigenverbrauch oder Lastspitzenmanagement.";
   } else if (normalized >= 42) {
-    label = "B-Lead";
-    hint = "Mittlere Priorität. E-Mail-Bewertung plus gezieltes Follow-up.";
-    copy =
-      "Die Angaben zeigen relevantes Potenzial. Sinnvoll ist eine kurze Potenzialbewertung per E-Mail und ein nachgelagerter Qualifizierungsanruf.";
+    priority = "follow-up";
+    copy = "Vielen Dank. GEBA bereitet auf Basis Ihrer Angaben eine erste Potenzialbewertung vor und meldet sich mit den nächsten sinnvollen Schritten.";
   }
 
   return {
     points: normalized,
-    label,
-    hint,
+    priority,
     copy,
     reasons,
   };
 }
 
 function updateScore() {
-  const score = calculateScore();
-  scoreLabel.textContent = `${score.label} (${score.points}/100)`;
-  scoreHint.textContent = score.hint;
+  calculateScore();
 }
 
 form.addEventListener("input", updateScore);
@@ -103,7 +92,7 @@ form.addEventListener("change", updateScore);
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const score = calculateScore();
-  resultScore.textContent = `${score.label} · ${score.points}/100`;
+  resultStatus.textContent = "Anfrage erfolgreich vorbereitet";
   resultCopy.textContent = score.copy;
   modal.hidden = false;
 });

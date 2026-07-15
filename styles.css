@@ -320,7 +320,7 @@ h3 {
   top: 96px;
 }
 
-.score-preview {
+.check-note {
   margin-top: 28px;
   padding: 18px;
   border-radius: 8px;
@@ -329,7 +329,7 @@ h3 {
   box-shadow: var(--shadow);
 }
 
-.score-preview span,
+.check-note span,
 .result-box span {
   display: block;
   margin-bottom: 4px;
@@ -337,14 +337,14 @@ h3 {
   font-size: 0.83rem;
 }
 
-.score-preview strong,
+.check-note strong,
 .result-box strong {
   display: block;
   font-size: 1.55rem;
   color: var(--green-deep);
 }
 
-.score-preview small {
+.check-note small {
   display: block;
   margin-top: 8px;
   color: var(--muted);

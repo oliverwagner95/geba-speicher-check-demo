@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GEBA Gewerbespeicher-Check</title>
+    <meta
+      name="description"
+      content="Unverbindliche Potenzialbewertung fuer PV-Optimierung, Gewerbespeicher und Lastspitzenmanagement."
+    />
+    <link rel="preconnect" href="https://www.geba-gmbh.com" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="GEBA Gewerbespeicher-Check">
+        <img src="https://www.geba-gmbh.com/wp-content/uploads/geba-logo-white.svg" alt="GEBA" />
+        <span>Gewerbespeicher-Check</span>
+      </a>
+      <nav aria-label="Seitennavigation">
+        <a href="#check">Potenzial prüfen</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#trust">GEBA</a>
+      </nav>
+      <a class="header-cta" href="#check">Check starten</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Für Unternehmen in Südbaden</p>
+          <h1 id="hero-title">PV-Anlage optimieren. Stromkosten senken. Lastspitzen vermeiden.</h1>
+          <p class="hero-copy">
+            GEBA prüft unverbindlich, ob sich ein Gewerbespeicher, Energiemanagement oder eine PV-Erweiterung
+            für Ihren Betrieb wirtschaftlich lohnt.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#check">Potenzial kostenlos prüfen</a>
+            <a class="secondary-btn" href="#ablauf">Ablauf ansehen</a>
+          </div>
+          <dl class="proof-strip" aria-label="GEBA Vertrauensdaten">
+            <div>
+              <dt>15+ Jahre</dt>
+              <dd>Energie-Erfahrung</dd>
+            </div>
+            <div>
+              <dt>2.000+</dt>
+              <dd>installierte Anlagen</dd>
+            </div>
+            <div>
+              <dt>100 MWh</dt>
+              <dd>Speicher installiert</dd>
+            </div>
+            <div>
+              <dt>4,9/5</dt>
+              <dd>Bewertungsniveau</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="band problem-band" aria-labelledby="problem-title">
+        <div class="section-inner two-col">
+          <div>
+            <p class="eyebrow dark">Worum es geht</p>
+            <h2 id="problem-title">Viele PV-Anlagen arbeiten gut. Aber nicht immer wirtschaftlich optimal.</h2>
+          </div>
+          <div class="copy-stack">
+            <p>
+              Entscheidend ist nicht nur, wie viel Solarstrom erzeugt wird. Entscheidend ist, wie viel davon im
+              Betrieb genutzt wird, wann Lastspitzen entstehen und ob Speicher oder Lastmanagement die Kostenkurve
+              spürbar verbessern.
+            </p>
+            <p>
+              Der Check richtet sich an Unternehmen mit bestehender PV-Anlage, geplanter PV-Anlage oder hohem
+              Stromverbrauch durch Produktion, Kühlung, Maschinen, Ladeinfrastruktur oder lange Betriebszeiten.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="band focus-band" aria-labelledby="focus-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow dark">Potenzialfelder</p>
+            <h2 id="focus-title">Was GEBA bewertet</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature">
+              <span class="feature-icon">PV</span>
+              <h3>PV-Eigenverbrauch</h3>
+              <p>Mehr eigener Solarstrom im Betrieb statt unnötiger Einspeisung und späterem Netzbezug.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-icon">kWh</span>
+              <h3>Gewerbespeicher</h3>
+              <p>Speichergröße, Lastprofil und Wirtschaftlichkeit als Nachrüstung oder Teil eines neuen Systems.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-icon">Peak</span>
+              <h3>Lastspitzen</h3>
+              <p>Analyse, ob Lastspitzenmanagement Leistungskosten senken oder Netzanschlusskosten vermeiden kann.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-icon">EV</span>
+              <h3>Ladeinfrastruktur</h3>
+              <p>PV, Speicher und Ladevorgänge als abgestimmtes Energiesystem für Fuhrpark oder Kundenladen.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="check" class="check-section" aria-labelledby="check-title">
+        <div class="section-inner check-layout">
+          <div class="check-intro">
+            <p class="eyebrow dark">Online-Check</p>
+            <h2 id="check-title">Unverbindliche Potenzialbewertung anfordern</h2>
+            <p>
+              Beantworten Sie wenige Fragen. GEBA prüft die Angaben vor und meldet sich mit einer ersten
+              Einschätzung. Bei gutem Potenzial folgt ein persönliches Beratungsgespräch.
+            </p>
+            <div class="score-preview" aria-live="polite">
+              <span>Aktuelle Einschätzung</span>
+              <strong id="scoreLabel">Noch nicht berechnet</strong>
+              <small id="scoreHint">Die Bewertung aktualisiert sich mit Ihren Angaben.</small>
+            </div>
+          </div>
+
+          <form class="lead-form" id="leadForm">
+            <div class="form-grid">
+              <label>
+                Unternehmen
+                <input name="company" autocomplete="organization" required />
+              </label>
+              <label>
+                Ansprechpartner
+                <input name="name" autocomplete="name" required />
+              </label>
+              <label>
+                E-Mail
+                <input name="email" type="email" autocomplete="email" required />
+              </label>
+              <label>
+                Telefon
+                <input name="phone" type="tel" autocomplete="tel" required />
+              </label>
+              <label>
+                PLZ / Ort
+                <input name="location" autocomplete="postal-code" required />
+              </label>
+              <label>
+                Branche
+                <select name="industry">
+                  <option>Produktion / Handwerk</option>
+                  <option>Hotel / Gastronomie</option>
+                  <option>Lebensmittel / Kühlung</option>
+                  <option>Autohaus / Werkstatt / Waschstraße</option>
+                  <option>Logistik / Lager</option>
+                  <option>Landwirtschaft</option>
+                  <option>Sonstiges Gewerbe</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend>Hat Ihr Unternehmen bereits eine PV-Anlage?</legend>
+              <div class="segmented">
+                <label><input type="radio" name="pv" value="yes" /> Ja</label>
+                <label><input type="radio" name="pv" value="planned" /> In Planung</label>
+                <label><input type="radio" name="pv" value="no" /> Nein</label>
+                <label><input type="radio" name="pv" value="unknown" /> Nicht sicher</label>
+              </div>
+            </fieldset>
+
+            <div class="form-grid">
+              <label>
+                PV-Größe
+                <select name="pvSize">
+                  <option value="unknown">Unbekannt / keine PV</option>
+                  <option value="small">unter 30 kWp</option>
+                  <option value="medium">30–100 kWp</option>
+                  <option value="large">100–300 kWp</option>
+                  <option value="enterprise">über 300 kWp</option>
+                </select>
+              </label>
+              <label>
+                Jahresstromverbrauch
+                <select name="consumption">
+                  <option value="unknown">Unbekannt</option>
+                  <option value="low">unter 50.000 kWh</option>
+                  <option value="mid">50.000–150.000 kWh</option>
+                  <option value="high">150.000–500.000 kWh</option>
+                  <option value="very-high">über 500.000 kWh</option>
+                </select>
+              </label>
+              <label>
+                Verbrauchsschwerpunkt
+                <select name="loadTime">
+                  <option value="day">Tagsüber</option>
+                  <option value="evening">Abends / nachts</option>
+                  <option value="mixed">Gleichmäßig</option>
+                  <option value="peaks">Stark schwankend</option>
+                  <option value="unknown">Unbekannt</option>
+                </select>
+              </label>
+              <label>
+                Zeitrahmen
+                <select name="timeline">
+                  <option value="now">Sofort / kurzfristig</option>
+                  <option value="quarter">In 1–3 Monaten</option>
+                  <option value="year">Dieses Jahr</option>
+                  <option value="info">Erst informieren</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend>Welche Themen sind relevant?</legend>
+              <div class="checkbox-grid">
+                <label><input type="checkbox" name="topics" value="pv-opt" /> PV-Anlage optimieren</label>
+                <label><input type="checkbox" name="topics" value="storage" /> Speicher nachrüsten</label>
+                <label><input type="checkbox" name="topics" value="peaks" /> Lastspitzen reduzieren</label>
+                <label><input type="checkbox" name="topics" value="new-pv" /> Neue PV-Anlage planen</label>
+                <label><input type="checkbox" name="topics" value="charging" /> Ladeinfrastruktur integrieren</label>
+                <label><input type="checkbox" name="topics" value="costs" /> Stromkosten senken</label>
+              </div>
+            </fieldset>
+
+            <label class="wide-label">
+              Gibt es Stromrechnung oder Lastgangdaten?
+              <select name="data">
+                <option value="yes">Ja, kann bereitgestellt werden</option>
+                <option value="no">Nein</option>
+                <option value="unknown">Nicht sicher</option>
+              </select>
+            </label>
+
+            <label class="consent">
+              <input type="checkbox" name="consent" required />
+              Ich stimme zu, dass GEBA meine Angaben zur Erstellung einer unverbindlichen Potenzialbewertung und
+              zur Kontaktaufnahme verarbeitet.
+            </label>
+
+            <button class="submit-btn" type="submit">Potenzialbewertung anfordern</button>
+            <p class="form-note">Demo: Beim Absenden wird noch keine echte E-Mail versendet.</p>
+          </form>
+        </div>
+      </section>
+
+      <section id="ablauf" class="band process-band" aria-labelledby="process-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow dark">Ablauf</p>
+            <h2 id="process-title">Vom Check zur Verkaufschance</h2>
+          </div>
+          <ol class="process-list">
+            <li><strong>Check ausfüllen</strong><span>Unternehmen gibt PV-Status, Verbrauch und Bedarf an.</span></li>
+            <li><strong>Leadscore</strong><span>Das System priorisiert A-, B- und C-Leads.</span></li>
+            <li><strong>GEBA Rückmeldung</strong><span>A-Leads erhalten schnell eine persönliche Einschätzung.</span></li>
+            <li><strong>Beratung & Angebot</strong><span>GEBA übernimmt technische Prüfung, Beratung und Abschluss.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="trust" class="trust-section" aria-labelledby="trust-title">
+        <div class="section-inner trust-layout">
+          <div>
+            <p class="eyebrow dark">Regionaler Umsetzer</p>
+            <h2 id="trust-title">GEBA verbindet Planung, Umsetzung und Betriebserfahrung.</h2>
+            <p>
+              Der Check nutzt die vorhandene GEBA-Glaubwürdigkeit und ergänzt sie um eine messbare digitale
+              Akquise-Strecke. So entstehen keine anonymen Online-Anfragen, sondern qualifizierte Gespräche für
+              Speicher, PV-Erweiterung und Lastmanagement.
+            </p>
+          </div>
+          <div class="trust-list">
+            <p><strong>Für GEBA:</strong> strukturierte Leads statt unklarer Anfragen.</p>
+            <p><strong>Für Kunden:</strong> niedrige Einstiegshürde ohne Verkaufsdruck.</p>
+            <p><strong>Für Oli:</strong> messbarer Betrieb mit klarer Attribution.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="resultModal" hidden>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+        <button class="modal-close" type="button" aria-label="Schließen">×</button>
+        <p class="eyebrow dark">Demo-Auswertung</p>
+        <h2 id="resultTitle">Potenzialbewertung vorbereitet</h2>
+        <p id="resultCopy"></p>
+        <div class="result-box">
+          <span>Leadscore</span>
+          <strong id="resultScore"></strong>
+        </div>
+        <p class="modal-note">
+          In der Live-Version würde jetzt eine GEBA-Bestätigungsmail an den Interessenten und eine interne
+          Leadmail an GEBA/Oli ausgelöst.
+        </p>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

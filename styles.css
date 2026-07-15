@@ -27,6 +27,7 @@ body {
   color: var(--ink);
   background: var(--paper);
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 a {
@@ -158,6 +159,7 @@ h2,
 h3,
 p {
   margin-top: 0;
+  overflow-wrap: break-word;
 }
 
 h1 {
@@ -350,6 +352,10 @@ h3 {
   background: var(--paper);
 }
 
+.check-layout {
+  align-items: start;
+}
+
 .check-intro {
   position: sticky;
   top: 96px;
@@ -421,6 +427,7 @@ h3 {
 
 .wizard-form {
   overflow: hidden;
+  min-width: 0;
 }
 
 .progress-card {
@@ -633,7 +640,6 @@ fieldset {
 .submit-btn {
   width: 100%;
   min-height: 52px;
-  margin-top: 14px;
   background: var(--green);
   color: var(--white);
   font-size: 1rem;
@@ -759,20 +765,31 @@ fieldset {
   .process-list,
   .two-col,
   .value-layout,
-  .trust-layout,
-  .check-layout {
+  .trust-layout {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .check-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 
   .check-intro {
     position: static;
+    max-width: 680px;
   }
 }
 
 @media (max-width: 660px) {
   .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 12px;
     padding: 12px 14px;
+    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
   }
 
   .brand img {
@@ -784,11 +801,12 @@ fieldset {
   }
 
   .header-cta {
-    padding: 9px 10px;
+    display: none;
   }
 
   .hero {
-    min-height: 86vh;
+    min-height: auto;
+    align-items: start;
   }
 
   .hero-bg {
@@ -798,11 +816,34 @@ fieldset {
   }
 
   .hero-content {
-    padding-top: 86px;
+    width: 320px;
+    max-width: none;
+    margin-left: 14px;
+    margin-right: 14px;
+    padding: 88px 0 22px;
   }
 
   h1 {
-    font-size: clamp(2.2rem, 12vw, 3.35rem);
+    font-size: clamp(2.05rem, 10.5vw, 2.9rem);
+    line-height: 1.02;
+  }
+
+  .hero-copy {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 13px 14px;
+    text-align: center;
   }
 
   .proof-strip,
@@ -832,7 +873,87 @@ fieldset {
     padding: 14px;
   }
 
+  .section-inner {
+    width: 320px;
+    max-width: none;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .band,
+  .trust-section,
+  .check-section,
+  .value-band {
+    padding: 46px 0;
+  }
+
+  h2 {
+    font-size: clamp(1.55rem, 7.7vw, 2rem);
+    line-height: 1.12;
+  }
+
+  .feature,
+  .process-list li,
+  .trust-list p,
+  .value-cards article {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .check-note {
+    margin-top: 20px;
+    padding: 16px;
+    box-shadow: none;
+  }
+
+  .check-note strong,
+  .result-box strong {
+    font-size: 1.18rem;
+    line-height: 1.25;
+  }
+
+  .check-benefits {
+    margin-top: 16px;
+  }
+
   .lead-form {
     padding: 16px;
+  }
+
+  .progress-card {
+    margin-bottom: 18px;
+    padding: 14px;
+  }
+
+  .wizard-step h3 {
+    font-size: 1.35rem;
+  }
+
+  .option-grid label,
+  .checkbox-grid label,
+  .consent {
+    min-height: 50px;
+    padding: 12px;
+  }
+
+  .wizard-actions {
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .back-btn,
+  .submit-btn {
+    min-height: 50px;
+  }
+}
+
+@media (max-width: 340px) {
+  .hero-content,
+  .section-inner {
+    width: 292px;
+  }
+
+  h1 {
+    font-size: 1.95rem;
   }
 }

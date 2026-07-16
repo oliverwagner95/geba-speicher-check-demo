@@ -367,7 +367,7 @@ function updatePageMotion() {
 }
 
 const revealItems = document.querySelectorAll(
-  ".story-heading, .story-copy, .story-facts > div, .craft-copy, .craft-image, .check-intro, .lead-form, .reference-image, .reference-copy, .process-list li, .trust-layout > div, .faq-layout > div"
+  ".story-heading, .story-copy, .story-facts > div, .craft-copy, .craft-image, .check-intro, .lead-form, .reference-image, .reference-copy, .reviews-heading > div, .review-featured, .review-secondary article, .process-list li, .trust-layout > div, .faq-layout > div"
 );
 
 if (motionAllowed && "IntersectionObserver" in window) {

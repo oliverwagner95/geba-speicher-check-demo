@@ -333,6 +333,8 @@ const heroSection = document.querySelector(".hero");
 const mobileCta = document.querySelector(".mobile-cta");
 const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const kpiNumbers = document.querySelectorAll("[data-kpi]");
+const energyFlowStage = document.querySelector("[data-energy-flow]");
+const energyFlowNodes = [...document.querySelectorAll("[data-flow-step]")];
 
 if (heroVideo && heroBackground && motionAllowed) {
   heroVideo.muted = true;
@@ -379,15 +381,35 @@ function animateKpi(element, delay = 0) {
   }, delay);
 }
 
+function updateEnergyFlow() {
+  if (!energyFlowStage) return;
+  if (!motionAllowed) {
+    energyFlowStage.style.setProperty("--flow-progress", "1");
+    energyFlowNodes.forEach((node) => node.classList.add("is-active"));
+    return;
+  }
+
+  const rect = energyFlowStage.getBoundingClientRect();
+  const start = window.innerHeight * 0.82;
+  const travel = rect.height + window.innerHeight * 0.45;
+  const progress = Math.max(0, Math.min((start - rect.top) / travel, 1));
+  energyFlowStage.style.setProperty("--flow-progress", progress.toFixed(3));
+  energyFlowNodes.forEach((node, index) => {
+    const activationPoint = (index + 0.12) / Math.max(energyFlowNodes.length, 1);
+    node.classList.toggle("is-active", progress >= activationPoint);
+  });
+}
+
 function updatePageMotion() {
   siteHeader?.classList.toggle("is-scrolled", window.scrollY > 28);
   if (motionAllowed && heroBackground && window.scrollY < 900) {
     heroBackground.style.translate = `0 ${Math.min(window.scrollY * 0.12, 70)}px`;
   }
+  updateEnergyFlow();
 }
 
 const revealItems = document.querySelectorAll(
-  ".story-heading, .story-copy, .story-facts > div, .craft-copy, .craft-image, .check-intro, .lead-form, .reference-image, .reference-copy, .reviews-heading > div, .review-featured, .review-secondary article, .process-list li, .trust-layout > div, .faq-layout > div"
+  ".story-heading, .story-copy, .story-facts > div, .energy-flow-heading, .energy-flow-intro, .energy-flow-result, .craft-copy, .craft-image, .check-intro, .lead-form, .reference-image, .reference-copy, .reviews-heading > div, .review-featured, .review-secondary article, .process-list li, .trust-layout > div, .faq-layout > div"
 );
 
 if (motionAllowed && "IntersectionObserver" in window) {
@@ -421,4 +443,5 @@ if (heroSection && mobileCta && "IntersectionObserver" in window) {
 }
 
 window.addEventListener("scroll", updatePageMotion, { passive: true });
+window.addEventListener("resize", updatePageMotion, { passive: true });
 updatePageMotion();

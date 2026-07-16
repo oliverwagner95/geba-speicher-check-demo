@@ -254,6 +254,31 @@ h3 { margin-bottom: 10px; }
 .story-facts dt { color:var(--green-dark); font-size:1.15rem; font-weight:750; }
 .story-facts dd { max-width:290px; margin:7px 0 0; color:var(--muted); font-size:.9rem; }
 
+.energy-flow-section { position:relative; padding:clamp(88px,10vw,148px) 0; color:#fff; background:var(--green-black); overflow:hidden; }
+.energy-flow-section::before { content:""; position:absolute; inset:-30% -10% auto auto; width:760px; height:760px; border:1px solid rgba(255,255,255,.05); border-radius:50%; box-shadow:0 0 0 110px rgba(255,255,255,.018),0 0 0 220px rgba(255,255,255,.012); pointer-events:none; }
+.energy-flow-layout { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1.12fr) minmax(280px,.58fr); gap:36px clamp(50px,8vw,118px); align-items:end; }
+.energy-flow-heading h2 { max-width:850px; margin:0; font-size:clamp(2.55rem,4.35vw,4.6rem); }
+.energy-flow-section .eyebrow { color:#f3d86e; }
+.energy-flow-intro { max-width:470px; margin:0 0 8px; color:rgba(255,255,255,.64); font-size:1.05rem; }
+.energy-flow-stage { --flow-progress:0; position:relative; grid-column:1/-1; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(18px,2.4vw,40px); margin-top:46px; padding:18px 0 22px; }
+.energy-flow-rail { position:absolute; z-index:0; top:72px; left:8%; right:8%; height:3px; background:rgba(255,255,255,.11); overflow:hidden; }
+.energy-flow-rail span { display:block; width:100%; height:100%; background:linear-gradient(90deg,#0b9b50 0%,#cae62c 38%,#f1df17 52%,#f39222 74%,#e62c25 100%); box-shadow:0 0 18px rgba(241,223,23,.42); transform:scaleX(var(--flow-progress)); transform-origin:left center; transition:transform .12s linear; }
+.flow-node { position:relative; z-index:1; min-width:0; opacity:.34; transform:translateY(13px); transition:opacity .45s ease,transform .55s cubic-bezier(.2,.7,.2,1); }
+.flow-node-icon { display:grid; place-items:center; width:108px; height:108px; margin:0 auto 28px; color:rgba(255,255,255,.55); background:#09291d; border:1px solid rgba(255,255,255,.18); border-radius:50%; transition:color .45s ease,border-color .45s ease,background .45s ease,box-shadow .45s ease,transform .55s cubic-bezier(.2,.7,.2,1); }
+.flow-node-icon svg { width:58px; height:58px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.flow-node > div:last-child { text-align:center; }
+.flow-node span { display:block; color:rgba(255,255,255,.42); font-size:.68rem; font-weight:750; letter-spacing:.09em; text-transform:uppercase; transition:color .45s ease; }
+.flow-node strong { display:block; max-width:180px; margin:9px auto 0; font-size:1.04rem; line-height:1.22; }
+.flow-node p { max-width:205px; margin:9px auto 0; color:rgba(255,255,255,.5); font-size:.8rem; line-height:1.5; }
+.flow-node.is-active { opacity:1; transform:none; }
+.flow-node.is-active .flow-node-icon { color:#fff; background:#0d3526; border-color:rgba(243,216,110,.72); box-shadow:0 0 0 7px rgba(243,216,110,.06),0 0 34px rgba(243,216,110,.12); transform:scale(1.035); }
+.flow-node.is-active span { color:#f3d86e; }
+.energy-flow-result { grid-column:1/-1; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:28px; align-items:center; margin-top:34px; padding:28px 0; border-top:1px solid rgba(255,255,255,.18); border-bottom:1px solid rgba(255,255,255,.18); }
+.energy-flow-result > span { color:#f3d86e; font-size:.68rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
+.energy-flow-result strong { font-family:"PT Sans Narrow","Arial Narrow",sans-serif; font-size:clamp(1.3rem,2vw,2rem); }
+.energy-flow-result a { display:inline-flex; gap:24px; align-items:center; color:#fff; font-size:.84rem; font-weight:750; border-bottom:1px solid rgba(255,255,255,.42); }
+.energy-flow-result a b { color:var(--orange); font-size:1.2rem; }
+
 .craft-section { background:#fff; overflow:hidden; }
 .craft-layout { display:grid; grid-template-columns:minmax(330px,.78fr) minmax(0,1.2fr); gap:clamp(50px,8vw,118px); align-items:center; }
 .craft-copy h2 { max-width:580px; }
@@ -439,6 +464,9 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
   .check-layout { grid-template-columns:1fr; }
   .check-intro { position:static; max-width:760px; }
   .story-content { margin-inline:24px; }
+  .energy-flow-layout { grid-template-columns:1fr; }
+  .energy-flow-intro { max-width:680px; }
+  .energy-flow-stage, .energy-flow-result { grid-column:1; }
   .craft-layout { grid-template-columns:1fr; }
   .craft-copy { max-width:760px; }
   .process-layout { grid-template-columns:1fr; gap:56px; }
@@ -488,6 +516,20 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
   .story-facts { grid-template-columns:1fr; margin-top:34px; }
   .story-facts div { padding:20px 0; border-top:1px solid var(--line); }
   .story-facts dd { max-width:none; }
+  .energy-flow-section { padding:82px 0; }
+  .energy-flow-heading h2 { font-size:clamp(2.45rem,11vw,3.7rem); }
+  .energy-flow-stage { display:grid; grid-template-columns:1fr; gap:0; margin-top:26px; padding:14px 0; }
+  .energy-flow-rail { top:45px; bottom:45px; left:31px; right:auto; width:3px; height:auto; }
+  .energy-flow-rail span { width:100%; height:100%; transform:scaleY(var(--flow-progress)); transform-origin:center top; }
+  .flow-node { display:grid; grid-template-columns:64px minmax(0,1fr); gap:20px; align-items:center; min-height:132px; transform:translateY(12px); }
+  .flow-node-icon { width:64px; height:64px; margin:0; }
+  .flow-node-icon svg { width:38px; height:38px; }
+  .flow-node > div:last-child { text-align:left; }
+  .flow-node strong, .flow-node p { max-width:none; margin-left:0; margin-right:0; }
+  .flow-node strong { margin-top:6px; font-size:1.08rem; }
+  .flow-node p { margin-top:5px; font-size:.82rem; }
+  .energy-flow-result { grid-template-columns:1fr; gap:8px; margin-top:26px; padding:24px 0; }
+  .energy-flow-result a { width:max-content; max-width:100%; margin-top:10px; }
   .craft-layout { gap:38px; }
   .craft-points p { grid-template-columns:30px 1fr; }
   .craft-points p strong { grid-column:2; }

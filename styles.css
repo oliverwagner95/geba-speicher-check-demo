@@ -98,6 +98,7 @@ button, input, select { font: inherit; }
   color: #fff;
   border-bottom: 1px solid rgba(255,255,255,.28);
   transition: background .28s ease, min-height .28s ease, box-shadow .28s ease;
+  animation: headerEnter .55s .06s cubic-bezier(.2,.7,.2,1) both;
 }
 .site-header.is-scrolled { min-height:72px; background:rgba(7,28,20,.94); box-shadow:0 10px 30px rgba(0,0,0,.14); backdrop-filter:blur(16px); }
 .brand { display: flex; align-items: center; gap: 18px; font-size: .82rem; font-weight: 700; }
@@ -122,10 +123,17 @@ nav a:hover { opacity: 1; }
     linear-gradient(0deg, rgba(6,31,22,.44) 0%, transparent 40%),
     url("./assets/geba-gewerbe-hero-v1.webp");
   background-size: cover; background-position: center;
-  transform: scale(1.035); animation: heroZoom 12s cubic-bezier(.2,.6,.2,1) both;
+  transform: scale(1.035);
+  animation: heroZoom 12s cubic-bezier(.2,.6,.2,1) both, heroLight 1s ease-out both;
 }
 .hero-stage { position: relative; z-index: 2; width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2))); min-height: 720px; margin: 0 auto; display: grid; grid-template-columns: 1fr 390px; align-items: end; gap: clamp(64px, 7vw, 132px); padding: 190px 0 72px; }
 .hero-content { max-width: 710px; }
+.hero-content > * { animation: heroTextEnter .58s cubic-bezier(.2,.7,.2,1) both; }
+.hero-content > .eyebrow { animation-delay: .16s; }
+.hero-content > h1 { animation-delay: .27s; }
+.hero-content > .hero-copy { animation-delay: .39s; }
+.hero-content > .hero-actions { animation-delay: .51s; }
+.hero-content > .hero-assurance { animation-delay: .62s; }
 .eyebrow { margin: 0 0 20px; color: #f1d56d; text-transform: uppercase; font-size: .72rem; font-weight: 800; letter-spacing: .18em; }
 .eyebrow.dark { color: var(--green); }
 h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8rem); line-height: .98; }
@@ -140,16 +148,20 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
 .hero-check-card {
   align-self: end; display: grid; position: relative; min-height: 370px; padding: 28px;
   color: var(--ink);
-  background: rgba(255,255,255,.62);
+  background-color: rgba(255,255,255,.62);
+  background-image: linear-gradient(105deg, transparent 32%, rgba(255,255,255,.3) 48%, transparent 64%);
+  background-position: 180% 0;
+  background-size: 230% 100%;
   border: 1px solid rgba(255,255,255,.48);
   box-shadow: 0 30px 80px rgba(0,0,0,.2);
   -webkit-backdrop-filter: blur(20px) saturate(118%);
   backdrop-filter: blur(20px) saturate(118%);
   transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+  animation: heroCardEnter .68s .56s cubic-bezier(.2,.7,.2,1) both, glassSheen 1.05s 1.02s ease-out both;
   overflow: hidden;
 }
 .hero-check-card:hover {
-  background: rgba(255,255,255,.69);
+  background-color: rgba(255,255,255,.69);
   border-color: rgba(255,255,255,.62);
   box-shadow: 0 34px 86px rgba(0,0,0,.23);
 }
@@ -168,6 +180,7 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
   width: 100%; height: 54px;
   filter: drop-shadow(0 3px 7px rgba(242,138,34,.22));
   pointer-events: none;
+  animation: waveReveal .8s .76s cubic-bezier(.2,.7,.2,1) both;
 }
 .energy-line svg { display:block; width:100%; height:100%; }
 .hero-proof-wrap { position: absolute; z-index: 3; inset: auto 0 0; height: 127px; background: var(--green-black); }
@@ -396,6 +409,12 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
 .benefit-grid .reveal-target:nth-child(4) { transition-delay:.24s; }
 
 @keyframes heroZoom { from { transform:scale(1.07); } to { transform:scale(1.035); } }
+@keyframes heroLight { from { filter:brightness(.72); } to { filter:brightness(1); } }
+@keyframes headerEnter { from { opacity:0; translate:0 -14px; } to { opacity:1; translate:0 0; } }
+@keyframes heroTextEnter { from { opacity:0; translate:0 22px; } to { opacity:1; translate:0 0; } }
+@keyframes heroCardEnter { from { opacity:0; translate:0 24px; } to { opacity:1; translate:0 0; } }
+@keyframes glassSheen { from { background-position:180% 0; } to { background-position:-80% 0; } }
+@keyframes waveReveal { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0); } }
 @keyframes revealUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:none; } }
 @keyframes lineReveal { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 @keyframes energyFlow { from { background-position:0% 50%; } to { background-position:100% 50%; } }

@@ -118,14 +118,20 @@ nav a:hover { opacity: 1; }
 .hero { position: relative; min-height: 850px; color: #fff; background: var(--green-black); overflow: hidden; }
 .hero-bg {
   position: absolute; inset: 0;
-  background-image:
-    linear-gradient(90deg, rgba(6,31,22,.82) 0%, rgba(6,31,22,.56) 42%, rgba(6,31,22,.05) 75%),
-    linear-gradient(0deg, rgba(6,31,22,.44) 0%, transparent 40%),
-    url("./assets/geba-gewerbe-hero-v1.webp");
+  background-image: url("./assets/geba-gewerbe-hero-v1.webp");
   background-size: cover; background-position: center;
   transform: scale(1.035);
   animation: heroZoom 18s cubic-bezier(.2,.6,.2,1) both, heroLight 1.6s ease-out both;
 }
+.hero-bg::after {
+  content:""; position:absolute; z-index:1; inset:0;
+  background-image:
+    linear-gradient(90deg, rgba(6,31,22,.82) 0%, rgba(6,31,22,.56) 42%, rgba(6,31,22,.05) 75%),
+    linear-gradient(0deg, rgba(6,31,22,.44) 0%, transparent 40%);
+  pointer-events:none;
+}
+.hero-video { position:absolute; z-index:0; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; opacity:0; transition:opacity 1.1s ease; }
+.hero-bg.is-video-ready .hero-video { opacity:1; }
 .hero-stage { position: relative; z-index: 2; width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2))); min-height: 720px; margin: 0 auto; display: grid; grid-template-columns: 1fr 390px; align-items: end; gap: clamp(64px, 7vw, 132px); padding: 190px 0 72px; }
 .hero-content { max-width: 710px; }
 .hero-content > * { animation: heroTextEnter 1s cubic-bezier(.2,.7,.2,1) both; }
@@ -445,7 +451,9 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
   .brand img, .site-header.is-scrolled .brand img { width:94px; }
   .brand span, .header-cta { display:none; }
   .hero { min-height:auto; padding-bottom:0; }
-  .hero-bg { inset:0 0 auto; height:500px; background-image:linear-gradient(180deg,rgba(4,25,18,.22),rgba(4,25,18,.78)),url("./assets/geba-gewerbe-hero-v1.webp"); background-position:62% center; }
+  .hero-bg { inset:0 0 auto; height:500px; background-position:62% center; }
+  .hero-bg::after { background-image:linear-gradient(180deg,rgba(4,25,18,.22),rgba(4,25,18,.78)); }
+  .hero-video { object-position:62% center; }
   .hero-stage { width:100%; min-height:auto; display:block; padding:330px 16px 0; }
   .hero-content { padding:28px 20px 32px; background:var(--green-black); }
   .eyebrow { margin-bottom:14px; }
@@ -510,5 +518,6 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
+  .hero-video { display:none; }
   *, *::before, *::after { animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }

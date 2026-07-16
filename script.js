@@ -328,10 +328,22 @@ track("geba_check_loaded", { page_path: window.location.pathname });
 
 const siteHeader = document.querySelector(".site-header");
 const heroBackground = document.querySelector(".hero-bg");
+const heroVideo = document.querySelector(".hero-video");
 const heroSection = document.querySelector(".hero");
 const mobileCta = document.querySelector(".mobile-cta");
 const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const kpiNumbers = document.querySelectorAll("[data-kpi]");
+
+const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+const slowConnection = connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || "");
+
+if (heroVideo && heroBackground && motionAllowed && !slowConnection) {
+  heroVideo.addEventListener("canplay", () => {
+    heroBackground.classList.add("is-video-ready");
+    heroVideo.play().catch(() => heroBackground.classList.remove("is-video-ready"));
+  }, { once: true });
+  heroVideo.load();
+}
 
 function animateKpi(element, delay = 0) {
   const target = Number(element.dataset.kpi);

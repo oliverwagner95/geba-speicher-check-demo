@@ -325,3 +325,42 @@ restoreProgress();
 showStep(currentStepIndex);
 updatePotentialPreview();
 track("geba_check_loaded", { page_path: window.location.pathname });
+
+const siteHeader = document.querySelector(".site-header");
+const heroBackground = document.querySelector(".hero-bg");
+const heroSection = document.querySelector(".hero");
+const mobileCta = document.querySelector(".mobile-cta");
+const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function updatePageMotion() {
+  siteHeader?.classList.toggle("is-scrolled", window.scrollY > 28);
+  if (motionAllowed && heroBackground && window.scrollY < 900) {
+    heroBackground.style.translate = `0 ${Math.min(window.scrollY * 0.12, 70)}px`;
+  }
+}
+
+const revealItems = document.querySelectorAll(
+  ".sales-copy, .decision-cards article, .compact-heading, .benefit-grid article, .check-intro, .lead-form, .reference-image, .reference-copy, .process-list li, .trust-layout > div, .faq-layout > div"
+);
+
+if (motionAllowed && "IntersectionObserver" in window) {
+  revealItems.forEach((item) => item.classList.add("reveal-target"));
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -7%" });
+  revealItems.forEach((item) => revealObserver.observe(item));
+}
+
+if (heroSection && mobileCta && "IntersectionObserver" in window) {
+  const heroObserver = new IntersectionObserver(([entry]) => {
+    mobileCta.classList.toggle("is-visible", !entry.isIntersecting);
+  }, { threshold: 0.08 });
+  heroObserver.observe(heroSection);
+}
+
+window.addEventListener("scroll", updatePageMotion, { passive: true });
+updatePageMotion();

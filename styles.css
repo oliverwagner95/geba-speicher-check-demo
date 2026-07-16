@@ -124,6 +124,7 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
 .proof-strip div { display: flex; flex-direction: column; justify-content: center; padding: 22px 32px; border-left: 1px solid rgba(255,255,255,.12); }
 .proof-strip div:last-child { border-right: 1px solid rgba(255,255,255,.12); }
 .proof-strip dt { font-size: 1.45rem; font-weight: 650; }
+[data-kpi] { display:inline-block; white-space:nowrap; font-variant-numeric:tabular-nums; }
 .proof-strip dd { margin: 2px 0 0; color: rgba(255,255,255,.62); font-size: .79rem; }
 
 .sales-section, .benefit-section, .story-section, .craft-section, .check-section, .reference-section, .band, .trust-section, .faq-section { padding: clamp(78px, 9vw, 132px) 0; }

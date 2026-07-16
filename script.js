@@ -331,6 +331,30 @@ const heroBackground = document.querySelector(".hero-bg");
 const heroSection = document.querySelector(".hero");
 const mobileCta = document.querySelector(".mobile-cta");
 const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const kpiNumbers = document.querySelectorAll("[data-kpi]");
+
+function animateKpi(element, delay = 0) {
+  const target = Number(element.dataset.kpi);
+  const decimals = Number(element.dataset.kpiDecimals || 0);
+  const suffix = element.dataset.kpiSuffix || "";
+  const formatter = new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  const duration = 850;
+
+  window.setTimeout(() => {
+    const startedAt = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const value = decimals ? target * eased : Math.round(target * eased);
+      element.textContent = `${formatter.format(value)}${suffix}`;
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, delay);
+}
 
 function updatePageMotion() {
   siteHeader?.classList.toggle("is-scrolled", window.scrollY > 28);
@@ -353,6 +377,16 @@ if (motionAllowed && "IntersectionObserver" in window) {
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -7%" });
   revealItems.forEach((item) => revealObserver.observe(item));
+
+  const kpiObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const group = [...entry.target.querySelectorAll("[data-kpi]")];
+      group.forEach((item, index) => animateKpi(item, index * 90));
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.45 });
+  [...new Set([...kpiNumbers].map((item) => item.closest("dl")))].forEach((group) => kpiObserver.observe(group));
 }
 
 if (heroSection && mobileCta && "IntersectionObserver" in window) {

@@ -17,6 +17,7 @@ const mimeTypes = {
   ".jpeg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".mp4": "video/mp4",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".webmanifest": "application/manifest+json; charset=utf-8",
@@ -155,12 +156,35 @@ function serveStatic(req, res) {
       return res.end();
     }
     const isAsset = requested.startsWith("/assets/");
-    res.writeHead(200, securityHeaders({
-      "Content-Type": mimeTypes[extname(filePath).toLowerCase()] || "application/octet-stream",
+    const contentType = mimeTypes[extname(filePath).toLowerCase()] || "application/octet-stream";
+    const range = req.headers.range?.match(/^bytes=(\d*)-(\d*)$/);
+    const start = range?.[1] ? Number(range[1]) : 0;
+    const end = range?.[2] ? Math.min(Number(range[2]), stat.size - 1) : stat.size - 1;
+    const validRange = Boolean(range) && Number.isSafeInteger(start) && Number.isSafeInteger(end)
+      && start >= 0 && end >= start && start < stat.size;
+    const commonHeaders = {
+      "Content-Type": contentType,
       "Cache-Control": isAsset ? "public, max-age=604800, immutable" : "no-cache",
+      "Accept-Ranges": "bytes",
       ETag: etag,
-    }));
-    createReadStream(filePath).pipe(res);
+    };
+
+    if (range && !validRange) {
+      res.writeHead(416, securityHeaders({ ...commonHeaders, "Content-Range": `bytes */${stat.size}` }));
+      return res.end();
+    }
+
+    const status = validRange ? 206 : 200;
+    const responseHeaders = validRange
+      ? {
+          ...commonHeaders,
+          "Content-Length": end - start + 1,
+          "Content-Range": `bytes ${start}-${end}/${stat.size}`,
+        }
+      : { ...commonHeaders, "Content-Length": stat.size };
+    res.writeHead(status, securityHeaders(responseHeaders));
+    if (req.method === "HEAD") return res.end();
+    createReadStream(filePath, validRange ? { start, end } : undefined).pipe(res);
   } catch {
     json(res, 404, { error: "not_found" });
   }

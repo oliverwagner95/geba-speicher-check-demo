@@ -334,15 +334,23 @@ const mobileCta = document.querySelector(".mobile-cta");
 const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const kpiNumbers = document.querySelectorAll("[data-kpi]");
 
-const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-const slowConnection = connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || "");
+if (heroVideo && heroBackground && motionAllowed) {
+  heroVideo.muted = true;
+  heroVideo.defaultMuted = true;
 
-if (heroVideo && heroBackground && motionAllowed && !slowConnection) {
-  heroVideo.addEventListener("canplay", () => {
+  const revealVideo = () => {
+    heroVideo.play()
+      .then(() => heroBackground.classList.add("is-video-ready"))
+      .catch(() => heroBackground.classList.remove("is-video-ready"));
+  };
+
+  heroVideo.addEventListener("playing", () => {
     heroBackground.classList.add("is-video-ready");
-    heroVideo.play().catch(() => heroBackground.classList.remove("is-video-ready"));
   }, { once: true });
-  heroVideo.load();
+  heroVideo.addEventListener("loadeddata", revealVideo, { once: true });
+
+  if (heroVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) revealVideo();
+  else heroVideo.load();
 }
 
 function animateKpi(element, delay = 0) {

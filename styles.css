@@ -118,8 +118,8 @@ nav a:hover { opacity: 1; }
 .hero-bg {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(90deg, rgba(6,31,22,.9) 0%, rgba(6,31,22,.66) 42%, rgba(6,31,22,.08) 75%),
-    linear-gradient(0deg, rgba(6,31,22,.55) 0%, transparent 40%),
+    linear-gradient(90deg, rgba(6,31,22,.82) 0%, rgba(6,31,22,.56) 42%, rgba(6,31,22,.05) 75%),
+    linear-gradient(0deg, rgba(6,31,22,.44) 0%, transparent 40%),
     url("./assets/geba-gewerbe-hero-v1.webp");
   background-size: cover; background-position: center;
   transform: scale(1.035); animation: heroZoom 12s cubic-bezier(.2,.6,.2,1) both;
@@ -426,7 +426,7 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
   .brand img, .site-header.is-scrolled .brand img { width:94px; }
   .brand span, .header-cta { display:none; }
   .hero { min-height:auto; padding-bottom:0; }
-  .hero-bg { inset:0 0 auto; height:500px; background-image:linear-gradient(180deg,rgba(4,25,18,.28),rgba(4,25,18,.86)),url("./assets/geba-gewerbe-hero-v1.webp"); background-position:62% center; }
+  .hero-bg { inset:0 0 auto; height:500px; background-image:linear-gradient(180deg,rgba(4,25,18,.22),rgba(4,25,18,.78)),url("./assets/geba-gewerbe-hero-v1.webp"); background-position:62% center; }
   .hero-stage { width:100%; min-height:auto; display:block; padding:330px 16px 0; }
   .hero-content { padding:28px 20px 32px; background:var(--green-black); }
   .eyebrow { margin-bottom:14px; }

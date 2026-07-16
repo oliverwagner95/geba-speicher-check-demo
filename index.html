@@ -30,7 +30,7 @@
     <link rel="preload" href="./assets/fonts/pt-sans-narrow-bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./assets/geba-logo.svg" as="image" type="image/svg+xml" />
     <link rel="preload" href="./assets/geba-gewerbe-hero-v1.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260716-wave4" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -108,7 +108,19 @@
             <span class="hero-check-action">Check starten <b aria-hidden="true">→</b></span>
           </a>
         </div>
-        <div class="energy-line" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="energy-line" aria-hidden="true">
+          <svg viewBox="0 0 1920 169.638" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="hero-wave-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#046734" />
+                <stop offset="0.48" stop-color="#f2e500" />
+                <stop offset="0.72" stop-color="#f28a22" />
+                <stop offset="1" stop-color="#e52421" />
+              </linearGradient>
+            </defs>
+            <path d="M1028.4 53.971C801.837 89.63 300 169.56 0 28.248v65.648c320 131.891 810.02 57.933 1060.82 26.928 448.99-55.504 541.43-36.005 859.18-13.739v-93.91c-341.11-22.5-501.61-20.585-891.6 40.796Z" fill="url(#hero-wave-gradient)" />
+          </svg>
+        </div>
         <div class="hero-proof-wrap">
           <dl class="proof-strip" aria-label="GEBA Vertrauensdaten">
             <div><dt data-kpi="15" data-kpi-suffix="+" aria-label="Mehr als 15">15+</dt><dd>Jahre Erfahrung</dd></div>

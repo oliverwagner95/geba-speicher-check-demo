@@ -20,7 +20,7 @@
     <meta property="og:title" content="Gewerbespeicher wirtschaftlich prüfen | GEBA" />
     <meta property="og:description" content="Geführter Potenzialcheck für PV-Optimierung, Lastspitzenmanagement und Gewerbespeicher – regional geplant und umgesetzt von GEBA." />
     <meta property="og:url" content="https://oliverwagner95.github.io/geba-speicher-check-demo/" />
-    <meta property="og:image" content="https://oliverwagner95.github.io/geba-speicher-check-demo/assets/geba-gewerbe-hero-v1.webp" />
+    <meta property="og:image" content="https://oliverwagner95.github.io/geba-speicher-check-demo/assets/geba-signature-hero.webp" />
     <meta property="og:image:width" content="1376" />
     <meta property="og:image:height" content="768" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -29,8 +29,9 @@
     <link rel="preload" href="./assets/fonts/pt-sans-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./assets/fonts/pt-sans-narrow-bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./assets/geba-logo.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="./assets/geba-gewerbe-hero-v1.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="stylesheet" href="./styles.css?v=20260716-flow1" />
+    <link rel="preload" href="./assets/geba-signature-hero-mobile.webp" as="image" type="image/webp" media="(max-width: 760px)" fetchpriority="high" />
+    <link rel="preload" href="./assets/geba-signature-hero.webp" as="image" type="image/webp" media="(min-width: 761px)" fetchpriority="high" />
+    <link rel="stylesheet" href="./styles.css?v=20260716-signature-v2" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -86,16 +87,17 @@
     <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true">
-          <video class="hero-video" muted playsinline autoplay preload="metadata" poster="./assets/geba-gewerbe-hero-v1.webp">
-            <source src="./assets/geba-hero-cinemagraph.mp4" type="video/mp4" />
-          </video>
+          <picture>
+            <source media="(max-width: 760px)" srcset="./assets/geba-signature-hero-mobile.webp" />
+            <img src="./assets/geba-signature-hero.webp" width="1376" height="768" alt="" fetchpriority="high" decoding="async" />
+          </picture>
         </div>
         <div class="hero-stage">
           <div class="hero-content">
             <p class="eyebrow">Energie für den Mittelstand</p>
-            <h1 id="hero-title">Mehr aus Ihrer Energie machen.</h1>
+            <h1 id="hero-title">Energie, die Ihrem Betrieb voraus ist.</h1>
             <p class="hero-copy">
-              GEBA verbindet Photovoltaik, Gewerbespeicher und Lastmanagement zu einer Lösung, die zu Ihrem Betrieb passt.
+              GEBA macht aus Erzeugung, Speicherung und Verbrauch ein Energiesystem, das wirtschaftlich zu Ihrem Betrieb passt.
             </p>
             <div class="hero-actions">
               <a class="primary-btn" href="#check" data-cta="hero-check">Potenzial kostenlos prüfen <span aria-hidden="true">↗</span></a>
@@ -106,9 +108,9 @@
 
           <a class="hero-check-card" href="#check" data-cta="hero-card">
             <span class="hero-check-number">01</span>
-            <span class="hero-check-kicker">Der GEBA Speicher-Check</span>
-            <strong>Lohnt sich ein Speicher für Ihren Betrieb?</strong>
-            <span class="hero-check-copy">In wenigen Fragen zur persönlichen Ersteinschätzung.</span>
+            <span class="hero-check-kicker">Der GEBA Energie-Check</span>
+            <strong>Was kann Energie in Ihrem Betrieb leisten?</strong>
+            <span class="hero-check-copy">Ein geführter Dialog zur persönlichen Ersteinschätzung.</span>
             <span class="hero-check-action">Check starten <b aria-hidden="true">→</b></span>
           </a>
         </div>
@@ -143,8 +145,8 @@
         </div>
         <div class="section-inner story-content">
           <div class="story-heading">
-            <p class="eyebrow dark">Energie wirtschaftlich einsetzen</p>
-            <h2 id="sales-title">Der Strom ist schon da. Entscheidend ist, wann Sie ihn nutzen.</h2>
+            <p class="eyebrow dark">01 / Wirtschaftlichkeit</p>
+            <h2 id="sales-title">Strom ist kein Kostenblock. Wenn er arbeitet.</h2>
           </div>
           <div class="story-copy">
             <p>Ein Speicher wird nicht durch seine Größe wirtschaftlich, sondern durch sein Zusammenspiel mit Verbrauch, PV-Erzeugung und Lastspitzen.</p>
@@ -162,8 +164,8 @@
       <section class="energy-flow-section" aria-labelledby="energy-flow-title">
         <div class="section-inner energy-flow-layout">
           <div class="energy-flow-heading">
-            <p class="eyebrow">Energie im richtigen Moment</p>
-            <h2 id="energy-flow-title">Aus Solarstrom wird ein Vorteil für den ganzen Betrieb.</h2>
+            <p class="eyebrow">Ein System. Fünf Wirkungen.</p>
+            <h2 id="energy-flow-title">Energie folgt dem Betrieb.</h2>
           </div>
           <p class="energy-flow-intro">GEBA verbindet Erzeugung, Speicherung und Verbrauch zu einem System. Scrollen Sie durch den Energiefluss.</p>
 
@@ -227,7 +229,7 @@
             </div>
           </div>
           <figure class="craft-image">
-            <img src="./assets/geba-team-installation-v1.webp" width="1536" height="1024" loading="lazy" alt="Zwei Fachkräfte prüfen eine gewerbliche Speicheranlage" />
+            <img src="./assets/geba-signature-team.webp" width="1376" height="768" loading="lazy" alt="Zwei Fachkräfte prüfen eine gewerbliche Speicheranlage an einem Produktionsbetrieb" />
             <figcaption><span>Persönlich geplant.</span><strong>Regional umgesetzt.</strong></figcaption>
           </figure>
         </div>
@@ -236,8 +238,8 @@
       <section id="check" class="check-section" aria-labelledby="check-title">
         <div class="section-inner check-layout">
           <div class="check-intro">
-            <p class="eyebrow dark">Online-Check</p>
-            <h2 id="check-title">In wenigen Schritten zur GEBA-Potenzialbewertung</h2>
+            <p class="eyebrow">Ihre erste Energie-Diagnose</p>
+            <h2 id="check-title">In vier Minuten wissen, wo Sie stehen.</h2>
             <p>
               Der Check passt sich den Antworten an. Wer noch keine PV-Anlage hat, sieht keine Detailfragen zur
               Bestandsanlage. Das hält die Strecke kurz, logisch und hochwertig.

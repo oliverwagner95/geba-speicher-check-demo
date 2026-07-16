@@ -3,127 +3,233 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GEBA Gewerbespeicher-Check</title>
+    <title>Gewerbespeicher-Check für Unternehmen | GEBA Energie</title>
     <meta
       name="description"
-      content="Unverbindliche Potenzialbewertung fuer PV-Optimierung, Gewerbespeicher und Lastspitzenmanagement."
+      content="Kostenloser GEBA Gewerbespeicher-Check: Potenzial für Lastspitzenreduktion, PV-Eigenverbrauch und planbare Energiekosten in wenigen Minuten prüfen."
     />
-    <link rel="preconnect" href="https://www.geba-gmbh.com" />
-    <link rel="stylesheet" href="./styles.css" />
+    <meta name="robots" content="noindex,nofollow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="theme-color" content="#287a3e" />
+    <meta name="format-detection" content="telephone=yes" />
+    <link rel="canonical" href="https://oliverwagner95.github.io/geba-speicher-check-demo/" />
+    <link rel="icon" href="./assets/geba-logo.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="GEBA Energie" />
+    <meta property="og:title" content="Gewerbespeicher wirtschaftlich prüfen | GEBA" />
+    <meta property="og:description" content="Geführter Potenzialcheck für PV-Optimierung, Lastspitzenmanagement und Gewerbespeicher – regional geplant und umgesetzt von GEBA." />
+    <meta property="og:url" content="https://oliverwagner95.github.io/geba-speicher-check-demo/" />
+    <meta property="og:image" content="https://oliverwagner95.github.io/geba-speicher-check-demo/assets/geba-gewerbe-hero-v1.webp" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GEBA Gewerbespeicher-Check" />
+    <meta name="twitter:description" content="In wenigen Minuten prüfen, ob Speicher, PV-Optimierung oder Lastmanagement für Ihren Betrieb interessant sind." />
+    <link rel="preload" href="./assets/fonts/pt-sans-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/fonts/pt-sans-narrow-bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/geba-logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="./assets/geba-gewerbe-hero-v1.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="stylesheet" href="./styles.css?v=20260716-flow1" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.geba-gmbh.com/#organization",
+            "name": "GEBA Energie",
+            "url": "https://www.geba-gmbh.com/",
+            "logo": "https://www.geba-gmbh.com/wp-content/uploads/2026/01/geba-logo.svg",
+            "telephone": "+49-7765-918375",
+            "areaServed": ["Hochrhein", "Breisgau", "Schwarzwald", "Hegau", "Bodensee", "Südbaden"],
+            "knowsAbout": ["Photovoltaik", "Gewerbespeicher", "Lastmanagement", "Stromspeicher", "Energieberatung"]
+          },
+          {
+            "@type": "Service",
+            "@id": "https://www.geba-gmbh.com/gewerbespeicher-check/#service",
+            "name": "GEBA Gewerbespeicher-Check",
+            "provider": { "@id": "https://www.geba-gmbh.com/#organization" },
+            "serviceType": "Potenzialbewertung für Gewerbespeicher und Lastmanagement",
+            "areaServed": "Südliches Baden-Württemberg",
+            "description": "Geführte Vorprüfung für PV-Eigenverbrauch, Lastspitzenreduktion und gewerbliche Batteriespeicher.",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR", "description": "Kostenlose unverbindliche Erstbewertung" }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              { "@type": "Question", "name": "Wann lohnt sich ein Gewerbespeicher?", "acceptedAnswer": { "@type": "Answer", "text": "Ein Gewerbespeicher kann interessant sein, wenn Lastspitzen auftreten, eigener Solarstrom ungenutzt bleibt oder Energiekosten planbarer werden sollen. GEBA bewertet dafür Verbrauch, Lastprofil und vorhandene PV-Leistung." } },
+              { "@type": "Question", "name": "Welche Speichergröße ist für einen Betrieb sinnvoll?", "acceptedAnswer": { "@type": "Answer", "text": "Die passende Größe hängt von Lastprofil, Jahresverbrauch, PV-Leistung und dem gewünschten Einsatzzweck ab. GEBA dimensioniert nicht pauschal, sondern auf Basis der Betriebsdaten." } },
+              { "@type": "Question", "name": "Welche Unterlagen helfen bei der Prüfung?", "acceptedAnswer": { "@type": "Answer", "text": "Hilfreich sind Stromrechnungen, Lastgangdaten, Angaben zur PV-Anlage und Informationen zu größeren Verbrauchern oder geplanten Ladepunkten." } }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="GEBA Gewerbespeicher-Check">
-        <img src="https://www.geba-gmbh.com/wp-content/uploads/geba-logo-white.svg" alt="GEBA" />
+      <a class="brand" href="#main-content" aria-label="GEBA Gewerbespeicher-Check">
+        <img src="./assets/geba-logo-white.svg" alt="GEBA Energie" width="250" height="104" />
         <span>Gewerbespeicher-Check</span>
       </a>
       <nav aria-label="Seitennavigation">
         <a href="#check">Potenzial prüfen</a>
         <a href="#ablauf">Ablauf</a>
-        <a href="#trust">GEBA</a>
+        <a href="#referenz">Referenz</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <a class="header-cta" href="#check">Check starten</a>
     </header>
 
-    <main id="top">
+    <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-bg" aria-hidden="true"></div>
-        <div class="hero-content">
-          <p class="eyebrow">GEBA Wärme GmbH | Energie-Check für Gewerbe</p>
-          <h1 id="hero-title">Mehr aus Ihrer PV-Anlage machen. Oder Speicher sauber rechnen lassen.</h1>
-          <p class="hero-copy">
-            Für Betriebe, die bereits Solarstrom erzeugen, Stromkosten senken oder Lastspitzen in den Griff
-            bekommen wollen. GEBA prüft in einer ersten Potenzialbewertung, ob Speicher, Lastmanagement oder eine
-            PV-Erweiterung wirtschaftlich interessant sein können.
-          </p>
-          <div class="hero-actions">
-            <a class="primary-btn" href="#check">Potenzial kostenlos prüfen</a>
-            <a class="secondary-btn" href="#ablauf">Ablauf ansehen</a>
+        <div class="hero-bg" aria-hidden="true">
+          <video class="hero-video" muted playsinline autoplay preload="metadata" poster="./assets/geba-gewerbe-hero-v1.webp">
+            <source src="./assets/geba-hero-cinemagraph.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="hero-stage">
+          <div class="hero-content">
+            <p class="eyebrow">Energie für den Mittelstand</p>
+            <h1 id="hero-title">Mehr aus Ihrer Energie machen.</h1>
+            <p class="hero-copy">
+              GEBA verbindet Photovoltaik, Gewerbespeicher und Lastmanagement zu einer Lösung, die zu Ihrem Betrieb passt.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-btn" href="#check" data-cta="hero-check">Potenzial kostenlos prüfen <span aria-hidden="true">↗</span></a>
+              <a class="secondary-btn" href="#referenz">Projekte entdecken</a>
+            </div>
+            <p class="hero-assurance"><span aria-hidden="true">●</span> Persönlich geplant und umgesetzt in Südbaden</p>
           </div>
+
+          <a class="hero-check-card" href="#check" data-cta="hero-card">
+            <span class="hero-check-number">01</span>
+            <span class="hero-check-kicker">Der GEBA Speicher-Check</span>
+            <strong>Lohnt sich ein Speicher für Ihren Betrieb?</strong>
+            <span class="hero-check-copy">In wenigen Fragen zur persönlichen Ersteinschätzung.</span>
+            <span class="hero-check-action">Check starten <b aria-hidden="true">→</b></span>
+          </a>
+        </div>
+        <div class="energy-line" aria-hidden="true">
+          <svg viewBox="0 0 1920 169.638" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="hero-wave-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#046734" />
+                <stop offset="0.48" stop-color="#f2e500" />
+                <stop offset="0.72" stop-color="#f28a22" />
+                <stop offset="1" stop-color="#e52421" />
+              </linearGradient>
+            </defs>
+            <path d="M0 93.896c320 131.891 810.02 57.933 1060.82 26.928 448.99-55.504 541.43-36.005 859.18-13.739v62.553H0Z" fill="#09291d" />
+            <path d="M1028.4 53.971C801.837 89.63 300 169.56 0 28.248v65.648c320 131.891 810.02 57.933 1060.82 26.928 448.99-55.504 541.43-36.005 859.18-13.739v-93.91c-341.11-22.5-501.61-20.585-891.6 40.796Z" fill="url(#hero-wave-gradient)" />
+          </svg>
+        </div>
+        <div class="hero-proof-wrap">
           <dl class="proof-strip" aria-label="GEBA Vertrauensdaten">
-            <div>
-              <dt>Regional</dt>
-              <dd>GEBA als sichtbarer Absender</dd>
-            </div>
-            <div>
-              <dt>Technisch</dt>
-              <dd>Prüfung statt Bauchgefühl</dd>
-            </div>
-            <div>
-              <dt>Unverbindlich</dt>
-              <dd>erste Einschätzung per Mail</dd>
-            </div>
-            <div>
-              <dt>Geführt</dt>
-              <dd>nur passende Fragen</dd>
-            </div>
+            <div><dt data-kpi="15" data-kpi-suffix="+" aria-label="Mehr als 15">15+</dt><dd>Jahre Erfahrung</dd></div>
+            <div><dt>Erfahrung</dt><dd>aus vielen Energieprojekten</dd></div>
+            <div><dt data-kpi="100" data-kpi-suffix=" %" aria-label="100 Prozent">100 %</dt><dd>eigene Fachkräfte</dd></div>
+            <div><dt>Regional</dt><dd>von Freiburg bis Bodensee</dd></div>
           </dl>
         </div>
       </section>
 
-      <section class="sales-section" aria-labelledby="sales-title">
-        <div class="section-inner sales-layout">
-          <div class="sales-copy">
-            <p class="eyebrow dark">Der wirtschaftliche Kern</p>
-            <h2 id="sales-title">Nicht jede PV-Anlage ist automatisch optimal.</h2>
-            <p>
-              Viele Unternehmen haben investiert, erzeugen eigenen Strom und lassen trotzdem Potenzial liegen:
-              weil Verbrauchszeiten, Netzbezug, Einspeisung und Lastspitzen nicht sauber zusammenarbeiten.
-            </p>
-            <p>
-              Genau dort setzt der GEBA-Check an. Er verkauft keinen Speicher auf Verdacht, sondern öffnet ein
-              qualifiziertes Gespräch: Wo liegt der Hebel? Welche Daten fehlen? Und lohnt sich eine genauere
-              technische Prüfung?
-            </p>
+      <section class="story-section" aria-labelledby="sales-title">
+        <div class="story-image-wrap">
+          <img src="./assets/geba-speicher-detail-v1.webp" width="1672" height="941" loading="lazy" alt="Gewerblicher Batteriespeicher neben einem Produktionsbetrieb mit Photovoltaikanlage" />
+          <p class="image-caption">Speicher, PV und Betrieb als ein Energiesystem gedacht.</p>
+        </div>
+        <div class="section-inner story-content">
+          <div class="story-heading">
+            <p class="eyebrow dark">Energie wirtschaftlich einsetzen</p>
+            <h2 id="sales-title">Der Strom ist schon da. Entscheidend ist, wann Sie ihn nutzen.</h2>
           </div>
-          <div class="decision-cards" aria-label="Typische Potenzialhebel">
-            <article>
-              <span>01</span>
-              <strong>Eigenverbrauch</strong>
-              <p>Speicher kann Eigenverbrauch erhöhen, wenn Verbrauchsprofil und Anlagengröße zusammenpassen.</p>
+          <div class="story-copy">
+            <p>Ein Speicher wird nicht durch seine Größe wirtschaftlich, sondern durch sein Zusammenspiel mit Verbrauch, PV-Erzeugung und Lastspitzen.</p>
+            <p>GEBA schaut deshalb auf den ganzen Betrieb – und entwickelt daraus eine Lösung, die technisch passt und kaufmännisch nachvollziehbar bleibt.</p>
+            <a class="text-link" href="#check">Eigenes Potenzial prüfen →</a>
+          </div>
+          <dl class="story-facts" aria-label="Typische wirtschaftliche Hebel">
+            <div><dt>Mehr Eigenstrom</dt><dd>Solarenergie dann nutzen, wenn Ihr Betrieb sie wirklich braucht.</dd></div>
+            <div><dt>Weniger Spitzen</dt><dd>Teure Leistungsspitzen gezielt abfangen und den Netzbezug glätten.</dd></div>
+            <div><dt>Planbare Energie</dt><dd>PV, Speicher und Ladeinfrastruktur gemeinsam weiterdenken.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="energy-flow-section" aria-labelledby="energy-flow-title">
+        <div class="section-inner energy-flow-layout">
+          <div class="energy-flow-heading">
+            <p class="eyebrow">Energie im richtigen Moment</p>
+            <h2 id="energy-flow-title">Aus Solarstrom wird ein Vorteil für den ganzen Betrieb.</h2>
+          </div>
+          <p class="energy-flow-intro">GEBA verbindet Erzeugung, Speicherung und Verbrauch zu einem System. Scrollen Sie durch den Energiefluss.</p>
+
+          <div class="energy-flow-stage" data-energy-flow>
+            <div class="energy-flow-rail" aria-hidden="true"><span></span></div>
+
+            <article class="flow-node" data-flow-step="0">
+              <div class="flow-node-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false"><path d="M9 39h46M14 36l6-19h24l6 19M23 17l-4 19M32 17v19M41 17l4 19M17 25h30M13 49h38M21 39l-4 10M43 39l4 10"/></svg>
+              </div>
+              <div><span>01 · PV-Dach</span><strong>Eigenen Strom erzeugen</strong><p>Gewerbeflächen werden zur verlässlichen Energiequelle.</p></div>
             </article>
-            <article>
-              <span>02</span>
-              <strong>Lastspitzen</strong>
-              <p>Kurze Verbrauchsspitzen können dauerhaft Kosten verursachen. Lastmanagement kann hier ansetzen.</p>
+
+            <article class="flow-node" data-flow-step="1">
+              <div class="flow-node-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false"><rect x="16" y="10" width="32" height="44" rx="3"/><path d="M27 7h10M24 21h16M24 32h16M24 43h16M29 26l-4 7h6l-3 7 11-12h-7l3-6"/></svg>
+              </div>
+              <div><span>02 · Speicher</span><strong>Energie verfügbar machen</strong><p>Solarstrom bleibt nutzbar, wenn der Betrieb ihn braucht.</p></div>
             </article>
-            <article>
-              <span>03</span>
-              <strong>Planung</strong>
-              <p>Wer Speicher, Verbrauch und Ladeinfrastruktur früh zusammendenkt, plant oft wirtschaftlicher.</p>
+
+            <article class="flow-node" data-flow-step="2">
+              <div class="flow-node-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false"><path d="M8 53h48V28L43 36V25l-13 9V22L8 36v17ZM16 44h7v9M31 44h7v9M46 42h5M13 18h8l2 12"/></svg>
+              </div>
+              <div><span>03 · Produktion</span><strong>Lastspitzen senken</strong><p>Leistung wird geglättet und Energie planbarer eingesetzt.</p></div>
             </article>
+
+            <article class="flow-node" data-flow-step="3">
+              <div class="flow-node-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false"><path d="M19 45h26l-3-15H22l-3 15ZM16 45v7M48 45v7M24 45v4M40 45v4M26 30l3-9h10l3 9M48 16v12M44 20h8M48 28c5 0 8 3 8 8v8"/></svg>
+              </div>
+              <div><span>04 · Ladepunkte</span><strong>Mobilität mitdenken</strong><p>Fahrzeuge laden, ohne den Betrieb unnötig zu belasten.</p></div>
+            </article>
+
+            <article class="flow-node" data-flow-step="4">
+              <div class="flow-node-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false"><path d="M32 8v46M21 54h22M18 23h28M23 23l-9 31M41 23l9 31M25 14h14M18 35h28M13 54h38"/></svg>
+              </div>
+              <div><span>05 · Netz</span><strong>Netzbezug glätten</strong><p>Bezug, Einspeisung und Reserven intelligent ausbalancieren.</p></div>
+            </article>
+          </div>
+
+          <div class="energy-flow-result">
+            <span>Das Ergebnis</span>
+            <strong>Mehr Eigenverbrauch. Weniger Spitzen. Mehr Kontrolle.</strong>
+            <a href="#check">Eigenen Energiefluss prüfen <b aria-hidden="true">→</b></a>
           </div>
         </div>
       </section>
 
-      <section class="benefit-section" aria-labelledby="benefit-title">
-        <div class="section-inner">
-          <div class="section-heading compact-heading">
-            <p class="eyebrow dark">Für den Kunden einfach. Für GEBA qualifiziert.</p>
-            <h2 id="benefit-title">Der Einstieg fühlt sich klein an, das Ergebnis wirkt wertvoll.</h2>
-            <p>
-              Der Besucher muss keine technische Beratung verstehen, bevor er anfragt. Er beantwortet wenige
-              geführte Fragen und bekommt das Gefühl: Hier schaut jemand seriös auf meinen Betrieb.
-            </p>
+      <section class="craft-section" aria-labelledby="benefit-title">
+        <div class="section-inner craft-layout">
+          <div class="craft-copy">
+            <p class="eyebrow dark">Planung mit Verantwortung</p>
+            <h2 id="benefit-title">Nicht von irgendwo. Sondern von Menschen, die Ihre Anlage auch umsetzen.</h2>
+            <p class="craft-lead">Von der ersten Verbrauchsanalyse bis zur Inbetriebnahme bleibt GEBA nah am Projekt. Eigene Fachkräfte, feste Ansprechpartner und Erfahrung aus mehr als 2.000 Anlagen.</p>
+            <div class="craft-points">
+              <p><span class="craft-point-number">01</span><strong>Verstehen</strong><span class="craft-point-copy">Verbrauch, Lastgang und Zukunftspläne sauber einordnen.</span></p>
+              <p><span class="craft-point-number">02</span><strong>Planen</strong><span class="craft-point-copy">Komponenten und Leistung auf den Betrieb abstimmen.</span></p>
+              <p><span class="craft-point-number">03</span><strong>Umsetzen</strong><span class="craft-point-copy">Mit eigenen Teams installieren und persönlich begleiten.</span></p>
+            </div>
           </div>
-          <div class="benefit-grid">
-            <article>
-              <strong>Bestehende PV optimieren</strong>
-              <span>Für Betriebe, die bereits Solarstrom erzeugen und mehr davon selbst nutzen wollen.</span>
-            </article>
-            <article>
-              <strong>Speicher wirtschaftlich einschätzen</strong>
-              <span>Nicht jeder Speicher lohnt sich. Der Check trennt interessante Fälle von Bauchgefühl.</span>
-            </article>
-            <article>
-              <strong>Lastspitzen sichtbar machen</strong>
-              <span>Relevant für Produktion, Kühlung, Werkstatt, Ladepunkte und andere schwankende Verbraucher.</span>
-            </article>
-            <article>
-              <strong>Neue PV sauber vorbereiten</strong>
-              <span>Auch ohne bestehende Anlage kann GEBA prüfen, welche Lösung grundsätzlich Sinn ergibt.</span>
-            </article>
-          </div>
+          <figure class="craft-image">
+            <img src="./assets/geba-team-installation-v1.webp" width="1536" height="1024" loading="lazy" alt="Zwei Fachkräfte prüfen eine gewerbliche Speicheranlage" />
+            <figcaption><span>Persönlich geplant.</span><strong>Regional umgesetzt.</strong></figcaption>
+          </figure>
         </div>
       </section>
 
@@ -146,9 +252,29 @@
               <li>Ideal für bestehende PV-Anlagen und neue Projekte</li>
               <li>GEBA prüft, ob ein Gespräch wirtschaftlich sinnvoll ist</li>
             </ul>
+            <aside class="potential-preview" id="potentialPreview" aria-live="polite">
+              <span class="signal-dot" aria-hidden="true"></span>
+              <div>
+                <small>Live-Potenzialprofil</small>
+                <strong id="potentialHeadline">Noch keine Angaben bewertet</strong>
+                <p id="potentialHint">Der Check passt Fragen und Hinweise an Ihre Situation an.</p>
+              </div>
+            </aside>
           </div>
 
-          <form class="lead-form wizard-form" id="leadForm">
+          <form class="lead-form wizard-form" id="leadForm" data-endpoint="" novalidate>
+            <input type="hidden" name="utm_source" />
+            <input type="hidden" name="utm_medium" />
+            <input type="hidden" name="utm_campaign" />
+            <input type="hidden" name="utm_content" />
+            <input type="hidden" name="utm_term" />
+            <input type="hidden" name="gclid" />
+            <input type="hidden" name="wbraid" />
+            <input type="hidden" name="gbraid" />
+            <input type="hidden" name="landing_page" />
+            <input type="hidden" name="referrer" />
+            <input type="hidden" name="form_started_at" />
+            <label class="hp-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
             <div class="progress-card" aria-live="polite">
               <div>
                 <span id="stepCounter">Schritt 1 von 6</span>
@@ -235,6 +361,16 @@
                   </select>
                 </label>
                 <label>
+                  Höchste Leistungsspitze (falls bekannt)
+                  <select name="peakPower">
+                    <option value="unknown">Nicht bekannt</option>
+                    <option value="under-100">unter 100 kW</option>
+                    <option value="100-250">100 bis 250 kW</option>
+                    <option value="250-500">250 bis 500 kW</option>
+                    <option value="over-500">über 500 kW</option>
+                  </select>
+                </label>
+                <label>
                   Verbrauchsschwerpunkt
                   <select name="loadTime" required>
                     <option value="">Bitte auswählen</option>
@@ -248,6 +384,7 @@
                 <label>
                   Branche
                   <select name="industry" required>
+                    <option value="">Bitte auswählen</option>
                     <option>Produktion / Handwerk</option>
                     <option>Hotel / Gastronomie</option>
                     <option>Lebensmittel / Kühlung</option>
@@ -268,12 +405,14 @@
                 <label>Ansprechpartner<input name="name" autocomplete="name" required /></label>
                 <label>E-Mail<input name="email" type="email" autocomplete="email" required /></label>
                 <label>Telefon<input name="phone" type="tel" autocomplete="tel" required /></label>
-                <label>PLZ / Ort<input name="location" autocomplete="postal-code" required /></label>
+                <label>PLZ<input name="postalCode" inputmode="numeric" pattern="[0-9]{5}" autocomplete="postal-code" required /></label>
+                <label>Ort<input name="city" autocomplete="address-level2" required /></label>
               </div>
               <label class="consent">
                 <input type="checkbox" name="consent" required />
                 Ich stimme zu, dass GEBA meine Angaben zur Erstellung einer unverbindlichen Potenzialbewertung und
-                zur Kontaktaufnahme verarbeitet.
+                zur Kontaktaufnahme verarbeitet. Hinweise stehen in der
+                <a href="https://www.geba-gmbh.com/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.
               </label>
             </div>
 
@@ -282,59 +421,146 @@
               <button class="submit-btn" id="nextStep" type="button">Weiter</button>
               <button class="submit-btn" id="submitLead" type="submit" hidden>Potenzialbewertung anfordern</button>
             </div>
-            <p class="form-note">Demo: Beim Absenden wird noch keine echte E-Mail versendet.</p>
+            <p class="form-note" id="formNote"><span aria-hidden="true">🔒</span> Sichere Vorprüfung. Keine Weitergabe an Dritte. Demo: Noch kein produktiver Versand aktiv.</p>
           </form>
         </div>
       </section>
 
+      <section id="referenz" class="reference-section" aria-labelledby="reference-title">
+        <div class="section-inner reference-layout">
+          <figure class="reference-image">
+            <img src="./assets/referenz-waldhaus.jpg" width="1024" height="576" loading="lazy" alt="Photovoltaikanlage der Privatbrauerei Waldhaus, umgesetzt als GEBA-Referenzprojekt" />
+            <figcaption>Echte GEBA-Referenz aus der Region</figcaption>
+          </figure>
+          <div class="reference-copy">
+            <p class="eyebrow dark">GEWERBE-REFERENZ</p>
+            <h2 id="reference-title">Privatbrauerei Waldhaus: Energie dort erzeugen, wo sie gebraucht wird.</h2>
+            <p>Das regionale Referenzprojekt zeigt, welche Größenordnung GEBA technisch begleitet: eine Photovoltaikanlage mit 458,40 kWp – geplant für einen realen Gewerbebetrieb.</p>
+            <dl class="reference-facts">
+              <div><dt data-kpi="458.4" data-kpi-decimals="2" data-kpi-suffix=" kWp" aria-label="458 Komma 40 Kilowatt Peak">458,40 kWp</dt><dd>installierte PV-Leistung</dd></div>
+              <div><dt>79809 Waldhaus</dt><dd>Projektstandort</dd></div>
+              <div><dt>GEBA</dt><dd>Planung und Umsetzung</dd></div>
+            </dl>
+            <a class="text-link" href="https://www.geba-gmbh.com/warum-geba/referenzen/" target="_blank" rel="noopener">Weitere GEBA-Referenzen ansehen →</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="bewertungen" class="reviews-section" aria-labelledby="reviews-title">
+        <div class="section-inner reviews-heading">
+          <div>
+            <p class="eyebrow dark">Stimmen & Referenzen</p>
+            <h2 id="reviews-title">Erfahrung, die Kunden weiterempfehlen.</h2>
+          </div>
+          <div class="reviews-source" aria-label="Ausgewählte öffentliche Kundenstimmen">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285f4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z"/>
+              <path fill="#34a853" d="M12 22c2.7 0 4.98-.9 6.64-2.36l-3.25-2.54c-.9.6-2.05.96-3.39.96-2.6 0-4.8-1.76-5.6-4.12H3.05v2.62A10 10 0 0 0 12 22Z"/>
+              <path fill="#fbbc05" d="M6.4 13.94A6 6 0 0 1 6.08 12c0-.67.12-1.32.32-1.94V7.44H3.05A10 10 0 0 0 2 12c0 1.64.39 3.2 1.05 4.56l3.35-2.62Z"/>
+              <path fill="#ea4335" d="M12 5.94c1.47 0 2.79.5 3.82 1.5l2.88-2.88A9.66 9.66 0 0 0 12 2a10 10 0 0 0-8.95 5.44l3.35 2.62C7.2 7.7 9.4 5.94 12 5.94Z"/>
+            </svg>
+            <div><strong>Öffentliche Stimmen</strong><span class="review-stars" aria-hidden="true">★★★★★</span><small>Vor finalem Livegang rechtlich und inhaltlich prüfen</small></div>
+          </div>
+        </div>
+
+        <div class="section-inner reviews-layout">
+          <article class="review-featured">
+            <div class="review-meta"><span class="review-stars" aria-label="5 von 5 Sternen">★★★★★</span><small>vor 2 Jahren</small></div>
+            <blockquote>„Wir haben im Büro und ich privat von Solartechnik GEBA am See eine PV-Anlage mit Batteriespeicher einbauen lassen. Von der Erstberatung über die Planung bis zur Ausführung war die ganze Abwicklung perfekt.“</blockquote>
+            <footer><div><strong>Jürgen Hildebrand</strong><span>Architekt</span></div><a href="https://www.google.com/maps/search/?api=1&amp;query=Google&amp;query_place_id=ChIJxd9q_GpZmkcRb4DcLxYLVvk" target="_blank" rel="noopener" aria-label="Google-Bewertung von Jürgen Hildebrand öffnen">Auf Google ansehen ↗</a></footer>
+          </article>
+
+          <div class="review-secondary">
+            <article>
+              <div class="review-meta"><span class="review-stars" aria-label="5 von 5 Sternen">★★★★★</span><small>vor 3 Jahren</small></div>
+              <blockquote>„Die inzwischen 3. Anlage von GEBA SEE ist im Betrieb. Alle Arbeiten wurden zuverlässig und wie besprochen erledigt.“</blockquote>
+              <footer><strong>Preter CNC Dreh- und Frästechnik</strong><a href="https://www.google.com/maps/search/?api=1&amp;query=Google&amp;query_place_id=ChIJxd9q_GpZmkcRb4DcLxYLVvk" target="_blank" rel="noopener" aria-label="Google-Bewertung von Preter CNC öffnen">Google ↗</a></footer>
+            </article>
+            <article>
+              <div class="review-meta"><span class="review-stars" aria-label="5 von 5 Sternen">★★★★★</span><small>vor 7 Monaten</small></div>
+              <blockquote>„Das Team Fa. GEBA arbeitet perfekt miteinander und als Kunde wird man sehr gut betreut. Es hat alles einwandfrei geklappt.“</blockquote>
+              <footer><strong>Harald Schmitt</strong><a href="https://www.google.com/maps/search/?api=1&amp;query=Google&amp;query_place_id=ChIJvfF_mUNPkEcRcPCiCNslYcU" target="_blank" rel="noopener" aria-label="Google-Bewertung von Harald Schmitt öffnen">Google ↗</a></footer>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="ablauf" class="band process-band" aria-labelledby="process-title">
-        <div class="section-inner">
-          <div class="section-heading">
+        <div class="section-inner process-layout">
+          <div class="process-intro">
             <p class="eyebrow dark">Ablauf</p>
-            <h2 id="process-title">Vom Interesse zum qualifizierten Gespräch</h2>
+            <h2 id="process-title">Von der ersten Idee zur belastbaren Entscheidung.</h2>
+            <p>Der Online-Check ist kein Verkaufstrick. Er ist der kurze Einstieg in eine persönliche und nachvollziehbare Beratung.</p>
+            <a class="text-link" href="#check">Potenzial jetzt prüfen →</a>
           </div>
           <ol class="process-list">
-            <li><strong>Check ausfüllen</strong><span>Unternehmen gibt PV-Status, Verbrauch und Bedarf an.</span></li>
-            <li><strong>Interne Vorprüfung</strong><span>GEBA erkennt, welche Fälle besonders schnell bearbeitet werden sollten.</span></li>
-            <li><strong>GEBA Rückmeldung</strong><span>Interessenten erhalten eine erste Einschätzung und bei passendem Potenzial einen Rückruf.</span></li>
-            <li><strong>Beratung & Angebot</strong><span>GEBA übernimmt technische Prüfung, Beratung und Abschluss.</span></li>
+            <li><strong>Einordnen</strong><span>PV-Status, Verbrauch und betriebliches Ziel in wenigen Fragen erfassen.</span></li>
+            <li><strong>Prüfen</strong><span>Relevante Potenzialsignale erkennen und fehlende Daten sichtbar machen.</span></li>
+            <li><strong>Vertiefen</strong><span>Lastgang, Technik und Wirtschaftlichkeit persönlich mit GEBA besprechen.</span></li>
+            <li><strong>Umsetzen</strong><span>Die passende Lösung planen, installieren und langfristig begleiten.</span></li>
           </ol>
         </div>
       </section>
 
       <section id="trust" class="trust-section" aria-labelledby="trust-title">
         <div class="section-inner trust-layout">
-          <div>
+          <div class="trust-statement">
             <p class="eyebrow dark">Regionaler Umsetzer</p>
-            <h2 id="trust-title">GEBA verbindet Planung, Umsetzung und Betriebserfahrung.</h2>
-            <p>
-              Der Check nutzt die vorhandene GEBA-Glaubwürdigkeit und ergänzt sie um eine messbare digitale
-              Akquise-Strecke. So entstehen keine anonymen Online-Anfragen, sondern qualifizierte Gespräche für
-              Speicher, PV-Erweiterung und Lastmanagement.
-            </p>
+            <h2 id="trust-title">Gute Energieprojekte beginnen nicht mit einem Produkt. Sondern mit den richtigen Fragen.</h2>
           </div>
-          <div class="trust-list">
-            <p><strong>Für GEBA:</strong> strukturierte Leads statt unklarer Anfragen.</p>
-            <p><strong>Für Kunden:</strong> niedrige Einstiegshürde ohne Verkaufsdruck.</p>
-            <p><strong>Für Oli:</strong> messbarer Betrieb mit klarer Attribution.</p>
+          <div class="trust-copy">
+            <p>GEBA betrachtet Ihren Betrieb als Gesamtsystem. Erst daraus entsteht eine Empfehlung, die technisch sinnvoll und wirtschaftlich nachvollziehbar ist.</p>
+            <ul class="trust-list">
+              <li><strong>Eigene Fachkräfte</strong><span>Meister, Techniker und Monteure aus der Region.</span></li>
+              <li><strong>Ganzheitlich gedacht</strong><span>Speicher, PV, Lastmanagement und Ladeinfrastruktur.</span></li>
+              <li><strong>Persönlich begleitet</strong><span>Feste Ansprechpartner von der Planung bis zum Betrieb.</span></li>
+            </ul>
+            <a class="trust-cta" href="#check">Kostenlosen Speicher-Check starten <span>↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="faq-section" aria-labelledby="faq-title">
+        <div class="section-inner faq-layout">
+          <div>
+            <p class="eyebrow dark">HÄUFIGE FRAGEN</p>
+            <h2 id="faq-title">Gewerbespeicher verständlich eingeordnet.</h2>
+            <p>Die belastbare Dimensionierung entsteht aus Lastgang, Verbrauch, PV-Leistung und dem betrieblichen Ziel – nicht aus einer Pauschalgröße.</p>
+          </div>
+          <div class="faq-list">
+            <details><summary>Wann lohnt sich ein Gewerbespeicher?</summary><p>Wenn Lastspitzen auftreten, Solarstrom ungenutzt bleibt oder Energiekosten planbarer werden sollen. Der GEBA-Check identifiziert, ob eine vertiefte Lastgang- und Wirtschaftlichkeitsanalyse sinnvoll ist.</p></details>
+            <details><summary>Welche Speichergröße ist sinnvoll?</summary><p>Das hängt von Lastprofil, Jahresverbrauch, PV-Leistung und Einsatzzweck ab. GEBA dimensioniert den Speicher auf Basis Ihrer Betriebsdaten.</p></details>
+            <details><summary>Welche Daten sollte ich bereithalten?</summary><p>Stromrechnung, Lastgangdaten, PV-Leistung, größere Verbraucher und geplante Ladepunkte beschleunigen die Bewertung. Der Erstcheck funktioniert auch ohne vollständige Unterlagen.</p></details>
+            <details><summary>Ist der Online-Check bereits ein Angebot?</summary><p>Nein. Er ist eine kostenlose, unverbindliche Vorqualifizierung. Eine technische Planung oder ein Angebot erfolgt erst nach persönlicher Prüfung durch GEBA.</p></details>
           </div>
         </div>
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="section-inner footer-grid">
+        <div><img src="./assets/geba-logo-white.svg" alt="GEBA Energie" width="180" height="75" /><p>Regionale Energielösungen aus Meisterhand.</p></div>
+        <div><strong>Kontakt</strong><a href="tel:+497765918375">07765 – 918 375</a><a href="https://www.geba-gmbh.com/kontakt/">Beratung & Showroom</a></div>
+        <div><strong>Rechtliches</strong><a href="https://www.geba-gmbh.com/impressum/">Impressum</a><a href="https://www.geba-gmbh.com/datenschutz/">Datenschutz</a></div>
+      </div>
+    </footer>
+
+    <a class="mobile-cta" href="#check" data-cta="mobile-sticky">Kostenlos prüfen <span>→</span></a>
+
     <div class="modal" id="resultModal" hidden>
       <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
         <button class="modal-close" type="button" aria-label="Schließen">×</button>
-        <p class="eyebrow dark">Demo-Auswertung</p>
+        <p class="eyebrow dark" id="resultEyebrow">Demo-Auswertung</p>
         <h2 id="resultTitle">Potenzialbewertung vorbereitet</h2>
         <p id="resultCopy"></p>
         <div class="result-box">
           <span>Status</span>
           <strong id="resultStatus"></strong>
         </div>
+        <ul class="result-reasons" id="resultReasons"></ul>
         <p class="modal-note">
-          In der Live-Version würde jetzt eine GEBA-Bestätigungsmail an den Interessenten und eine interne
-          Leadmail an GEBA/Oli ausgelöst.
+          Die technische Vorprüfung ist vorbereitet. Der produktive Übermittlungsweg wird vor Veröffentlichung
+          mit GEBA verbunden und abschließend getestet.
         </p>
       </div>
     </div>

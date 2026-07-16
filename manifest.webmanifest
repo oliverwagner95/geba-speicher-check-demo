@@ -1,0 +1,11 @@
+{
+  "name": "GEBA Gewerbespeicher-Check",
+  "short_name": "GEBA Check",
+  "description": "Potenzialcheck für Gewerbespeicher, PV-Optimierung und Lastmanagement.",
+  "lang": "de-DE",
+  "start_url": "/gewerbespeicher-check/",
+  "display": "standalone",
+  "background_color": "#f4f5f2",
+  "theme_color": "#2f7626",
+  "icons": []
+}

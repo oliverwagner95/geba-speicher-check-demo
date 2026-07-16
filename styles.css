@@ -134,7 +134,7 @@ nav a:hover { opacity: 1; }
 .hero-bg.is-video-ready .hero-video { opacity:1; }
 .hero-stage { position: relative; z-index: 2; width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2))); min-height: 720px; margin: 0 auto; display: grid; grid-template-columns: 1fr 390px; align-items: end; gap: clamp(64px, 7vw, 132px); padding: 190px 0 72px; }
 .hero-content { max-width: 710px; }
-.hero-content > * { animation: heroTextEnter 1s cubic-bezier(.2,.7,.2,1) both; }
+.hero-content > * { opacity: 1; translate: 0 0; }
 .hero-content > .eyebrow { animation-delay: .2s; }
 .hero-content > h1 { animation-delay: .42s; }
 .hero-content > .hero-copy { animation-delay: .64s; }
@@ -163,7 +163,7 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
   -webkit-backdrop-filter: blur(20px) saturate(118%);
   backdrop-filter: blur(20px) saturate(118%);
   transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
-  animation: heroCardEnter 1.15s .75s cubic-bezier(.2,.7,.2,1) both, glassSheen 1.6s 1.45s ease-out both;
+  animation: glassSheen 1.6s 1.45s ease-out both;
   overflow: hidden;
 }
 .hero-check-card:hover {

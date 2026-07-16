@@ -369,7 +369,7 @@ function animateKpi(element, delay = 0) {
   window.setTimeout(() => {
     const startedAt = performance.now();
     const tick = (now) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
+      const progress = Math.max(0, Math.min((now - startedAt) / duration, 1));
       const eased = 1 - Math.pow(1 - progress, 3);
       const value = progress === 1
         ? target

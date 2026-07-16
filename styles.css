@@ -105,8 +105,19 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
 
 .hero-check-card {
   align-self: end; display: grid; position: relative; min-height: 370px; padding: 28px;
-  color: var(--ink); background: rgba(255,255,255,.96); box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  color: var(--ink);
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(255,255,255,.48);
+  box-shadow: 0 30px 80px rgba(0,0,0,.2);
+  -webkit-backdrop-filter: blur(20px) saturate(118%);
+  backdrop-filter: blur(20px) saturate(118%);
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
   overflow: hidden;
+}
+.hero-check-card:hover {
+  background: rgba(255,255,255,.69);
+  border-color: rgba(255,255,255,.62);
+  box-shadow: 0 34px 86px rgba(0,0,0,.23);
 }
 .hero-check-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background:var(--geba-spectrum-x); }
 .hero-check-card::after { content: ""; position: absolute; width: 190px; height: 190px; border: 1px solid rgba(40,122,62,.16); border-radius: 50%; right: -95px; bottom: -90px; box-shadow: 0 0 0 34px rgba(40,122,62,.035), 0 0 0 68px rgba(40,122,62,.025); }

@@ -340,7 +340,7 @@ function updatePageMotion() {
 }
 
 const revealItems = document.querySelectorAll(
-  ".sales-copy, .decision-cards article, .compact-heading, .benefit-grid article, .check-intro, .lead-form, .reference-image, .reference-copy, .process-list li, .trust-layout > div, .faq-layout > div"
+  ".story-heading, .story-copy, .story-facts > div, .craft-copy, .craft-image, .check-intro, .lead-form, .reference-image, .reference-copy, .process-list li, .trust-layout > div, .faq-layout > div"
 );
 
 if (motionAllowed && "IntersectionObserver" in window) {

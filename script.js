@@ -341,14 +341,17 @@ function animateKpi(element, delay = 0) {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });
-  const duration = 850;
+  const duration = 1450;
+  const precision = 10 ** decimals;
 
   window.setTimeout(() => {
     const startedAt = performance.now();
     const tick = (now) => {
       const progress = Math.min((now - startedAt) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      const value = decimals ? target * eased : Math.round(target * eased);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = progress === 1
+        ? target
+        : Math.floor(target * eased * precision) / precision;
       element.textContent = `${formatter.format(value)}${suffix}`;
       if (progress < 1) requestAnimationFrame(tick);
     };

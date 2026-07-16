@@ -165,10 +165,12 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
 
 .energy-line {
   position: absolute; z-index: 3; left: 0; right: 0; bottom: 127px;
-  display: flex; height: 6px; transform-origin: left;
+  display: flex; height: 64px; transform-origin: left bottom;
   background:var(--geba-spectrum-x);
   background-size: 135% 100%;
-  box-shadow: 0 1px 9px rgba(242,138,34,.34);
+  -webkit-mask: url("./assets/geba-wave.svg") center / 100% 100% no-repeat;
+  mask: url("./assets/geba-wave.svg") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 3px 7px rgba(242,138,34,.22));
   animation: lineReveal 1.3s .45s both, energyFlow 8s 1.75s ease-in-out infinite alternate;
 }
 .energy-line i { background: transparent !important; }
@@ -414,7 +416,7 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
   .hero-actions { display:grid; }
   .primary-btn, .secondary-btn { width:100%; }
   .hero-check-card { min-height:300px; margin:0 16px; padding:24px; transform:translateY(24px); }
-  .energy-line { position:relative; bottom:auto; margin-top:24px; }
+  .energy-line { position:relative; bottom:auto; height:38px; margin-top:24px; }
   .hero-proof-wrap { position:relative; height:auto; }
   .proof-strip { width:100%; grid-template-columns:1fr 1fr; }
   .proof-strip div { min-height:92px; padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.12); }
@@ -463,5 +465,5 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  *, *::before, *::after { animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }

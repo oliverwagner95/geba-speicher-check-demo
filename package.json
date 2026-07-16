@@ -1,0 +1,13 @@
+{
+  "name": "geba-gewerbespeicher-check",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check script.js && node --check server.mjs",
+    "start": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

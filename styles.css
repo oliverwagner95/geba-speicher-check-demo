@@ -1005,3 +1005,249 @@ fieldset {
     font-size: 1.95rem;
   }
 }
+
+/* GEBA Intelligent V2 — official brand and conversion layer */
+:root {
+  --ink: #171a18;
+  --muted: #56615b;
+  --line: #d9ded9;
+  --green: #2f7626;
+  --green-deep: #155d2b;
+  --lime: #9ac31c;
+  --amber: #f39200;
+  --orange: #cf3f1b;
+  --paper: #f4f5f2;
+  --cream: #fafbf8;
+  --charcoal: #152019;
+  --shadow: 0 26px 70px rgba(26, 54, 34, 0.14);
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: #fff;
+  color: var(--green-deep);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  min-height: 92px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(21, 93, 43, 0.12);
+  box-shadow: 0 12px 35px rgba(17, 34, 23, 0.08);
+}
+
+.brand img { width: 112px; }
+.brand span { color: var(--green-deep); }
+nav { color: #1c241f; font-weight: 850; }
+.header-cta, .primary-btn { background: var(--orange); color: #fff; }
+.header-cta { border-radius: 999px; }
+
+.hero {
+  min-height: 760px;
+  align-items: center;
+  color: var(--ink);
+  background: #f4f6f2;
+}
+
+.hero-bg {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.96) 36%, rgba(255,255,255,.66) 54%, rgba(255,255,255,.08) 82%),
+    linear-gradient(0deg, rgba(16,34,22,.12), rgba(16,34,22,0)),
+    url("./assets/geba-gewerbe-hero-v1.webp") center / cover;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 120px;
+  background: url("./assets/geba-wave.svg") center bottom / 105% 100% no-repeat;
+  pointer-events: none;
+}
+
+.hero-content { padding: 110px 0 145px; }
+.hero .eyebrow { color: var(--orange); }
+.hero h1 { display: grid; gap: 10px; max-width: 980px; }
+.hero h1 span {
+  width: fit-content;
+  padding: 8px 14px 6px;
+  background: var(--green);
+  color: #fff;
+  line-height: .98;
+  box-decoration-break: clone;
+}
+.hero-copy { color: #242a26; max-width: 720px; font-weight: 620; }
+.hero-assurance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  color: var(--green-deep);
+  font-size: .9rem;
+  font-weight: 800;
+}
+.hero-assurance span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(154,195,28,.2);
+  color: var(--green-deep);
+}
+.secondary-btn { color: var(--orange); border-color: var(--orange); background: rgba(255,255,255,.82); }
+.proof-strip { position: relative; z-index: 3; background: #fff; border-color: rgba(21,93,43,.14); box-shadow: var(--shadow); }
+.proof-strip div { background: #fff; border-right-color: var(--line); }
+.proof-strip dt { color: var(--green-deep); }
+.proof-strip dd { color: var(--muted); }
+
+.energy-insight {
+  margin: 30px 0 0;
+  padding: 20px 22px 16px;
+  overflow: hidden;
+  border: 1px solid rgba(21,93,43,.14);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fff, #f1f5ef);
+  box-shadow: var(--soft-shadow);
+}
+.energy-insight figcaption { display: grid; gap: 3px; }
+.energy-insight figcaption span {
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.energy-insight figcaption strong { color: var(--green-deep); font-size: 1rem; }
+.energy-insight svg { display: block; width: 100%; height: auto; margin: 8px 0 0; }
+.chart-grid path { fill: none; stroke: #dce5dc; stroke-width: 1; }
+.chart-area { fill: url(#peak-fill); }
+.chart-before { fill: none; stroke: var(--orange); stroke-width: 4; stroke-linecap: round; }
+.chart-after { fill: none; stroke: var(--green); stroke-width: 5; stroke-linecap: round; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 10px 20px; color: var(--muted); font-size: .72rem; font-weight: 800; }
+.chart-legend span { position: relative; padding-left: 18px; }
+.chart-legend span::before { content: ""; position: absolute; left: 0; top: 50%; width: 11px; height: 3px; border-radius: 3px; transform: translateY(-50%); }
+.chart-legend .before::before { background: var(--orange); }
+.chart-legend .after::before { background: var(--green); }
+
+.potential-preview {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid rgba(47,118,38,.24);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fff, #f0f6ed);
+}
+.potential-preview small { color: var(--muted); text-transform: uppercase; font-weight: 850; }
+.potential-preview strong { display: block; color: var(--green-deep); font-size: 1.1rem; }
+.potential-preview p { margin: 4px 0 0; font-size: .92rem; }
+.signal-dot { width: 12px; height: 12px; margin-top: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 7px rgba(154,195,28,.17); }
+.hp-field { position: absolute !important; left: -10000px !important; width: 1px; height: 1px; overflow: hidden; }
+.consent a { color: var(--green-deep); text-decoration: underline; }
+
+.reference-section, .faq-section { padding: clamp(62px, 8vw, 110px) 0; }
+.reference-section { background: #fff; }
+.reference-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 6vw, 78px); align-items: center; }
+.reference-image { margin: 0; position: relative; }
+.reference-image img { display: block; width: 100%; border-radius: 10px; box-shadow: var(--shadow); }
+.reference-image figcaption { position: absolute; left: 18px; bottom: 18px; padding: 8px 12px; border-radius: 4px; background: rgba(255,255,255,.92); color: var(--green-deep); font-weight: 850; }
+.reference-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 28px 0; }
+.reference-facts div { padding: 14px 10px; border-left: 3px solid var(--orange); background: #f4f6f2; }
+.reference-facts dt { color: var(--green-deep); font-weight: 900; }
+.reference-facts dd { margin: 4px 0 0; color: var(--muted); font-size: .82rem; }
+.text-link { color: var(--orange); font-weight: 900; }
+
+.faq-section { background: #f2f4ef; }
+.faq-layout { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(28px, 6vw, 76px); align-items: start; }
+.faq-list { display: grid; gap: 10px; }
+.faq-list details { padding: 0 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.faq-list summary { padding: 18px 30px 18px 0; color: var(--green-deep); font-weight: 900; cursor: pointer; }
+.faq-list p { padding: 0 0 18px; margin: 0; color: var(--muted); }
+
+.site-footer { padding: 50px 0 90px; background: #122019; color: #fff; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; }
+.footer-grid div { display: grid; align-content: start; gap: 8px; }
+.footer-grid img { width: 130px; }
+.footer-grid p, .footer-grid a { margin: 0; color: rgba(255,255,255,.75); }
+.footer-grid a:hover { color: #fff; }
+
+.result-reasons { display: grid; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+.result-reasons li { padding-left: 22px; position: relative; color: var(--muted); }
+.result-reasons li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 900; }
+.modal-open { overflow: hidden; }
+.mobile-cta { display: none; }
+
+@media (max-width: 960px) {
+  .reference-layout, .faq-layout { grid-template-columns: 1fr; }
+  .hero { min-height: 700px; }
+  .hero-bg { background-position: 60% center; }
+}
+
+@media (max-width: 660px) {
+  body { padding-bottom: 68px; }
+  .site-header { min-height: 68px; padding: 8px 16px; }
+  .brand img { width: 88px; }
+  .hero { min-height: auto; }
+  .hero-bg {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.92) 64%, rgba(255,255,255,.68) 100%),
+      url("./assets/geba-gewerbe-hero-v1.webp") 62% center / cover;
+  }
+  .hero-content, .section-inner { width: calc(100% - 32px); margin-left: 16px; margin-right: 16px; }
+  .hero-content { padding: 64px 0 122px; }
+  .hero h1 {
+    width: 100%;
+    max-width: 100%;
+    gap: 6px;
+    font-size: clamp(1.95rem, 8.2vw, 2.2rem);
+    overflow-wrap: anywhere;
+  }
+  .hero h1 span {
+    width: 100%;
+    max-width: 100%;
+    padding: 6px 8px 5px;
+  }
+  .hero-copy { max-width: 100%; overflow-wrap: anywhere; }
+  .hero-assurance { align-items: flex-start; }
+  .hero-assurance span { flex: 0 0 auto; }
+  .proof-strip { grid-template-columns: 1fr 1fr; }
+  .proof-strip div { min-height: 92px; }
+  .energy-insight { padding: 16px 14px 13px; }
+  .reference-facts { grid-template-columns: 1fr; }
+  .reference-image figcaption { position: static; margin-top: 8px; background: transparent; padding: 0; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .mobile-cta {
+    position: fixed;
+    z-index: 40;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 900;
+    box-shadow: 0 14px 35px rgba(51, 40, 20, .28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

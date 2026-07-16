@@ -50,9 +50,10 @@ button, input, select { font: inherit; }
   transition: background .28s ease, min-height .28s ease, box-shadow .28s ease;
 }
 .site-header.is-scrolled { min-height:72px; background:rgba(7,28,20,.94); box-shadow:0 10px 30px rgba(0,0,0,.14); backdrop-filter:blur(16px); }
-.brand { display: flex; align-items: center; gap: 14px; font-size: .82rem; font-weight: 700; }
-.brand img { width: 84px; filter: brightness(0) invert(1); }
-.brand span { opacity: .82; white-space: nowrap; }
+.brand { display: flex; align-items: center; gap: 18px; font-size: .82rem; font-weight: 700; }
+.brand img { width: 118px; filter: none; transition: width .28s ease; }
+.brand span { padding-left:18px; border-left:1px solid rgba(255,255,255,.3); opacity:.82; white-space:nowrap; }
+.site-header.is-scrolled .brand img { width: 98px; }
 nav { display: flex; justify-content: center; gap: clamp(18px, 3vw, 38px); font-size: .88rem; }
 nav a { opacity: .84; transition: opacity .2s; }
 nav a:hover { opacity: 1; }
@@ -346,7 +347,7 @@ input:focus, select:focus { outline:3px solid rgba(40,122,62,.13); border-color:
 @media (max-width: 720px) {
   .section-inner { width:min(100% - 32px, 620px); }
   .site-header { min-height:72px; padding:10px 16px; }
-  .brand img { width:72px; }
+  .brand img, .site-header.is-scrolled .brand img { width:94px; }
   .brand span, .header-cta { display:none; }
   .hero { min-height:auto; padding-bottom:0; }
   .hero-bg { inset:0 0 auto; height:500px; background-image:linear-gradient(180deg,rgba(4,25,18,.28),rgba(4,25,18,.86)),url("./assets/geba-gewerbe-hero-v1.webp"); background-position:62% center; }

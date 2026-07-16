@@ -170,7 +170,7 @@ h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 5.4vw, 4.8r
   pointer-events: none;
 }
 .energy-line svg { display:block; width:100%; height:100%; }
-.hero-proof-wrap { position: absolute; z-index: 3; inset: auto 0 0; height: 127px; background: rgba(8,31,23,.88); backdrop-filter: blur(14px); }
+.hero-proof-wrap { position: absolute; z-index: 3; inset: auto 0 0; height: 127px; background: var(--green-black); }
 .proof-strip { width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2))); height: 100%; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); }
 .proof-strip div { display: flex; flex-direction: column; justify-content: center; padding: 22px 32px; border-left: 1px solid rgba(255,255,255,.12); }
 .proof-strip div:last-child { border-right: 1px solid rgba(255,255,255,.12); }

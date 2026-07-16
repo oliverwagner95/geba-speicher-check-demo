@@ -385,7 +385,8 @@ if (motionAllowed && "IntersectionObserver" in window) {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       const group = [...entry.target.querySelectorAll("[data-kpi]")];
-      group.forEach((item, index) => animateKpi(item, index * 90));
+      const introDelay = entry.target.classList.contains("proof-strip") ? 1700 : 0;
+      group.forEach((item, index) => animateKpi(item, introDelay + index * 90));
       observer.unobserve(entry.target);
     });
   }, { threshold: 0.45 });

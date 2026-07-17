@@ -1,4 +1,5 @@
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const header=$('[data-header]');
 const onScroll=()=>header?.classList.toggle('scrolled',scrollY>40);
@@ -33,6 +34,9 @@ const phases=[
 ];
 let hour=6, playing=true, timer;
 const energyFilm=$('[data-energy-film]');
+const energyFilmSource=$('source',energyFilm);
+function loadEnergyFilm(){if(!energyFilmSource?.dataset.src)return;energyFilmSource.src=energyFilmSource.dataset.src;delete energyFilmSource.dataset.src;energyFilm.load();if(playing)energyFilm.play().catch(()=>{})}
+if(energyFilm&&!reducedMotion){const filmObserver=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){loadEnergyFilm();filmObserver.disconnect()}},{rootMargin:'500px 0px'});filmObserver.observe(energyFilm)}
 const lerp=(a,b,t)=>Math.round(a+(b-a)*t);
 function stateAt(h){let a=phases[0],b=phases.at(-1);for(let i=0;i<phases.length-1;i++)if(h>=phases[i].h&&h<=phases[i+1].h){a=phases[i];b=phases[i+1];break}const t=(h-a.h)/(b.h-a.h||1);return {pv:lerp(a.pv,b.pv,t),load:lerp(a.load,b.load,t),grid:lerp(a.grid,b.grid,t),bat:lerp(a.bat,b.bat,t),soc:lerp(a.soc,b.soc,t),phase:t<.5?a.phase:b.phase,insight:t<.5?a.insight:b.insight}}
 function renderEnergy(){const s=stateAt(hour);$('[data-clock]').textContent=`${String(hour).padStart(2,'0')}:00`;$('[data-phase]').textContent=s.phase;$('[data-pv]').textContent=`${s.pv} kW`;$('[data-load]').textContent=`${s.load} kW`;$('[data-grid]').textContent=`${s.grid} kW`;$('[data-battery]').textContent=`${s.bat>0?'+':''}${s.bat} kW`;$('[data-soc]').style.width=`${s.soc}%`;$('[data-insight]').textContent=s.insight;$('[data-time]').value=hour}
@@ -54,4 +58,4 @@ $('[data-restart]')?.addEventListener('click',()=>{result.hidden=true;advisor.hi
 showStep();
 
 $('[data-year]').textContent=new Date().getFullYear();
-if(matchMedia('(prefers-reduced-motion: reduce)').matches){playing=false;clearInterval(timer);$$('video').forEach(video=>video.pause());$$('.reveal').forEach(el=>el.classList.add('visible'))}
+if(reducedMotion){playing=false;clearInterval(timer);$$('video').forEach(video=>video.pause());$$('.reveal').forEach(el=>el.classList.add('visible'))}

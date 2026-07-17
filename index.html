@@ -76,30 +76,28 @@
       </div>
 
       <div class="energy-board reveal" data-energy-board>
-        <div class="board-top">
-          <div><span class="live-dot"></span> Simulation aktiv</div>
-          <div class="clock"><strong data-clock>12:00</strong><small data-phase>Solarstrom speichern</small></div>
-          <button type="button" data-play aria-label="Simulation pausieren">Ⅱ</button>
-        </div>
-        <div class="diagram" aria-label="Animierte Darstellung des Energieflusses">
-          <svg class="energy-lines" viewBox="0 0 1000 470" role="img" aria-label="Energiefluss zwischen Photovoltaik, Betrieb, Speicher und Netz">
-            <defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-            <path class="line base" d="M190 105 C365 105 365 235 500 235 S650 105 810 105"/>
-            <path class="line flow solar-flow" d="M190 105 C365 105 365 235 500 235"/>
-            <path class="line base" d="M500 235 C500 330 500 330 500 390"/>
-            <path class="line flow battery-flow" d="M500 235 C500 330 500 330 500 390"/>
-            <path class="line base" d="M810 105 C650 105 650 235 500 235"/>
-            <path class="line flow grid-flow" d="M810 105 C650 105 650 235 500 235"/>
-          </svg>
-          <div class="node solar"><span class="node-icon">☀</span><small>Photovoltaik</small><strong data-pv>86 kW</strong></div>
-          <div class="node business"><span class="node-icon">▥</span><small>Betrieb</small><strong data-load>64 kW</strong></div>
-          <div class="node grid"><span class="node-icon">⌁</span><small>Stromnetz</small><strong data-grid>0 kW</strong></div>
-          <div class="node battery"><span class="node-icon">▮</span><small>Speicher</small><strong data-battery>+22 kW</strong><i><b data-soc></b></i></div>
+        <div class="energy-cinema">
+          <video autoplay muted loop playsinline poster="assets/geba-signature-hero.webp" data-energy-film>
+            <source src="assets/geba-24h-cinematic-v1.mp4" type="video/mp4">
+          </video>
+          <div class="cinema-shade"></div>
+          <div class="board-top">
+            <div><span class="live-dot"></span> GEBA Energy OS</div>
+            <div class="clock"><strong data-clock>06:00</strong><small data-phase>Anlaufspitze glätten</small></div>
+            <button type="button" data-play aria-label="Simulation pausieren">Ⅱ</button>
+          </div>
+          <div class="energy-orbit" aria-hidden="true"><i></i><span></span><i></i></div>
+          <div class="energy-readout" aria-label="Aktuelle Energieflüsse">
+            <div><small><i class="signal solar-signal"></i>Photovoltaik</small><strong data-pv>5 kW</strong></div>
+            <div><small><i class="signal load-signal"></i>Betrieb</small><strong data-load>42 kW</strong></div>
+            <div><small><i class="signal battery-signal"></i>Speicher</small><strong data-battery>−25 kW</strong><span class="soc"><b data-soc></b></span></div>
+            <div><small><i class="signal grid-signal"></i>Netz</small><strong data-grid>12 kW</strong></div>
+          </div>
         </div>
         <div class="timeline">
-          <span>00</span><span>06</span><input type="range" min="0" max="23" value="12" aria-label="Uhrzeit der Energiesimulation" data-time><span>18</span><span>24</span>
+          <span>00</span><span>06</span><input type="range" min="0" max="23" value="6" aria-label="Uhrzeit der Energiesimulation" data-time><span>18</span><span>24</span>
         </div>
-        <div class="board-insight"><span>GEBA Insight</span><p data-insight>Der Solarüberschuss lädt den Speicher. Energie, die heute Abend nicht teuer aus dem Netz bezogen werden muss.</p></div>
+        <div class="board-insight"><span>GEBA Insight</span><p data-insight>Wenn der Betrieb hochfährt, deckt der Speicher den steilen Leistungsanstieg und begrenzt die Netzspitze.</p></div>
       </div>
     </section>
 

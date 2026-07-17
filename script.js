@@ -31,12 +31,14 @@ const phases=[
   {h:20,pv:0,load:41,grid:9,bat:-32,soc:46,phase:'Gespeicherte Energie nutzen',insight:'Nach Sonnenuntergang versorgt der Speicher den Betrieb weiter mit selbst erzeugter Energie.'},
   {h:23,pv:0,load:24,grid:24,bat:0,soc:42,phase:'System in Bereitschaft',insight:'Das System hält den optimalen Ladezustand für den nächsten Betriebstag.'}
 ];
-let hour=12, playing=true, timer;
+let hour=6, playing=true, timer;
+const energyFilm=$('[data-energy-film]');
 const lerp=(a,b,t)=>Math.round(a+(b-a)*t);
 function stateAt(h){let a=phases[0],b=phases.at(-1);for(let i=0;i<phases.length-1;i++)if(h>=phases[i].h&&h<=phases[i+1].h){a=phases[i];b=phases[i+1];break}const t=(h-a.h)/(b.h-a.h||1);return {pv:lerp(a.pv,b.pv,t),load:lerp(a.load,b.load,t),grid:lerp(a.grid,b.grid,t),bat:lerp(a.bat,b.bat,t),soc:lerp(a.soc,b.soc,t),phase:t<.5?a.phase:b.phase,insight:t<.5?a.insight:b.insight}}
-function renderEnergy(){const s=stateAt(hour);$('[data-clock]').textContent=`${String(hour).padStart(2,'0')}:00`;$('[data-phase]').textContent=s.phase;$('[data-pv]').textContent=`${s.pv} kW`;$('[data-load]').textContent=`${s.load} kW`;$('[data-grid]').textContent=`${s.grid} kW`;$('[data-battery]').textContent=`${s.bat>0?'+':''}${s.bat} kW`;$('[data-soc]').style.width=`${s.soc}%`;$('[data-insight]').textContent=s.insight;$('[data-time]').value=hour;$('.solar-flow').style.opacity=s.pv?1:.12;$('.grid-flow').style.opacity=s.grid?1:.12;$('.battery-flow').style.opacity=s.bat?1:.12}
-function run(){clearInterval(timer);if(playing)timer=setInterval(()=>{hour=(hour+1)%24;renderEnergy()},1700)}
-$('[data-time]')?.addEventListener('input',e=>{hour=+e.target.value;renderEnergy()});
+function renderEnergy(){const s=stateAt(hour);$('[data-clock]').textContent=`${String(hour).padStart(2,'0')}:00`;$('[data-phase]').textContent=s.phase;$('[data-pv]').textContent=`${s.pv} kW`;$('[data-load]').textContent=`${s.load} kW`;$('[data-grid]').textContent=`${s.grid} kW`;$('[data-battery]').textContent=`${s.bat>0?'+':''}${s.bat} kW`;$('[data-soc]').style.width=`${s.soc}%`;$('[data-insight]').textContent=s.insight;$('[data-time]').value=hour}
+function run(){clearInterval(timer);if(energyFilm){if(playing)energyFilm.play().catch(()=>{});else energyFilm.pause();return}if(playing)timer=setInterval(()=>{hour=(hour+1)%24;renderEnergy()},1700)}
+energyFilm?.addEventListener('timeupdate',()=>{if(!playing||!energyFilm.duration)return;const next=Math.min(23,Math.floor(energyFilm.currentTime/energyFilm.duration*24));if(next!==hour){hour=next;renderEnergy()}});
+$('[data-time]')?.addEventListener('input',e=>{hour=+e.target.value;if(energyFilm?.duration)energyFilm.currentTime=hour/24*energyFilm.duration;renderEnergy()});
 $('[data-play]')?.addEventListener('click',e=>{playing=!playing;e.currentTarget.textContent=playing?'Ⅱ':'▶';e.currentTarget.setAttribute('aria-label',playing?'Simulation pausieren':'Simulation starten');run()});
 renderEnergy();run();
 
@@ -52,4 +54,4 @@ $('[data-restart]')?.addEventListener('click',()=>{result.hidden=true;advisor.hi
 showStep();
 
 $('[data-year]').textContent=new Date().getFullYear();
-if(matchMedia('(prefers-reduced-motion: reduce)').matches){playing=false;clearInterval(timer);$('video')?.pause();$$('.reveal').forEach(el=>el.classList.add('visible'))}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){playing=false;clearInterval(timer);$$('video').forEach(video=>video.pause());$$('.reveal').forEach(el=>el.classList.add('visible'))}

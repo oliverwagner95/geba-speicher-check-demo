@@ -117,10 +117,11 @@ async function screenshot(cdp, fileName) {
       }
       const skipLink = document.querySelector('.skip-link');
       if (skipLink) skipLink.style.display = 'none';
+      document.querySelectorAll('[data-reveal]').forEach((node) => node.classList.add('is-visible'));
       scrollTo(0, 0);
     })()`,
   );
-  await delay(100);
+  await delay(900);
   const metrics = await cdp.send("Page.getLayoutMetrics");
   const screenshotResult = await cdp.send("Page.captureScreenshot", {
     format: "png",
@@ -155,8 +156,9 @@ try {
     `(async () => {
       scrollTo(0, document.documentElement.scrollHeight);
       await new Promise((resolve) => setTimeout(resolve, 500));
+      document.querySelectorAll('[data-reveal]').forEach((node) => node.classList.add('is-visible'));
       scrollTo(0, 0);
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 900));
     })()`,
   );
   const desktop = await evaluate(
@@ -167,13 +169,23 @@ try {
       width: innerWidth,
       scrollWidth: document.documentElement.scrollWidth,
       h1: document.querySelector('h1')?.textContent.trim(),
-      imagesLoaded: [...document.images].every((image) => image.complete && image.naturalWidth > 0)
+      imagesLoaded: [...document.images].every((image) => image.complete && image.naturalWidth > 0),
+      bonusBarHeights: [...document.querySelectorAll('.bonus-step i')].map((node) => node.getBoundingClientRect().height),
+      bonusBarStyles: [...document.querySelectorAll('.bonus-step i')].map((node) => ({
+        inline: node.parentElement.getAttribute('style'),
+        inheritedHeight: getComputedStyle(node).getPropertyValue('--bar-height'),
+        computedHeight: getComputedStyle(node).height
+      }))
     })`,
   );
   assert(desktop.title.includes("Heizungsförderung"), "Private page title is missing");
   assert(desktop.robots.includes("noindex"), "Demo page must remain noindex");
   assert(desktop.scrollWidth <= desktop.width, "Desktop layout has horizontal overflow");
   assert(desktop.imagesLoaded, "Not all private page images loaded");
+  assert(
+    desktop.bonusBarHeights[0] >= 80,
+    `Desktop bonus decline bars did not reach their intended height: ${JSON.stringify(desktop.bonusBarStyles)}`,
+  );
   await screenshot(cdp, "geba-private-foerdercheck-desktop.png");
 
   const wizardResult = await evaluate(
@@ -203,6 +215,7 @@ try {
       click('[data-next]');
       await new Promise((resolve) => setTimeout(resolve, 50));
       const step4 = !document.querySelector('[data-step="4"]').hidden;
+      const summary = document.querySelector('[data-summary-title]')?.textContent.trim();
       set('[name="name"]', 'Max Mustermann');
       set('[name="phone"]', '01234 567890');
       set('[name="email"]', 'max@example.test');
@@ -213,12 +226,14 @@ try {
         step2,
         step3,
         step4,
+        summary,
         demoMessage: document.querySelector('[data-message]')?.textContent.trim(),
         messageVisible: !document.querySelector('[data-message]')?.hidden
       };
     })()`,
   );
   assert(wizardResult.step2 && wizardResult.step3 && wizardResult.step4, "Wizard did not advance through all steps");
+  assert(wizardResult.summary.includes("Einfamilienhaus"), "Wizard summary did not use the selected property type");
   assert(wizardResult.messageVisible, "Demo submit result is not visible");
   assert(wizardResult.demoMessage.includes("nicht übertragen"), "Demo submit must state that data was not sent");
 

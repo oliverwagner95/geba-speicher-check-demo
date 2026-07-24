@@ -16,7 +16,7 @@
     <link rel="preload" href="./assets/fonts/pt-sans-bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./assets/fonts/pt-sans-narrow-bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./assets/geba-private-hero-higgsfield.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="stylesheet" href="./private-foerdercheck.css?v=20260724-1" />
+    <link rel="stylesheet" href="./private-foerdercheck.css?v=20260724-2" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -54,7 +54,7 @@
         <div class="private-hero-image" aria-hidden="true"></div>
         <div class="private-hero-shade" aria-hidden="true"></div>
         <div class="private-shell hero-layout">
-          <div class="hero-copy">
+          <div class="hero-copy" data-hero-reveal>
             <p class="status-pill">Heizungsförderung · Stand 24.07.2026</p>
             <h1 id="private-hero-title">Sichern Sie sich Ihre Heizungsförderung, bevor sie weiter sinkt.</h1>
             <p class="hero-lead">
@@ -68,7 +68,7 @@
             <p class="assurance">Unverbindlich · regional · keine Fördergarantie</p>
           </div>
 
-          <aside class="urgency-card" aria-label="Wichtiger Förderhinweis">
+          <aside class="urgency-card" aria-label="Wichtiger Förderhinweis" data-hero-reveal>
             <span>Entscheidungsfenster</span>
             <strong>Das Zeitfenster verändert sich.</strong>
             <p>Ab 01.02.2027 sinken Förderhöchstbetrag und Klimageschwindigkeitsbonus erstmals.</p>
@@ -77,16 +77,24 @@
         </div>
       </section>
 
+      <aside class="early-trust" aria-label="Vorteile des GEBA Förder-Checks">
+        <div class="private-shell early-trust-grid">
+          <span><b>Regional geprüft</b> durch das GEBA-Team</span>
+          <span><b>In ca. 2 Minuten</b> die Eckdaten erfassen</span>
+          <span><b>Keine Unterlagen</b> für die erste Einschätzung</span>
+        </div>
+      </aside>
+
       <section class="facts-section" id="aenderungen" aria-labelledby="facts-title">
         <div class="private-shell">
-          <div class="section-heading">
+          <div class="section-heading" data-reveal>
             <p class="eyebrow">Was sich jetzt geändert hat</p>
             <h2 id="facts-title">Drei Zahlen, die Eigentümer jetzt kennen sollten.</h2>
             <p>Die Förderung bleibt attraktiv. Gleichzeitig werden wichtige Bausteine ab 2027 planmäßig reduziert.</p>
           </div>
 
           <div class="facts-grid">
-            <article class="fact-card">
+            <article class="fact-card" data-reveal>
               <span class="fact-number">30–80&nbsp;%</span>
               <h3>Zuschuss möglich</h3>
               <p>
@@ -94,7 +102,7 @@
                 selbst genutzten Einkommenskonstellationen möglich.
               </p>
             </article>
-            <article class="fact-card fact-card-warn">
+            <article class="fact-card" data-reveal>
               <span class="fact-number">28.000&nbsp;€</span>
               <h3>förderfähige Kosten</h3>
               <p>
@@ -102,7 +110,8 @@
                 Zuschussbetrag.
               </p>
             </article>
-            <article class="fact-card">
+            <article class="fact-card fact-card-deadline" data-reveal>
+              <span class="deadline-label">Nächster Einschnitt</span>
               <span class="fact-number">01.02.2027</span>
               <h3>erste Reduzierung</h3>
               <p>Ab diesem Stichtag sinken Förderhöchstbetrag und Klimageschwindigkeitsbonus erstmals.</p>
@@ -111,13 +120,14 @@
 
           <div class="section-cta">
             <a class="button button-primary" href="#check">Jetzt kostenlos prüfen lassen</a>
+            <p class="cta-note">Dauert ca. 2 Minuten · keine Unterlagen erforderlich · unverbindlich</p>
           </div>
         </div>
       </section>
 
       <section class="timeline-section" id="timeline" aria-labelledby="timeline-title">
         <div class="private-shell timeline-layout">
-          <div class="section-heading section-heading-light">
+          <div class="section-heading section-heading-light" data-reveal>
             <p class="eyebrow">Warum Warten riskant sein kann</p>
             <h2 id="timeline-title">Die Förderung fällt nicht über Nacht weg. Sie wird schrittweise kleiner.</h2>
             <p>
@@ -126,35 +136,61 @@
             </p>
           </div>
 
-          <ol class="funding-timeline">
-            <li>
-              <time datetime="2026-07-21">21.07.2026</time>
-              <h3>Neue Förderbedingungen</h3>
-              <p>Die aktualisierte KfW-Heizungsförderung für Privatpersonen ist gestartet.</p>
-            </li>
-            <li class="timeline-warning">
-              <time datetime="2027-02-01">01.02.2027</time>
-              <h3>Erste planmäßige Absenkung</h3>
-              <p>
-                Förderhöchstbetrag der ersten Wohneinheit: minus 750&nbsp;€. Klimageschwindigkeitsbonus: minus
-                4&nbsp;Prozentpunkte.
-              </p>
-            </li>
-            <li>
-              <time>Danach halbjährlich</time>
-              <h3>Weitere Schritte folgen</h3>
-              <p>
-                Jeweils zum 01.02. und 01.08. sinken die genannten Bausteine weiter. Ab 01.08.2028 entfällt der
-                Klimageschwindigkeitsbonus.
-              </p>
-            </li>
-          </ol>
+          <div class="timeline-content">
+            <ol class="funding-timeline" data-reveal>
+              <li>
+                <time datetime="2026-07-21">21.07.2026</time>
+                <h3>Neue Förderbedingungen</h3>
+                <p>Die aktualisierte KfW-Heizungsförderung für Privatpersonen ist gestartet.</p>
+              </li>
+              <li class="timeline-warning">
+                <time datetime="2027-02-01">01.02.2027</time>
+                <h3>Erste planmäßige Absenkung</h3>
+                <p>
+                  Förderhöchstbetrag der ersten Wohneinheit: minus 750&nbsp;€. Klimageschwindigkeitsbonus: minus
+                  4&nbsp;Prozentpunkte.
+                </p>
+              </li>
+              <li>
+                <time>Danach halbjährlich</time>
+                <h3>Weitere Schritte folgen</h3>
+                <p>
+                  Jeweils zum 01.02. und 01.08. sinken die genannten Bausteine weiter. Ab 01.08.2028 entfällt der
+                  Klimageschwindigkeitsbonus.
+                </p>
+              </li>
+            </ol>
+
+            <div class="bonus-decline" data-reveal aria-labelledby="bonus-decline-title">
+              <div class="bonus-decline-head">
+                <p>Klimageschwindigkeitsbonus</p>
+                <h3 id="bonus-decline-title">16&nbsp;% werden Schritt für Schritt zu 0&nbsp;%.</h3>
+              </div>
+              <ol>
+                <li class="bonus-step">
+                  <strong>16&nbsp;%</strong><span>aktuell</span><i aria-hidden="true"></i>
+                </li>
+                <li class="bonus-step">
+                  <strong>12&nbsp;%</strong><span>01.02.2027</span><i aria-hidden="true"></i>
+                </li>
+                <li class="bonus-step">
+                  <strong>8&nbsp;%</strong><span>01.08.2027</span><i aria-hidden="true"></i>
+                </li>
+                <li class="bonus-step">
+                  <strong>4&nbsp;%</strong><span>01.02.2028</span><i aria-hidden="true"></i>
+                </li>
+                <li class="bonus-step bonus-step-zero">
+                  <strong>0&nbsp;%</strong><span>01.08.2028</span><i aria-hidden="true"></i>
+                </li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="service-section" aria-labelledby="service-title">
         <div class="private-shell">
-          <div class="section-heading">
+          <div class="section-heading" data-reveal>
             <p class="eyebrow">Was GEBA für Sie prüft</p>
             <h2 id="service-title">Aus Förderchaos wird ein klarer nächster Schritt.</h2>
             <p>
@@ -164,7 +200,7 @@
           </div>
 
           <div class="service-layout">
-            <figure class="consultation-image">
+            <figure class="consultation-image" data-reveal>
               <img
                 src="./assets/geba-private-consultation-higgsfield.webp"
                 width="1600"
@@ -175,7 +211,7 @@
               <figcaption>Persönlich, verständlich und ohne Förderversprechen.</figcaption>
             </figure>
 
-            <ol class="service-steps">
+            <ol class="service-steps" data-reveal>
               <li>
                 <span>01</span>
                 <div><h3>Heizungsstatus</h3><p>Welche Technik ist vorhanden – und wie alt ist sie?</p></div>
@@ -202,13 +238,13 @@
 
       <section class="check-section" id="check" aria-labelledby="check-title">
         <div class="private-shell">
-          <div class="section-heading">
+          <div class="section-heading" data-reveal>
             <p class="eyebrow">Ihr kostenloser Förder-Check</p>
             <h2 id="check-title">In wenigen Schritten zu einer ersten Einschätzung.</h2>
             <p>Keine komplizierten Unterlagen. Beginnen Sie mit den Eckdaten zu Immobilie und Heizung.</p>
           </div>
 
-          <form class="private-wizard" data-private-wizard data-endpoint="" novalidate>
+          <form class="private-wizard" data-private-wizard data-endpoint="" data-reveal novalidate>
             <input type="hidden" name="form_started_at" value="" data-started-at />
             <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -294,6 +330,11 @@
             <section class="wizard-step" data-step="4" aria-labelledby="step-4-title" hidden>
               <h3 id="step-4-title" tabindex="-1">Wie erreicht GEBA Sie?</h3>
               <p>Ihre Angaben dienen ausschließlich der Kontaktaufnahme zu diesem Förder-Check.</p>
+              <aside class="wizard-summary" aria-label="Zusammenfassung Ihrer Angaben">
+                <span>Ihre Ausgangslage</span>
+                <strong data-summary-title>Individuelle Förderprüfung</strong>
+                <p data-summary-text>Ihre Angaben werden hier vor der Kontaktaufnahme zusammengefasst.</p>
+              </aside>
               <div class="field-grid">
                 <label>Name<input name="name" autocomplete="name" maxlength="120" placeholder="Vor- und Nachname" required /></label>
                 <label>Telefon<input name="phone" inputmode="tel" autocomplete="tel" maxlength="60" placeholder="+49 ..." required /></label>
@@ -322,7 +363,7 @@
             </div>
           </form>
 
-          <div class="trust-strip" aria-label="Vertrauensmerkmale">
+          <div class="trust-strip" aria-label="Vertrauensmerkmale" data-reveal>
             <span>Regionaler GEBA-Ansprechpartner</span>
             <span>Unverbindliche Ersteinschätzung</span>
             <span>Keine Fördergarantie</span>
@@ -331,7 +372,7 @@
       </section>
 
       <section class="final-cta" aria-labelledby="final-title">
-        <div class="private-shell final-layout">
+        <div class="private-shell final-layout" data-reveal>
           <div>
             <p class="status-pill">Jetzt Klarheit schaffen</p>
             <h2 id="final-title">Warten kostet nicht automatisch Geld. Aber ungeprüft warten kann es.</h2>
@@ -378,6 +419,6 @@
       </div>
     </footer>
 
-    <script src="./private-foerdercheck.js?v=20260724-1" defer></script>
+    <script src="./private-foerdercheck.js?v=20260724-2" defer></script>
   </body>
 </html>

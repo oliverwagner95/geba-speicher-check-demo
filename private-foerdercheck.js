@@ -1,5 +1,28 @@
 const header = document.querySelector("[data-header]");
 const wizard = document.querySelector("[data-private-wizard]");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!reduceMotion) {
+  document.documentElement.classList.add("motion-ready");
+  requestAnimationFrame(() => document.documentElement.classList.add("motion-active"));
+}
+
+const revealElements = [...document.querySelectorAll("[data-reveal]")];
+if (reduceMotion || !("IntersectionObserver" in window)) {
+  revealElements.forEach((element) => element.classList.add("is-visible"));
+} else {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+  );
+  revealElements.forEach((element) => revealObserver.observe(element));
+}
 
 const setHeaderState = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 24);
@@ -16,6 +39,8 @@ if (wizard) {
   const nextButton = wizard.querySelector("[data-next]");
   const message = wizard.querySelector("[data-message]");
   const startedAt = wizard.querySelector("[data-started-at]");
+  const summaryTitle = wizard.querySelector("[data-summary-title]");
+  const summaryText = wizard.querySelector("[data-summary-text]");
   let currentStep = 0;
 
   if (startedAt) {
@@ -27,6 +52,24 @@ if (wizard) {
     message.textContent = text;
     message.hidden = !text;
     message.className = `wizard-message${type ? ` is-${type}` : ""}`;
+  };
+
+  const updateSummary = () => {
+    const data = new FormData(wizard);
+    const propertyType = data.get("propertyType") || "Immobilie";
+    const selfUsed = data.get("selfUsed") === "Ja";
+    const heatingType = data.get("heatingType") || "Heizung";
+    const heatingAge = data.get("heatingAge") || "Alter noch offen";
+    const interest = data.get("interest") || "Beratung offen";
+
+    if (summaryTitle) {
+      summaryTitle.textContent = `${selfUsed ? "Selbst genutztes" : "Nicht selbst genutztes"} ${propertyType}`;
+    }
+    if (summaryText) {
+      summaryText.textContent =
+        `${heatingType}-Heizung · ${heatingAge} · Interesse: ${interest}. ` +
+        "GEBA ordnet diese Angaben im persönlichen Förder-Check individuell ein.";
+    }
   };
 
   const updateStep = (nextStep, focusHeading = true) => {
@@ -41,8 +84,9 @@ if (wizard) {
     if (progress) progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
     if (backButton) backButton.hidden = currentStep === 0;
     if (nextButton) {
-      nextButton.textContent = currentStep === steps.length - 1 ? "Förder-Check anfragen" : "Weiter";
+      nextButton.textContent = currentStep === steps.length - 1 ? "Einschätzung anfragen" : "Weiter";
     }
+    if (currentStep === steps.length - 1) updateSummary();
     setMessage();
 
     if (focusHeading) {

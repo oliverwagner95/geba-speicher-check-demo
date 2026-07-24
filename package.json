@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check script.js && node --check server.mjs",
+    "check": "node --check script.js && node --check private-foerdercheck.js && node --check server.mjs",
+    "qa:private": "node scripts/qa-private.mjs",
     "start": "node server.mjs"
   },
   "engines": {

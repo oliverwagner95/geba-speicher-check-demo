@@ -1,6 +1,9 @@
-# GEBA Gewerbespeicher-Check
+# GEBA Kampagnen-Landingpages
 
-Conversion- und Marketing-Landingpage für die strukturierte Vorqualifizierung von Gewerbespeicher-, PV- und Lastmanagement-Anfragen.
+Statische Conversion- und Marketing-Landingpages für zwei sauber getrennte GEBA-Kampagnen:
+
+- `/` – bestehender Gewerbespeicher-Check für Unternehmen
+- `/privatkunden-foerdercheck.html` – Förder-Check für private Eigentümer
 
 ## Lokal starten
 
@@ -16,7 +19,19 @@ Standardmäßig läuft der integrierte Server auf `http://localhost:5014`. Mit `
 npm run check
 ```
 
+Der zusätzliche Browser-Qualitätscheck für die Privatkunden-Seite erwartet einen laufenden Server und prüft Desktop,
+Mobile, den vollständigen Wizard sowie die unveränderte B2B-Seite:
+
+```bash
+PORT=5015 npm start
+QA_BASE_URL=http://127.0.0.1:5015 npm run qa:private
+```
+
 Der statische Frontend-Stand kann weiterhin ohne Backend über einen beliebigen Webserver ausgeliefert werden. Solange `data-endpoint` im Formular leer bleibt, arbeitet der Check im klar gekennzeichneten Demo-Modus.
+
+Die Privatkunden-Seite ist in der Demo bewusst ebenfalls mit leerem `data-endpoint` konfiguriert. Sie übermittelt oder
+speichert keine Kontaktdaten und bestätigt dies nach dem letzten Wizard-Schritt ausdrücklich. Vor einem Livegang muss
+ein geprüfter Lead-Endpunkt angeschlossen und mit Erfolgs- sowie Fehlerfall getestet werden.
 
 ## Produktive Lead-Übergabe
 

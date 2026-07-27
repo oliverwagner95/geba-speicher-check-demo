@@ -125,8 +125,13 @@
         </div>
       </section>
 
-      <section class="timeline-section" id="timeline" aria-labelledby="timeline-title">
-        <div class="private-shell timeline-layout">
+      <section
+        class="timeline-section"
+        id="timeline"
+        aria-labelledby="timeline-title"
+        data-funding-story
+      >
+        <div class="private-shell timeline-layout" data-funding-story-stage>
           <div class="section-heading section-heading-light" data-reveal>
             <p class="eyebrow">Warum Warten riskant sein kann</p>
             <h2 id="timeline-title">Die Förderung fällt nicht über Nacht weg. Sie wird schrittweise kleiner.</h2>
@@ -134,16 +139,20 @@
               Entscheidend ist der Zeitpunkt der Antragstellung. Ein früher Förder-Check schafft Klarheit, bevor Sie
               Fakten schaffen müssen.
             </p>
+            <div class="funding-story-progress" aria-hidden="true">
+              <span data-funding-progress></span>
+            </div>
+            <p class="funding-story-hint" aria-hidden="true">Scrollen Sie durch den Förderverlauf</p>
           </div>
 
           <div class="timeline-content">
             <ol class="funding-timeline" data-reveal>
-              <li>
+              <li data-funding-moment>
                 <time datetime="2026-07-21">21.07.2026</time>
                 <h3>Neue Förderbedingungen</h3>
                 <p>Die aktualisierte KfW-Heizungsförderung für Privatpersonen ist gestartet.</p>
               </li>
-              <li class="timeline-warning">
+              <li class="timeline-warning" data-funding-moment>
                 <time datetime="2027-02-01">01.02.2027</time>
                 <h3>Erste planmäßige Absenkung</h3>
                 <p>
@@ -151,7 +160,7 @@
                   4&nbsp;Prozentpunkte.
                 </p>
               </li>
-              <li>
+              <li data-funding-moment>
                 <time>Danach halbjährlich</time>
                 <h3>Weitere Schritte folgen</h3>
                 <p>
@@ -167,19 +176,19 @@
                 <h3 id="bonus-decline-title">16&nbsp;% werden Schritt für Schritt zu 0&nbsp;%.</h3>
               </div>
               <ol>
-                <li class="bonus-step">
+                <li class="bonus-step" data-bonus-moment>
                   <strong>16&nbsp;%</strong><span>aktuell</span><i aria-hidden="true"></i>
                 </li>
-                <li class="bonus-step">
+                <li class="bonus-step" data-bonus-moment>
                   <strong>12&nbsp;%</strong><span>01.02.2027</span><i aria-hidden="true"></i>
                 </li>
-                <li class="bonus-step">
+                <li class="bonus-step" data-bonus-moment>
                   <strong>8&nbsp;%</strong><span>01.08.2027</span><i aria-hidden="true"></i>
                 </li>
-                <li class="bonus-step">
+                <li class="bonus-step" data-bonus-moment>
                   <strong>4&nbsp;%</strong><span>01.02.2028</span><i aria-hidden="true"></i>
                 </li>
-                <li class="bonus-step bonus-step-zero">
+                <li class="bonus-step bonus-step-zero" data-bonus-moment>
                   <strong>0&nbsp;%</strong><span>01.08.2028</span><i aria-hidden="true"></i>
                 </li>
               </ol>
@@ -396,7 +405,7 @@
     <footer class="private-footer">
       <div class="private-shell footer-layout">
         <div>
-          <img src="./assets/geba-logo-white.svg" alt="GEBA Energie" width="250" height="104" loading="lazy" />
+          <img src="./assets/geba-logo-white.svg" alt="GEBA Energie" width="250" height="104" />
           <p>Förder-Check für private Eigentümer</p>
         </div>
         <div>
@@ -419,6 +428,8 @@
       </div>
     </footer>
 
-    <script src="./private-foerdercheck.js?v=20260724-2" defer></script>
+    <script src="./assets/vendor/gsap/gsap.min.js" defer></script>
+    <script src="./assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+    <script src="./private-foerdercheck.js?v=20260727-funding-story" defer></script>
   </body>
 </html>

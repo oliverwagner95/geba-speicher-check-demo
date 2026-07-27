@@ -183,7 +183,7 @@ try {
   assert(desktop.scrollWidth <= desktop.width, "Desktop layout has horizontal overflow");
   assert(desktop.imagesLoaded, "Not all private page images loaded");
   assert(
-    desktop.bonusBarHeights[0] >= 80,
+    desktop.bonusBarHeights[0] >= 58,
     `Desktop bonus decline bars did not reach their intended height: ${JSON.stringify(desktop.bonusBarStyles)}`,
   );
   await screenshot(cdp, "geba-private-foerdercheck-desktop.png");

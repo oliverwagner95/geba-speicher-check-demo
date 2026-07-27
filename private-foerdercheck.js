@@ -31,6 +31,69 @@ const setHeaderState = () => {
 setHeaderState();
 window.addEventListener("scroll", setHeaderState, { passive: true });
 
+const initFundingStory = () => {
+  const story = document.querySelector("[data-funding-story]");
+  const stage = story?.querySelector("[data-funding-story-stage]");
+  const moments = story ? [...story.querySelectorAll("[data-funding-moment]")] : [];
+  const bonusMoments = story ? [...story.querySelectorAll("[data-bonus-moment]")] : [];
+  const bonusBars = bonusMoments.map((moment) => moment.querySelector("i")).filter(Boolean);
+  const progress = story?.querySelector("[data-funding-progress]");
+  const canAnimate =
+    story &&
+    stage &&
+    moments.length === 3 &&
+    bonusMoments.length === 5 &&
+    !reduceMotion &&
+    window.matchMedia("(min-width: 901px)").matches &&
+    window.gsap &&
+    window.ScrollTrigger;
+
+  if (!canAnimate) return;
+
+  const { gsap, ScrollTrigger } = window;
+  gsap.registerPlugin(ScrollTrigger);
+  document.documentElement.classList.add("funding-story-ready");
+
+  gsap.set(moments, { autoAlpha: 0.34, scale: 0.965, y: 14 });
+  gsap.set(bonusMoments, { autoAlpha: 0.34, y: 10 });
+  gsap.set(bonusBars, { scaleY: 0.08, transformOrigin: "bottom center" });
+  gsap.set(moments[0], { autoAlpha: 1, scale: 1, y: 0 });
+  gsap.set(bonusMoments[0], { autoAlpha: 1, y: 0 });
+  gsap.set(bonusBars[0], { scaleY: 1 });
+
+  const timeline = gsap.timeline({
+    defaults: { ease: "none" },
+    scrollTrigger: {
+      id: "geba-funding-story",
+      trigger: story,
+      start: "top top+=72",
+      end: () => `+=${Math.round(window.innerHeight * 1.35)}`,
+      scrub: 0.9,
+      pin: stage,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  timeline
+    .to(progress, { scaleX: 0.32, duration: 0.55 }, 0)
+    .to(moments[0], { autoAlpha: 0.42, scale: 0.97, y: -8, duration: 0.28 }, 0.7)
+    .to(moments[1], { autoAlpha: 1, scale: 1, y: 0, duration: 0.3 }, 0.7)
+    .to(bonusMoments[1], { autoAlpha: 1, y: 0, duration: 0.28 }, 0.7)
+    .to(bonusBars[1], { scaleY: 1, duration: 0.28 }, 0.7)
+    .to(progress, { scaleX: 0.64, duration: 0.45 }, 0.7)
+    .to(moments[1], { autoAlpha: 0.42, scale: 0.97, y: -8, duration: 0.3 }, 1.35)
+    .to(moments[2], { autoAlpha: 1, scale: 1, y: 0, duration: 0.32 }, 1.35)
+    .to(bonusMoments.slice(2), { autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.38 }, 1.35)
+    .to(bonusBars.slice(2), { scaleY: 1, stagger: 0.1, duration: 0.38 }, 1.35)
+    .to(progress, { scaleX: 1, duration: 0.52 }, 1.35)
+    .to({}, { duration: 0.3 });
+
+  window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+};
+
+initFundingStory();
+
 if (wizard) {
   const steps = [...wizard.querySelectorAll("[data-step]")];
   const currentLabel = wizard.querySelector("[data-step-current]");

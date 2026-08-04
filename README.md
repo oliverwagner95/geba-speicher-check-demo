@@ -43,4 +43,24 @@ rein statisches GitHub Pages kann keine Leads per E-Mail versenden.
 
 Secrets gehören ausschließlich in die Laufzeitumgebung und niemals ins Repository.
 
+## Replit Deployment
+
+Das Repo ist für Replit vorbereitet:
+
+- Run command: `npm start`
+- Server: `server.mjs`
+- Produktiver Lead-Endpunkt: `/api/leads`
+- Deployment-Typ: Autoscale
+
+In Replit müssen die Secrets/Environment Variables separat gesetzt werden:
+
+```env
+RESEND_API_KEY=
+LEAD_FROM_EMAIL=GEBA Landingpages <leads@geba-waerme.com>
+LEAD_NOTIFY_TO=kontakt@geba-waerme.com
+LEAD_NOTIFY_CC=oliverwagner@geba-gmbh.com
+```
+
+Wenn `leads@geba-waerme.com` noch nicht als Absenderdomain verifiziert ist, vorübergehend einen verifizierten Resend-Absender verwenden.
+
 Weitere Marketing- und Tracking-Hinweise stehen in [MARKETING-INTEGRATION.md](./MARKETING-INTEGRATION.md).

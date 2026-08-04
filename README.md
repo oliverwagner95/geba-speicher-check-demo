@@ -27,19 +27,19 @@ PORT=5015 npm start
 QA_BASE_URL=http://127.0.0.1:5015 npm run qa:private
 ```
 
-Der statische Frontend-Stand kann weiterhin ohne Backend über einen beliebigen Webserver ausgeliefert werden. Solange `data-endpoint` im Formular leer bleibt, arbeitet der Check im klar gekennzeichneten Demo-Modus.
+Der statische Frontend-Stand kann weiterhin ohne Backend über einen beliebigen Webserver ausgeliefert werden. Für produktive Lead-Übermittlung muss aber der Node-Endpoint `/api/leads` auf dem Zielhosting laufen.
 
-Die Privatkunden-Seite ist in der Demo bewusst ebenfalls mit leerem `data-endpoint` konfiguriert. Sie übermittelt oder
-speichert keine Kontaktdaten und bestätigt dies nach dem letzten Wizard-Schritt ausdrücklich. Vor einem Livegang muss
-ein geprüfter Lead-Endpunkt angeschlossen und mit Erfolgs- sowie Fehlerfall getestet werden.
+Beide Seiten sind auf `data-endpoint="/api/leads"` konfiguriert. Der Endpoint muss auf einem Node-Hosting laufen;
+rein statisches GitHub Pages kann keine Leads per E-Mail versenden.
 
 ## Produktive Lead-Übergabe
 
 1. `.env.example` als Vorlage verwenden.
-2. `LEAD_WEBHOOK_URL` serverseitig konfigurieren.
-3. Optional `LEAD_WEBHOOK_SECRET` für die HMAC-Signatur setzen.
-4. Im Formular `data-endpoint="/api/leads"` aktivieren.
-5. Einen vollständigen Testlead einschließlich Fehlerfall und Bestätigung durchführen.
+2. Für E-Mail-Versand `RESEND_API_KEY` serverseitig konfigurieren.
+3. Optional Absender mit `LEAD_FROM_EMAIL` setzen.
+4. Standardempfänger sind `kontakt@geba-waerme.com` und in Kopie `oliverwagner@geba-gmbh.com`.
+5. Alternativ oder als Fallback `LEAD_WEBHOOK_URL` und optional `LEAD_WEBHOOK_SECRET` konfigurieren.
+6. Einen vollständigen Testlead einschließlich Fehlerfall und Bestätigung durchführen.
 
 Secrets gehören ausschließlich in die Laufzeitumgebung und niemals ins Repository.
 

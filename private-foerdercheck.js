@@ -200,6 +200,7 @@ if (wizard) {
     delete data.website;
     return {
       ...data,
+      company: "Privatkunde",
       source: "GEBA Privatkunden Förder-Check",
       submittedAt: new Date().toISOString(),
     };

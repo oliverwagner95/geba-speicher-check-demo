@@ -262,7 +262,8 @@
             </aside>
           </div>
 
-          <form class="lead-form wizard-form" id="leadForm" data-endpoint="" novalidate>
+          <form class="lead-form wizard-form" id="leadForm" data-endpoint="/api/leads" novalidate>
+            <input type="hidden" name="lead_type" value="gewerbespeicher-check" />
             <input type="hidden" name="utm_source" />
             <input type="hidden" name="utm_medium" />
             <input type="hidden" name="utm_campaign" />
@@ -541,7 +542,12 @@
       <div class="section-inner footer-grid">
         <div><img src="./assets/geba-logo-white.svg" alt="GEBA Energie" width="180" height="75" /><p>Regionale Energielösungen aus Meisterhand.</p></div>
         <div><strong>Kontakt</strong><a href="tel:+497765918375">07765 – 918 375</a><a href="https://www.geba-gmbh.com/kontakt/">Beratung & Showroom</a></div>
-        <div><strong>Rechtliches</strong><a href="https://www.geba-gmbh.com/impressum/">Impressum</a><a href="https://www.geba-gmbh.com/datenschutz/">Datenschutz</a></div>
+        <div>
+          <strong>Rechtliches</strong>
+          <a href="https://www.geba-gmbh.com/impressum/">Impressum</a>
+          <a href="https://www.geba-gmbh.com/datenschutz/">Datenschutz</a>
+          <a href="https://www.geba-gmbh.com/agb/">AGB</a>
+        </div>
       </div>
     </footer>
 

@@ -253,7 +253,8 @@
             <p>Keine komplizierten Unterlagen. Beginnen Sie mit den Eckdaten zu Immobilie und Heizung.</p>
           </div>
 
-          <form class="private-wizard" data-private-wizard data-endpoint="" data-reveal novalidate>
+          <form class="private-wizard" data-private-wizard data-endpoint="/api/leads" data-reveal novalidate>
+            <input type="hidden" name="lead_type" value="privatkunden-foerdercheck" />
             <input type="hidden" name="form_started_at" value="" data-started-at />
             <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -353,16 +354,10 @@
                 <input type="checkbox" name="consent" required />
                 <span>
                   Ich bin mit der Kontaktaufnahme zu meiner Anfrage einverstanden. Die Anfrage ist unverbindlich und
-                  beinhaltet keine Förderzusage.
+                  beinhaltet keine Förderzusage. Hinweise zur Verarbeitung stehen in der
+                  <a href="https://www.geba-gmbh.com/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.
                 </span>
               </label>
-              <div class="demo-notice">
-                <strong>Demo-Hinweis</strong>
-                <p>
-                  Die technische Lead-Übergabe ist in dieser Demo noch nicht aktiviert. Es werden keine Kontaktdaten
-                  versendet oder gespeichert.
-                </p>
-              </div>
             </section>
 
             <p class="wizard-message" data-message role="status" aria-live="polite" hidden></p>
@@ -423,6 +418,11 @@
             <a href="https://www.kfw.de/inlandsfoerderung/Bundesf%C3%B6rderung-f%C3%BCr-effiziente-Geb%C3%A4ude/Anpassungen-2026/">KfW Anpassungen 2026</a>
             <a href="https://www.energiewechsel.de/KAENEF/Redaktion/DE/Foerderprogramme/beg-em-privat.html">BMWE/BEG</a>
             <a href="https://www.verbraucherzentrale.de/wissen/energie/foerderprogramme">Verbraucherzentrale</a>
+          </nav>
+          <nav aria-label="Rechtliches">
+            <a href="https://www.geba-gmbh.com/impressum/">Impressum</a>
+            <a href="https://www.geba-gmbh.com/datenschutz/">Datenschutz</a>
+            <a href="https://www.geba-gmbh.com/agb/">AGB</a>
           </nav>
         </div>
       </div>

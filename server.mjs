@@ -8,6 +8,10 @@ const root = fileURLToPath(new URL(".", import.meta.url));
 const port = Number(process.env.PORT || 5014);
 const webhookUrl = process.env.LEAD_WEBHOOK_URL || "";
 const webhookSecret = process.env.LEAD_WEBHOOK_SECRET || "";
+const resendApiKey = process.env.RESEND_API_KEY || "";
+const leadNotifyTo = process.env.LEAD_NOTIFY_TO || "kontakt@geba-waerme.com";
+const leadNotifyCc = process.env.LEAD_NOTIFY_CC || "oliverwagner@geba-gmbh.com";
+const leadFromEmail = process.env.LEAD_FROM_EMAIL || "GEBA Landingpages <onboarding@resend.dev>";
 const rateLimit = new Map();
 
 const mimeTypes = {
@@ -61,13 +65,23 @@ function cleanString(value, max = 300) {
 }
 
 function validateLead(input) {
+  const leadType = cleanString(input.lead_type, 80) || "gewerbespeicher-check";
+  const isPrivateLead = leadType === "privatkunden-foerdercheck";
   const lead = {
+    lead_type: leadType,
+    source: cleanString(input.source, 160),
     company: cleanString(input.company, 160),
     name: cleanString(input.name, 120),
     email: cleanString(input.email, 180).toLowerCase(),
     phone: cleanString(input.phone, 60),
     postalCode: cleanString(input.postalCode, 5),
     city: cleanString(input.city, 120),
+    propertyType: cleanString(input.propertyType, 80),
+    selfUsed: cleanString(input.selfUsed, 40),
+    heatingType: cleanString(input.heatingType, 80),
+    heatingAge: cleanString(input.heatingAge, 80),
+    interest: cleanString(input.interest, 80),
+    callbackWindow: cleanString(input.callbackWindow, 80),
     industry: cleanString(input.industry, 100),
     pv: cleanString(input.pv, 40),
     pvSize: cleanString(input.pvSize, 40),
@@ -99,7 +113,7 @@ function validateLead(input) {
   };
 
   const errors = [];
-  if (!lead.company) errors.push("company");
+  if (!isPrivateLead && !lead.company) errors.push("company");
   if (!lead.name) errors.push("name");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
   if (lead.phone.replace(/\D/g, "").length < 6) errors.push("phone");
@@ -113,6 +127,76 @@ function validateLead(input) {
   return { lead, errors };
 }
 
+function leadMailSubject(lead) {
+  return lead.lead_type === "privatkunden-foerdercheck"
+    ? `Neue GEBA Anfrage: Förder-Check ${lead.name || ""}`.trim()
+    : `Neue GEBA Anfrage: Speicher-Check ${lead.company || lead.name || ""}`.trim();
+}
+
+function leadMailText(lead) {
+  const rows = [
+    ["Kampagne", lead.lead_type],
+    ["Quelle", lead.source],
+    ["Unternehmen", lead.company],
+    ["Name", lead.name],
+    ["E-Mail", lead.email],
+    ["Telefon", lead.phone],
+    ["PLZ", lead.postalCode],
+    ["Ort", lead.city],
+    ["Immobilientyp", lead.propertyType],
+    ["Selbst genutzt", lead.selfUsed],
+    ["Aktuelle Heizung", lead.heatingType],
+    ["Alter der Heizung", lead.heatingAge],
+    ["Interesse", lead.interest],
+    ["Rückrufzeitraum", lead.callbackWindow],
+    ["Branche", lead.industry],
+    ["PV", lead.pv],
+    ["PV-Größe", lead.pvSize],
+    ["Jahresverbrauch", lead.consumption],
+    ["Leistungsspitze", lead.peakPower],
+    ["Verbrauchsschwerpunkt", lead.loadTime],
+    ["Zeitplan", lead.timeline],
+    ["Daten vorhanden", lead.data],
+    ["Themen", lead.topics?.join(", ")],
+    ["Leadscore", lead.lead_score ? `${lead.lead_score} (${lead.lead_grade})` : ""],
+    ["Qualifikation", lead.qualification_reasons?.join(", ")],
+    ["Landingpage", lead.attribution?.landing_page],
+    ["Referrer", lead.attribution?.referrer],
+    ["UTM Source", lead.attribution?.utm_source],
+    ["UTM Medium", lead.attribution?.utm_medium],
+    ["UTM Campaign", lead.attribution?.utm_campaign],
+    ["GCLID", lead.attribution?.gclid],
+    ["Eingang", lead.submitted_at],
+  ];
+
+  return rows
+    .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== "")
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+}
+
+async function deliverLeadByEmail(lead) {
+  if (!resendApiKey) return { configured: false };
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: leadFromEmail,
+      to: leadNotifyTo.split(",").map((email) => email.trim()).filter(Boolean),
+      cc: leadNotifyCc.split(",").map((email) => email.trim()).filter(Boolean),
+      reply_to: lead.email || undefined,
+      subject: leadMailSubject(lead),
+      text: leadMailText(lead),
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`email_${response.status}`);
+  return { configured: true };
+}
+
 async function readJson(req) {
   let body = "";
   for await (const chunk of req) {
@@ -123,6 +207,8 @@ async function readJson(req) {
 }
 
 async function deliverLead(lead) {
+  const emailDelivery = await deliverLeadByEmail(lead);
+  if (emailDelivery.configured) return emailDelivery;
   if (!webhookUrl) return { configured: false };
   const body = JSON.stringify({ event: "geba.lead.created", version: 1, lead });
   const signature = webhookSecret ? createHmac("sha256", webhookSecret).update(body).digest("hex") : "";

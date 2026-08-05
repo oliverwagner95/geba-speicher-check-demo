@@ -228,7 +228,10 @@ async function deliverLead(lead) {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, "http://localhost");
-  const requested = url.pathname === "/" ? "/index.html" : url.pathname;
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  const requested = url.pathname === "/" && host === "foerdercheck.geba-gmbh.com"
+    ? "/privatkunden-foerdercheck.html"
+    : url.pathname === "/" ? "/index.html" : url.pathname;
   const safePath = normalize(decodeURIComponent(requested)).replace(/^(\.\.(\/|\\|$))+/, "");
   const filePath = join(root, safePath);
   if (!filePath.startsWith(root)) return json(res, 404, { error: "not_found" });

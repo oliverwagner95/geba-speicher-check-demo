@@ -26,6 +26,22 @@ function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
 }
 
+function trackLeadSubmitted(score) {
+  const trackingPayload = {
+    lead_type: "speichercheck",
+    lead_grade: score.grade,
+    lead_score: score.points,
+    lead_route: score.priority,
+    page_path: window.location.pathname,
+    value: 1,
+    currency: "EUR",
+  };
+
+  track("lead_submit", trackingPayload);
+  track("speichercheck_lead", trackingPayload);
+  track("generate_lead", trackingPayload);
+}
+
 function getCheckedValues(name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map((input) => input.value);
 }
@@ -292,7 +308,7 @@ form.addEventListener("submit", async (event) => {
   submitButton.textContent = "Wird sicher vorbereitet …";
   try {
     const response = await submitLead(payload);
-    track("generate_lead", { lead_grade: score.grade, lead_score: score.points, lead_route: score.priority, value: 1, currency: "EUR" });
+    trackLeadSubmitted(score);
     openResult(score, Boolean(response.demo));
     sessionStorage.removeItem(STORAGE_KEY);
   } catch {

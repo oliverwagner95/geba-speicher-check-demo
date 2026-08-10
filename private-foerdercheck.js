@@ -8,6 +8,19 @@ function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
 }
 
+function trackLeadSubmitted() {
+  const trackingPayload = {
+    lead_type: "foerdercheck",
+    page_path: window.location.pathname,
+    value: 1,
+    currency: "EUR",
+  };
+
+  track("lead_submit", trackingPayload);
+  track("foerdercheck_lead", trackingPayload);
+  track("generate_lead", trackingPayload);
+}
+
 if (!reduceMotion) {
   document.documentElement.classList.add("motion-ready");
   requestAnimationFrame(() => document.documentElement.classList.add("motion-active"));
@@ -243,11 +256,7 @@ if (wizard) {
         "Vielen Dank. Ihre Anfrage wurde übermittelt. GEBA meldet sich im gewünschten Zeitraum bei Ihnen.",
         "success",
       );
-      track("generate_lead", {
-        lead_type: "private_funding_check",
-        value: 1,
-        currency: "EUR",
-      });
+      trackLeadSubmitted();
       wizard.reset();
     } catch (error) {
       console.error("Private Förder-Check submission failed", error);

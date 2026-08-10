@@ -2,6 +2,12 @@ const header = document.querySelector("[data-header]");
 const wizard = document.querySelector("[data-private-wizard]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+window.dataLayer = window.dataLayer || [];
+
+function track(event, payload = {}) {
+  window.dataLayer.push({ event, ...payload });
+}
+
 if (!reduceMotion) {
   document.documentElement.classList.add("motion-ready");
   requestAnimationFrame(() => document.documentElement.classList.add("motion-active"));
@@ -151,6 +157,10 @@ if (wizard) {
     }
     if (currentStep === steps.length - 1) updateSummary();
     setMessage();
+    track("geba_private_check_step_view", {
+      step_number: currentStep + 1,
+      step_name: steps[currentStep]?.querySelector("h3")?.textContent.trim(),
+    });
 
     if (focusHeading) {
       steps[currentStep]?.querySelector("h3")?.focus?.({ preventScroll: true });
@@ -233,6 +243,11 @@ if (wizard) {
         "Vielen Dank. Ihre Anfrage wurde übermittelt. GEBA meldet sich im gewünschten Zeitraum bei Ihnen.",
         "success",
       );
+      track("generate_lead", {
+        lead_type: "private_funding_check",
+        value: 1,
+        currency: "EUR",
+      });
       wizard.reset();
     } catch (error) {
       console.error("Private Förder-Check submission failed", error);
@@ -240,6 +255,7 @@ if (wizard) {
         "Die Anfrage konnte technisch nicht übermittelt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie GEBA direkt.",
         "error",
       );
+      track("geba_lead_error", { lead_type: "private_funding_check" });
     } finally {
       nextButton.disabled = false;
       nextButton.textContent = "Förder-Check anfragen";
@@ -248,7 +264,10 @@ if (wizard) {
 
   nextButton?.addEventListener("click", () => {
     if (currentStep < steps.length - 1) {
-      if (validateStep()) updateStep(currentStep + 1);
+      if (validateStep()) {
+        track("geba_private_check_step_complete", { step_number: currentStep + 1 });
+        updateStep(currentStep + 1);
+      }
       return;
     }
     submitWizard();
@@ -268,3 +287,11 @@ if (wizard) {
 
   updateStep(0, false);
 }
+
+document.querySelectorAll('a[href="#check"], .header-button, .button').forEach((cta) => {
+  cta.addEventListener("click", () => {
+    track("geba_cta_click", { cta_name: cta.textContent.trim(), page_path: window.location.pathname });
+  });
+});
+
+track("geba_private_check_loaded", { page_path: window.location.pathname });

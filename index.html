@@ -11,6 +11,7 @@
     <meta name="robots" content="noindex,nofollow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="theme-color" content="#287a3e" />
     <meta name="format-detection" content="telephone=yes" />
+    <meta name="geba-gtm-id" content="GTM-MKML2CBG" />
     <link rel="canonical" href="https://oliverwagner95.github.io/geba-speicher-check-demo/" />
     <link rel="icon" href="./assets/geba-logo.svg" type="image/svg+xml" />
     <link rel="manifest" href="./manifest.webmanifest" />
@@ -31,6 +32,7 @@
     <link rel="preload" href="./assets/geba-logo.svg" as="image" type="image/svg+xml" />
     <link rel="preload" href="./assets/geba-gewerbe-hero-v1.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="stylesheet" href="./styles.css?v=20260716-flow1" />
+    <link rel="stylesheet" href="./marketing-consent.css?v=20260807-consent" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -553,6 +555,19 @@
 
     <a class="mobile-cta" href="#check" data-cta="mobile-sticky">Kostenlos prüfen <span>→</span></a>
 
+    <section class="cookie-consent" data-cookie-consent hidden aria-label="Cookie-Einstellungen">
+      <p>
+        <strong>Cookies &amp; Conversion-Messung</strong>
+        Wir nutzen optionale Google-Marketing- und Analyse-Tags, um Anfrage-Conversions auszuwerten. Ohne Zustimmung
+        bleiben diese Tags deaktiviert. Details stehen in der
+        <a href="https://www.geba-gmbh.com/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a>.
+      </p>
+      <div class="cookie-consent-actions">
+        <button type="button" data-consent-reject>Nur notwendige</button>
+        <button type="button" data-consent-accept>Akzeptieren</button>
+      </div>
+    </section>
+
     <div class="modal" id="resultModal" hidden>
       <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
         <button class="modal-close" type="button" aria-label="Schließen">×</button>
@@ -571,6 +586,7 @@
       </div>
     </div>
 
+    <script src="./marketing-consent.js?v=20260807-consent"></script>
     <script src="./script.js"></script>
   </body>
 </html>

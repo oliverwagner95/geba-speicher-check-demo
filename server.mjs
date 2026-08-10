@@ -31,12 +31,11 @@ const mimeTypes = {
 
 function securityHeaders(extra = {}) {
   return {
-    "Content-Security-Policy": "default-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests",
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
     "Cross-Origin-Opener-Policy": "same-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
     ...extra,
   };
 }

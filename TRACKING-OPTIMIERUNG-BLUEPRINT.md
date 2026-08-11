@@ -114,6 +114,8 @@ Keine Conversion-Aktion als Konto-Standardziel setzen, bevor klar ist, welche Ka
 
 ## Ads-Blueprint
 
+Detailausarbeitung: `GEBA-ADS-KEYWORD-BLUEPRINT.md`
+
 Kampagnen getrennt halten:
 
 - B2B Speichercheck

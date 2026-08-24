@@ -179,7 +179,7 @@ try {
     })`,
   );
   assert(desktop.title.includes("Heizungsförderung"), "Private page title is missing");
-  assert(desktop.robots.includes("noindex"), "Demo page must remain noindex");
+  assert(!desktop.robots.includes("noindex"), "Private page must be indexable");
   assert(desktop.scrollWidth <= desktop.width, "Desktop layout has horizontal overflow");
   assert(desktop.imagesLoaded, "Not all private page images loaded");
   assert(

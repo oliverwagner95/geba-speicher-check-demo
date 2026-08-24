@@ -126,6 +126,50 @@ function validateLead(input) {
   return { lead, errors };
 }
 
+function canonicalOrigin(req) {
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  if (host === "foerdercheck.geba-gmbh.com") return "https://foerdercheck.geba-gmbh.com";
+  return "https://speichercheck.geba-gmbh.com";
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function sendText(res, status, body, contentType) {
+  res.writeHead(status, securityHeaders({
+    "Content-Type": contentType,
+    "Cache-Control": "no-cache",
+    "Content-Length": Buffer.byteLength(body),
+  }));
+  res.end(body);
+}
+
+function serveRobots(req, res) {
+  const origin = canonicalOrigin(req);
+  sendText(res, 200, `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`, "text/plain; charset=utf-8");
+}
+
+function serveSitemap(req, res) {
+  const loc = `${canonicalOrigin(req)}/`;
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${xmlEscape(loc)}</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
+`;
+  sendText(res, 200, body, "application/xml; charset=utf-8");
+}
+
 function leadMailSubject(lead) {
   return lead.lead_type === "privatkunden-foerdercheck"
     ? `Neue GEBA Anfrage: Förder-Check ${lead.name || ""}`.trim()
@@ -227,6 +271,9 @@ async function deliverLead(lead) {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, "http://localhost");
+  if (url.pathname === "/robots.txt") return serveRobots(req, res);
+  if (url.pathname === "/sitemap.xml") return serveSitemap(req, res);
+
   const host = String(req.headers.host || "").split(":")[0].toLowerCase();
   const requested = url.pathname === "/" && host === "foerdercheck.geba-gmbh.com"
     ? "/privatkunden-foerdercheck.html"

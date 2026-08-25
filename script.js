@@ -1,4 +1,6 @@
 const form = document.querySelector("#leadForm");
+const quickForm = document.querySelector("#quickLeadForm");
+const quickFormMessage = document.querySelector("#quickFormMessage");
 const modal = document.querySelector("#resultModal");
 const modalClose = document.querySelector(".modal-close");
 const resultStatus = document.querySelector("#resultStatus");
@@ -58,19 +60,28 @@ function getActiveSteps() {
   });
 }
 
-function setAttribution() {
+function setFormAttribution(targetForm) {
+  if (!targetForm) return;
   const params = new URLSearchParams(window.location.search);
   ATTRIBUTION_KEYS.forEach((key) => {
     const current = params.get(key);
     const stored = sessionStorage.getItem(`geba_${key}`);
     const value = current || stored || "";
     if (current) sessionStorage.setItem(`geba_${key}`, current);
-    const input = form.elements.namedItem(key);
+    const input = targetForm.elements.namedItem(key);
     if (input) input.value = value;
   });
-  form.elements.landing_page.value = window.location.href;
-  form.elements.referrer.value = document.referrer;
-  form.elements.form_started_at.value = new Date().toISOString();
+  const landingPage = targetForm.elements.namedItem("landing_page");
+  const referrer = targetForm.elements.namedItem("referrer");
+  const startedAt = targetForm.elements.namedItem("form_started_at");
+  if (landingPage) landingPage.value = window.location.href;
+  if (referrer) referrer.value = document.referrer;
+  if (startedAt) startedAt.value = new Date().toISOString();
+}
+
+function setAttribution() {
+  setFormAttribution(form);
+  setFormAttribution(quickForm);
 }
 
 function syncPvDependentOptions() {
@@ -250,8 +261,7 @@ function buildLeadPayload(score) {
   return payload;
 }
 
-async function submitLead(payload) {
-  const endpoint = form.dataset.endpoint?.trim();
+async function submitLead(payload, endpoint = form.dataset.endpoint?.trim()) {
   if (!endpoint) throw new Error("Lead endpoint missing");
   const response = await fetch(endpoint, {
     method: "POST",
@@ -260,6 +270,19 @@ async function submitLead(payload) {
   });
   if (!response.ok) throw new Error(`Lead endpoint returned ${response.status}`);
   return response.json().catch(() => ({}));
+}
+
+function buildQuickLeadPayload() {
+  const payload = Object.fromEntries(new FormData(quickForm).entries());
+  payload.topics = ["callback", "storage", "peaks"];
+  payload.lead_score = 65;
+  payload.lead_grade = "B";
+  payload.lead_route = "callback";
+  payload.qualification_reasons = ["Kurz-Rückruf zur Speicher-Wirtschaftlichkeit angefordert"];
+  payload.submitted_at = new Date().toISOString();
+  payload.page_title = document.title;
+  delete payload.website;
+  return payload;
 }
 
 function openResult(score, demo) {
@@ -324,6 +347,37 @@ form.addEventListener("submit", async (event) => {
     submitButton.textContent = "Potenzialbewertung anfordern";
   }
 });
+
+if (quickForm) {
+  quickForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!quickForm.checkValidity()) {
+      quickForm.reportValidity();
+      return;
+    }
+    if (quickForm.elements.website.value) return;
+
+    const quickSubmitButton = quickForm.querySelector(".quick-submit");
+    const payload = buildQuickLeadPayload();
+    quickSubmitButton.disabled = true;
+    quickSubmitButton.textContent = "Wird übermittelt ...";
+    quickFormMessage.textContent = "Anfrage wird sicher an GEBA übermittelt.";
+    try {
+      await submitLead(payload, quickForm.dataset.endpoint?.trim());
+      trackLeadSubmitted({ grade: "B", points: 65, priority: "callback" });
+      track("geba_quick_callback_submit", { page_path: window.location.pathname });
+      quickForm.reset();
+      setFormAttribution(quickForm);
+      quickFormMessage.textContent = "Danke. GEBA hat die Anfrage erhalten und meldet sich persönlich.";
+    } catch {
+      quickFormMessage.textContent = "Übermittlung nicht möglich. Bitte GEBA direkt unter 07765 – 918 375 kontaktieren.";
+      track("geba_quick_callback_error", { page_path: window.location.pathname });
+    } finally {
+      quickSubmitButton.disabled = false;
+      quickSubmitButton.textContent = "Rückruf anfordern";
+    }
+  });
+}
 
 document.querySelectorAll("[data-cta]").forEach((cta) => {
   cta.addEventListener("click", () => track("geba_cta_click", { cta_name: cta.dataset.cta }));

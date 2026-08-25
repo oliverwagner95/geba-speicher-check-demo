@@ -227,15 +227,15 @@ try {
         step3,
         step4,
         summary,
-        demoMessage: document.querySelector('[data-message]')?.textContent.trim(),
+        submitMessage: document.querySelector('[data-message]')?.textContent.trim(),
         messageVisible: !document.querySelector('[data-message]')?.hidden
       };
     })()`,
   );
   assert(wizardResult.step2 && wizardResult.step3 && wizardResult.step4, "Wizard did not advance through all steps");
   assert(wizardResult.summary.includes("Einfamilienhaus"), "Wizard summary did not use the selected property type");
-  assert(wizardResult.messageVisible, "Demo submit result is not visible");
-  assert(wizardResult.demoMessage.includes("nicht übertragen"), "Demo submit must state that data was not sent");
+  assert(wizardResult.messageVisible, "Submit result is not visible");
+  assert(wizardResult.submitMessage.includes("GEBA direkt"), "Submit failure must point users to direct GEBA contact");
 
   await navigate(cdp, `${baseUrl}/privatkunden-foerdercheck.html`, 390, 844, true);
   const mobile = await evaluate(
@@ -295,9 +295,12 @@ try {
   assert(b2b.scrollWidth <= b2b.width, "Existing B2B page has horizontal overflow");
 
   const browserErrors = cdp.events.filter(
-    (event) =>
-      event.method === "Runtime.exceptionThrown" ||
-      (event.method === "Log.entryAdded" && ["error", "warning"].includes(event.params.entry.level)),
+    (event) => {
+      if (event.method === "Runtime.exceptionThrown") return true;
+      if (event.method !== "Log.entryAdded" || !["error", "warning"].includes(event.params.entry.level)) return false;
+      const entry = event.params.entry;
+      return !(entry.url?.endsWith("/api/leads") && entry.text?.includes("503"));
+    },
   );
   assert(browserErrors.length === 0, `Browser errors detected: ${JSON.stringify(browserErrors)}`);
 

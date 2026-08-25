@@ -235,8 +235,8 @@ if (wizard) {
 
     if (!endpoint) {
       setMessage(
-        "Demo abgeschlossen: Ihre Eingaben wurden nicht übertragen oder gespeichert. Vor dem Livegang wird hier der geprüfte GEBA-Lead-Endpunkt angeschlossen.",
-        "success",
+        "Die Anfrage konnte technisch nicht übermittelt werden. Bitte kontaktieren Sie GEBA direkt.",
+        "error",
       );
       return;
     }

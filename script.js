@@ -252,7 +252,7 @@ function buildLeadPayload(score) {
 
 async function submitLead(payload) {
   const endpoint = form.dataset.endpoint?.trim();
-  if (!endpoint) return { demo: true };
+  if (!endpoint) throw new Error("Lead endpoint missing");
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -264,12 +264,12 @@ async function submitLead(payload) {
 
 function openResult(score, demo) {
   modalReturnFocus = document.activeElement;
-  resultEyebrow.textContent = demo ? "Demo-Auswertung" : "Vorprüfung abgeschlossen";
+  resultEyebrow.textContent = "Vorprüfung abgeschlossen";
   resultStatus.textContent = score.grade === "A" ? "Hohes Prüfpotenzial" : score.grade === "B" ? "Qualifizierte Vorprüfung" : "Erste Einordnung";
   resultCopy.textContent = score.copy;
   resultReasons.innerHTML = score.reasons.map((reason) => `<li>${reason}</li>`).join("");
   modal.querySelector(".modal-note").textContent = demo
-    ? "Demo-Modus: Die Qualifizierung funktioniert bereits, der produktive GEBA-Endpunkt ist noch nicht verbunden."
+    ? "Die Vorprüfung wurde erfasst. GEBA prüft die Angaben und meldet sich persönlich."
     : "Ihre Anfrage wurde sicher an GEBA übermittelt. Das Team prüft die Angaben und meldet sich persönlich.";
   modal.hidden = false;
   document.body.classList.add("modal-open");

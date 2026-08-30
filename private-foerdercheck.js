@@ -1,6 +1,7 @@
 const header = document.querySelector("[data-header]");
 const wizard = document.querySelector("[data-private-wizard]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const attributionKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "wbraid", "gbraid"];
 
 window.dataLayer = window.dataLayer || [];
 
@@ -124,6 +125,20 @@ if (wizard) {
   const summaryTitle = wizard.querySelector("[data-summary-title]");
   const summaryText = wizard.querySelector("[data-summary-text]");
   let currentStep = 0;
+
+  const params = new URLSearchParams(window.location.search);
+  attributionKeys.forEach((key) => {
+    const current = params.get(key);
+    const stored = sessionStorage.getItem(`geba_${key}`);
+    const value = current || stored || "";
+    if (current) sessionStorage.setItem(`geba_${key}`, current);
+    const input = wizard.elements.namedItem(key);
+    if (input) input.value = value;
+  });
+  const landingPage = wizard.elements.namedItem("landing_page");
+  const referrer = wizard.elements.namedItem("referrer");
+  if (landingPage) landingPage.value = window.location.href;
+  if (referrer) referrer.value = document.referrer;
 
   if (startedAt) {
     startedAt.value = new Date().toISOString();

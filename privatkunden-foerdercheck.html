@@ -259,6 +259,16 @@
           <form class="private-wizard" data-private-wizard data-endpoint="/api/leads" data-reveal novalidate>
             <input type="hidden" name="lead_type" value="privatkunden-foerdercheck" />
             <input type="hidden" name="form_started_at" value="" data-started-at />
+            <input type="hidden" name="utm_source" />
+            <input type="hidden" name="utm_medium" />
+            <input type="hidden" name="utm_campaign" />
+            <input type="hidden" name="utm_content" />
+            <input type="hidden" name="utm_term" />
+            <input type="hidden" name="gclid" />
+            <input type="hidden" name="wbraid" />
+            <input type="hidden" name="gbraid" />
+            <input type="hidden" name="landing_page" />
+            <input type="hidden" name="referrer" />
             <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
             <div class="wizard-head">
@@ -351,7 +361,7 @@
               <div class="field-grid">
                 <label>Name<input name="name" autocomplete="name" maxlength="120" placeholder="Vor- und Nachname" required /></label>
                 <label>Telefon<input name="phone" inputmode="tel" autocomplete="tel" maxlength="60" placeholder="+49 ..." required /></label>
-                <label class="field-wide">E-Mail<input name="email" inputmode="email" autocomplete="email" maxlength="180" placeholder="name@beispiel.de" required /></label>
+                <label class="field-wide">E-Mail <span>(optional)</span><input name="email" inputmode="email" autocomplete="email" maxlength="180" placeholder="name@beispiel.de" /></label>
               </div>
               <label class="consent-label">
                 <input type="checkbox" name="consent" required />
@@ -447,6 +457,6 @@
     <script src="./marketing-consent.js?v=20260807-consent"></script>
     <script src="./assets/vendor/gsap/gsap.min.js" defer></script>
     <script src="./assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
-    <script src="./private-foerdercheck.js?v=20260811-motion-fix" defer></script>
+    <script src="./private-foerdercheck.js?v=20260830-conversion-fix" defer></script>
   </body>
 </html>

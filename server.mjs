@@ -114,7 +114,7 @@ function validateLead(input) {
   const errors = [];
   if (!isPrivateLead && !lead.company) errors.push("company");
   if (!lead.name) errors.push("name");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
+  if ((!isPrivateLead || lead.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
   if (lead.phone.replace(/\D/g, "").length < 6) errors.push("phone");
   if (!/^\d{5}$/.test(lead.postalCode)) errors.push("postalCode");
   if (!lead.city) errors.push("city");

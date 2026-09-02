@@ -83,6 +83,10 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    // Load GTM with Consent Mode defaults already set to "denied". This lets
+    // Google receive cookieless measurement pings before a visitor makes a
+    // choice, while storage remains blocked until explicit consent.
+    loadGtm();
     const choice = readChoice();
     if (choice === null) {
       showBanner();
@@ -91,4 +95,3 @@
     updateConsent(choice);
   });
 })();
-

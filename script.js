@@ -1,4 +1,6 @@
 const form = document.querySelector("#leadForm");
+const quickForm = document.querySelector("#quickLeadForm");
+const quickFormMessage = document.querySelector("#quickFormMessage");
 const modal = document.querySelector("#resultModal");
 const modalClose = document.querySelector(".modal-close");
 const resultStatus = document.querySelector("#resultStatus");
@@ -16,14 +18,63 @@ const resultEyebrow = document.querySelector("#resultEyebrow");
 const formNote = document.querySelector("#formNote");
 
 const STORAGE_KEY = "geba-commercial-check-v2";
+const GA4_MEASUREMENT_ID = "G-B75PDGT4F1";
 const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "wbraid", "gbraid"];
 let currentStepIndex = 0;
 let modalReturnFocus = null;
+let checkStarted = false;
+let checkSubmitted = false;
+let checkAbandonTracked = false;
+let highestStepViewed = 1;
 
 window.dataLayer = window.dataLayer || [];
 
 function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
+}
+
+function trackFunnel(event, payload = {}) {
+  track(event, payload);
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, { ...payload, send_to: GA4_MEASUREMENT_ID });
+  }
+}
+
+function startCheck(entryPoint = "wizard") {
+  if (checkStarted) return;
+  checkStarted = true;
+  trackFunnel("geba_check_start", {
+    check_type: "speichercheck",
+    entry_point: entryPoint,
+    page_path: window.location.pathname,
+  });
+}
+
+function trackCheckAbandon() {
+  if (!checkStarted || checkSubmitted || checkAbandonTracked) return;
+  checkAbandonTracked = true;
+  trackFunnel("geba_check_abandon", {
+    check_type: "speichercheck",
+    step_number: currentStepIndex + 1,
+    highest_step_viewed: highestStepViewed,
+    page_path: window.location.pathname,
+  });
+}
+
+function trackLeadSubmitted(score) {
+  const trackingPayload = {
+    lead_type: "speichercheck",
+    lead_grade: score.grade,
+    lead_score: score.points,
+    lead_route: score.priority,
+    page_path: window.location.pathname,
+    value: 1,
+    currency: "EUR",
+  };
+
+  track("lead_submit", trackingPayload);
+  track("speichercheck_lead", trackingPayload);
+  track("generate_lead", trackingPayload);
 }
 
 function getCheckedValues(name) {
@@ -42,19 +93,28 @@ function getActiveSteps() {
   });
 }
 
-function setAttribution() {
+function setFormAttribution(targetForm) {
+  if (!targetForm) return;
   const params = new URLSearchParams(window.location.search);
   ATTRIBUTION_KEYS.forEach((key) => {
     const current = params.get(key);
     const stored = sessionStorage.getItem(`geba_${key}`);
     const value = current || stored || "";
     if (current) sessionStorage.setItem(`geba_${key}`, current);
-    const input = form.elements.namedItem(key);
+    const input = targetForm.elements.namedItem(key);
     if (input) input.value = value;
   });
-  form.elements.landing_page.value = window.location.href;
-  form.elements.referrer.value = document.referrer;
-  form.elements.form_started_at.value = new Date().toISOString();
+  const landingPage = targetForm.elements.namedItem("landing_page");
+  const referrer = targetForm.elements.namedItem("referrer");
+  const startedAt = targetForm.elements.namedItem("form_started_at");
+  if (landingPage) landingPage.value = window.location.href;
+  if (referrer) referrer.value = document.referrer;
+  if (startedAt) startedAt.value = new Date().toISOString();
+}
+
+function setAttribution() {
+  setFormAttribution(form);
+  setFormAttribution(quickForm);
 }
 
 function syncPvDependentOptions() {
@@ -113,6 +173,7 @@ function showStep(index, direction = "direct") {
   syncPvDependentOptions();
   const steps = getActiveSteps();
   currentStepIndex = Math.max(0, Math.min(index, steps.length - 1));
+  highestStepViewed = Math.max(highestStepViewed, currentStepIndex + 1);
 
   form.querySelectorAll(".wizard-step").forEach((step) => step.classList.remove("is-active"));
   const activeStep = steps[currentStepIndex];
@@ -127,7 +188,7 @@ function showStep(index, direction = "direct") {
   submitButton.hidden = currentStepIndex !== steps.length - 1;
   saveProgress();
 
-  track("geba_check_step_view", {
+  trackFunnel("geba_check_step_view", {
     step_number: currentStepIndex + 1,
     step_name: activeStep.querySelector(".step-kicker")?.textContent.trim(),
     direction,
@@ -144,6 +205,7 @@ function validateCurrentStep() {
       if (groupedRadios.has(field.name)) continue;
       groupedRadios.add(field.name);
       if (field.required && !step.querySelector(`input[name="${field.name}"]:checked`)) {
+        trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
         field.setCustomValidity("Bitte wählen Sie eine Antwort aus.");
         field.reportValidity();
         field.setCustomValidity("");
@@ -152,12 +214,14 @@ function validateCurrentStep() {
       continue;
     }
     if (!field.checkValidity()) {
+      trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
       field.reportValidity();
       return false;
     }
   }
 
   if (step.dataset.step === "4" && getCheckedValues("topics").length === 0) {
+    trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: "topics" });
     const firstTopic = step.querySelector('input[name="topics"]');
     firstTopic.setCustomValidity("Bitte wählen Sie mindestens ein Ziel aus.");
     firstTopic.reportValidity();
@@ -234,9 +298,8 @@ function buildLeadPayload(score) {
   return payload;
 }
 
-async function submitLead(payload) {
-  const endpoint = form.dataset.endpoint?.trim();
-  if (!endpoint) return { demo: true };
+async function submitLead(payload, endpoint = form.dataset.endpoint?.trim()) {
+  if (!endpoint) throw new Error("Lead endpoint missing");
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -246,14 +309,27 @@ async function submitLead(payload) {
   return response.json().catch(() => ({}));
 }
 
+function buildQuickLeadPayload() {
+  const payload = Object.fromEntries(new FormData(quickForm).entries());
+  payload.topics = ["callback", "storage", "peaks"];
+  payload.lead_score = 65;
+  payload.lead_grade = "B";
+  payload.lead_route = "callback";
+  payload.qualification_reasons = ["Kurz-Rückruf zur Speicher-Wirtschaftlichkeit angefordert"];
+  payload.submitted_at = new Date().toISOString();
+  payload.page_title = document.title;
+  delete payload.website;
+  return payload;
+}
+
 function openResult(score, demo) {
   modalReturnFocus = document.activeElement;
-  resultEyebrow.textContent = demo ? "Demo-Auswertung" : "Vorprüfung abgeschlossen";
+  resultEyebrow.textContent = "Vorprüfung abgeschlossen";
   resultStatus.textContent = score.grade === "A" ? "Hohes Prüfpotenzial" : score.grade === "B" ? "Qualifizierte Vorprüfung" : "Erste Einordnung";
   resultCopy.textContent = score.copy;
   resultReasons.innerHTML = score.reasons.map((reason) => `<li>${reason}</li>`).join("");
   modal.querySelector(".modal-note").textContent = demo
-    ? "Demo-Modus: Die Qualifizierung funktioniert bereits, der produktive GEBA-Endpunkt ist noch nicht verbunden."
+    ? "Die Vorprüfung wurde erfasst. GEBA prüft die Angaben und meldet sich persönlich."
     : "Ihre Anfrage wurde sicher an GEBA übermittelt. Das Team prüft die Angaben und meldet sich persönlich.";
   modal.hidden = false;
   document.body.classList.add("modal-open");
@@ -267,6 +343,7 @@ function closeResult() {
 }
 
 form.addEventListener("change", (event) => {
+  startCheck("wizard");
   if (event.target.name === "pv") {
     currentStepIndex = 0;
     showStep(0, "branch-reset");
@@ -276,8 +353,9 @@ form.addEventListener("change", (event) => {
 });
 
 nextButton.addEventListener("click", () => {
+  startCheck("wizard");
   if (!validateCurrentStep()) return;
-  track("geba_check_step_complete", { step_number: currentStepIndex + 1 });
+  trackFunnel("geba_check_step_complete", { step_number: currentStepIndex + 1 });
   showStep(currentStepIndex + 1, "next");
 });
 
@@ -285,6 +363,7 @@ prevButton.addEventListener("click", () => showStep(currentStepIndex - 1, "back"
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  startCheck("wizard");
   if (!validateCurrentStep() || form.elements.website.value) return;
   const score = calculateScore();
   const payload = buildLeadPayload(score);
@@ -292,7 +371,8 @@ form.addEventListener("submit", async (event) => {
   submitButton.textContent = "Wird sicher vorbereitet …";
   try {
     const response = await submitLead(payload);
-    track("generate_lead", { lead_grade: score.grade, lead_score: score.points, lead_route: score.priority, value: 1, currency: "EUR" });
+    checkSubmitted = true;
+    trackLeadSubmitted(score);
     openResult(score, Boolean(response.demo));
     sessionStorage.removeItem(STORAGE_KEY);
   } catch {
@@ -309,6 +389,38 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
+if (quickForm) {
+  quickForm.addEventListener("input", () => startCheck("quick_callback"), { once: true });
+  quickForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!quickForm.checkValidity()) {
+      quickForm.reportValidity();
+      return;
+    }
+    if (quickForm.elements.website.value) return;
+
+    const quickSubmitButton = quickForm.querySelector(".quick-submit");
+    const payload = buildQuickLeadPayload();
+    quickSubmitButton.disabled = true;
+    quickSubmitButton.textContent = "Wird übermittelt ...";
+    quickFormMessage.textContent = "Anfrage wird sicher an GEBA übermittelt.";
+    try {
+      await submitLead(payload, quickForm.dataset.endpoint?.trim());
+      trackLeadSubmitted({ grade: "B", points: 65, priority: "callback" });
+      track("geba_quick_callback_submit", { page_path: window.location.pathname });
+      quickForm.reset();
+      setFormAttribution(quickForm);
+      quickFormMessage.textContent = "Danke. GEBA hat die Anfrage erhalten und meldet sich persönlich.";
+    } catch {
+      quickFormMessage.textContent = "Übermittlung nicht möglich. Bitte GEBA direkt unter 07765 – 918 375 kontaktieren.";
+      track("geba_quick_callback_error", { page_path: window.location.pathname });
+    } finally {
+      quickSubmitButton.disabled = false;
+      quickSubmitButton.textContent = "Rückruf anfordern";
+    }
+  });
+}
+
 document.querySelectorAll("[data-cta]").forEach((cta) => {
   cta.addEventListener("click", () => track("geba_cta_click", { cta_name: cta.dataset.cta }));
 });
@@ -316,6 +428,7 @@ document.querySelectorAll("[data-cta]").forEach((cta) => {
 modalClose.addEventListener("click", closeResult);
 modal.addEventListener("click", (event) => { if (event.target === modal) closeResult(); });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeResult(); });
+window.addEventListener("pagehide", trackCheckAbandon);
 
 setAttribution();
 if (form.dataset.endpoint?.trim()) {
@@ -324,7 +437,7 @@ if (form.dataset.endpoint?.trim()) {
 restoreProgress();
 showStep(currentStepIndex);
 updatePotentialPreview();
-track("geba_check_loaded", { page_path: window.location.pathname });
+trackFunnel("geba_check_loaded", { page_path: window.location.pathname });
 
 const siteHeader = document.querySelector(".site-header");
 const heroBackground = document.querySelector(".hero-bg");

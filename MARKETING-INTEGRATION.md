@@ -17,12 +17,15 @@
 - serverseitige Feldvalidierung, Payload-Limit und IP-Rate-Limit
 - signierte Webhook-Übergabe über serverseitige Umgebungsvariablen
 - Security-Header, restriktive Browser-Berechtigungen und Asset-Caching
+- Cookie-Consent-Banner fuer beide Landingpages
+- Google Consent Mode v2 mit Default `denied` fuer `ad_storage`, `analytics_storage`, `ad_user_data` und `ad_personalization`
+- GTM-Ladung erst nach Zustimmung und nur, wenn eine echte `GTM-...` Container-ID eingetragen ist
 
 ## Vor Produktivgang noch zu verbinden
 
 1. Finalen Zielpfad bzw. Subdomain festlegen und Canonical/Sitemap bestätigen.
-2. Google Tag Manager Container-ID eintragen und Consent Mode v2 über den bestehenden GEBA-Cookie-Banner anbinden.
-3. GA4-Key-Events und Google-Ads-Conversions auf `generate_lead` konfigurieren.
+2. Google Tag Manager Container-ID `GTM-MKML2CBG` ist in `<meta name="geba-gtm-id">` eingetragen.
+3. GA4-Key-Events und Google-Ads-Conversions auf `lead_submit`, `speichercheck_lead` und `foerdercheck_lead` konfigurieren.
 4. Produktives CRM-/Webhook-Ziel festlegen, als Secret hinterlegen und den vorbereiteten Endpoint im Formular aktivieren.
 5. Empfänger, Antwortzeiten, Lead-Routing und Bestätigungs-E-Mail fachlich freigeben.
 6. Search Console Property/Sitemap anmelden und Indexierung prüfen.
@@ -34,6 +37,9 @@
 - `geba_cta_click`
 - `geba_check_step_view`
 - `geba_check_step_complete`
+- `lead_submit`
+- `speichercheck_lead`
+- `foerdercheck_lead`
 - `generate_lead`
 - `geba_lead_error`
 

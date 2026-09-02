@@ -8,6 +8,10 @@ const root = fileURLToPath(new URL(".", import.meta.url));
 const port = Number(process.env.PORT || 5014);
 const webhookUrl = process.env.LEAD_WEBHOOK_URL || "";
 const webhookSecret = process.env.LEAD_WEBHOOK_SECRET || "";
+const resendApiKey = process.env.RESEND_API_KEY || "";
+const leadNotifyTo = process.env.LEAD_NOTIFY_TO || "kontakt@geba-waerme.com";
+const leadNotifyCc = process.env.LEAD_NOTIFY_CC || "oliverwagner@geba-gmbh.com";
+const leadFromEmail = process.env.LEAD_FROM_EMAIL || "GEBA Landingpages <onboarding@resend.dev>";
 const rateLimit = new Map();
 
 const mimeTypes = {
@@ -27,12 +31,11 @@ const mimeTypes = {
 
 function securityHeaders(extra = {}) {
   return {
-    "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests",
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
     "Cross-Origin-Opener-Policy": "same-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
     ...extra,
   };
 }
@@ -61,13 +64,23 @@ function cleanString(value, max = 300) {
 }
 
 function validateLead(input) {
+  const leadType = cleanString(input.lead_type, 80) || "gewerbespeicher-check";
+  const isPrivateLead = leadType === "privatkunden-foerdercheck";
   const lead = {
+    lead_type: leadType,
+    source: cleanString(input.source, 160),
     company: cleanString(input.company, 160),
     name: cleanString(input.name, 120),
     email: cleanString(input.email, 180).toLowerCase(),
     phone: cleanString(input.phone, 60),
     postalCode: cleanString(input.postalCode, 5),
     city: cleanString(input.city, 120),
+    propertyType: cleanString(input.propertyType, 80),
+    selfUsed: cleanString(input.selfUsed, 40),
+    heatingType: cleanString(input.heatingType, 80),
+    heatingAge: cleanString(input.heatingAge, 80),
+    interest: cleanString(input.interest, 80),
+    callbackWindow: cleanString(input.callbackWindow, 80),
     industry: cleanString(input.industry, 100),
     pv: cleanString(input.pv, 40),
     pvSize: cleanString(input.pvSize, 40),
@@ -99,9 +112,9 @@ function validateLead(input) {
   };
 
   const errors = [];
-  if (!lead.company) errors.push("company");
+  if (!isPrivateLead && !lead.company) errors.push("company");
   if (!lead.name) errors.push("name");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
+  if ((!isPrivateLead || lead.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
   if (lead.phone.replace(/\D/g, "").length < 6) errors.push("phone");
   if (!/^\d{5}$/.test(lead.postalCode)) errors.push("postalCode");
   if (!lead.city) errors.push("city");
@@ -111,6 +124,120 @@ function validateLead(input) {
   const startedAt = Date.parse(input.form_started_at || "");
   if (Number.isFinite(startedAt) && Date.now() - startedAt < 2_000) errors.push("too_fast");
   return { lead, errors };
+}
+
+function canonicalOrigin(req) {
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  if (host === "foerdercheck.geba-gmbh.com") return "https://foerdercheck.geba-gmbh.com";
+  return "https://speichercheck.geba-gmbh.com";
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function sendText(res, status, body, contentType) {
+  res.writeHead(status, securityHeaders({
+    "Content-Type": contentType,
+    "Cache-Control": "no-cache",
+    "Content-Length": Buffer.byteLength(body),
+  }));
+  res.end(body);
+}
+
+function serveRobots(req, res) {
+  const origin = canonicalOrigin(req);
+  sendText(res, 200, `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`, "text/plain; charset=utf-8");
+}
+
+function serveSitemap(req, res) {
+  const loc = `${canonicalOrigin(req)}/`;
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${xmlEscape(loc)}</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
+`;
+  sendText(res, 200, body, "application/xml; charset=utf-8");
+}
+
+function leadMailSubject(lead) {
+  return lead.lead_type === "privatkunden-foerdercheck"
+    ? `Neue GEBA Anfrage: Förder-Check ${lead.name || ""}`.trim()
+    : `Neue GEBA Anfrage: Speicher-Check ${lead.company || lead.name || ""}`.trim();
+}
+
+function leadMailText(lead) {
+  const rows = [
+    ["Kampagne", lead.lead_type],
+    ["Quelle", lead.source],
+    ["Unternehmen", lead.company],
+    ["Name", lead.name],
+    ["E-Mail", lead.email],
+    ["Telefon", lead.phone],
+    ["PLZ", lead.postalCode],
+    ["Ort", lead.city],
+    ["Immobilientyp", lead.propertyType],
+    ["Selbst genutzt", lead.selfUsed],
+    ["Aktuelle Heizung", lead.heatingType],
+    ["Alter der Heizung", lead.heatingAge],
+    ["Interesse", lead.interest],
+    ["Rückrufzeitraum", lead.callbackWindow],
+    ["Branche", lead.industry],
+    ["PV", lead.pv],
+    ["PV-Größe", lead.pvSize],
+    ["Jahresverbrauch", lead.consumption],
+    ["Leistungsspitze", lead.peakPower],
+    ["Verbrauchsschwerpunkt", lead.loadTime],
+    ["Zeitplan", lead.timeline],
+    ["Daten vorhanden", lead.data],
+    ["Themen", lead.topics?.join(", ")],
+    ["Leadscore", lead.lead_score ? `${lead.lead_score} (${lead.lead_grade})` : ""],
+    ["Qualifikation", lead.qualification_reasons?.join(", ")],
+    ["Landingpage", lead.attribution?.landing_page],
+    ["Referrer", lead.attribution?.referrer],
+    ["UTM Source", lead.attribution?.utm_source],
+    ["UTM Medium", lead.attribution?.utm_medium],
+    ["UTM Campaign", lead.attribution?.utm_campaign],
+    ["GCLID", lead.attribution?.gclid],
+    ["Eingang", lead.submitted_at],
+  ];
+
+  return rows
+    .filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== "")
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+}
+
+async function deliverLeadByEmail(lead) {
+  if (!resendApiKey) return { configured: false };
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: leadFromEmail,
+      to: leadNotifyTo.split(",").map((email) => email.trim()).filter(Boolean),
+      cc: leadNotifyCc.split(",").map((email) => email.trim()).filter(Boolean),
+      reply_to: lead.email || undefined,
+      subject: leadMailSubject(lead),
+      text: leadMailText(lead),
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`email_${response.status}`);
+  return { configured: true };
 }
 
 async function readJson(req) {
@@ -123,6 +250,8 @@ async function readJson(req) {
 }
 
 async function deliverLead(lead) {
+  const emailDelivery = await deliverLeadByEmail(lead);
+  if (emailDelivery.configured) return emailDelivery;
   if (!webhookUrl) return { configured: false };
   const body = JSON.stringify({ event: "geba.lead.created", version: 1, lead });
   const signature = webhookSecret ? createHmac("sha256", webhookSecret).update(body).digest("hex") : "";
@@ -142,7 +271,13 @@ async function deliverLead(lead) {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, "http://localhost");
-  const requested = url.pathname === "/" ? "/index.html" : url.pathname;
+  if (url.pathname === "/robots.txt") return serveRobots(req, res);
+  if (url.pathname === "/sitemap.xml") return serveSitemap(req, res);
+
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  const requested = url.pathname === "/" && host === "foerdercheck.geba-gmbh.com"
+    ? "/privatkunden-foerdercheck.html"
+    : url.pathname === "/" ? "/index.html" : url.pathname;
   const safePath = normalize(decodeURIComponent(requested)).replace(/^(\.\.(\/|\\|$))+/, "");
   const filePath = join(root, safePath);
   if (!filePath.startsWith(root)) return json(res, 404, { error: "not_found" });

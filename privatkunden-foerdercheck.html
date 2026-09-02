@@ -58,24 +58,24 @@
         <div class="private-hero-shade" aria-hidden="true"></div>
         <div class="private-shell hero-layout">
           <div class="hero-copy" data-hero-reveal>
-            <p class="status-pill">Heizungsförderung · Stand 24.07.2026</p>
-            <h1 id="private-hero-title">Sichern Sie sich Ihre Heizungsförderung, bevor sie weiter sinkt.</h1>
+            <p class="status-pill">Für Eigentümer in Südbaden · ca. 2 Minuten</p>
+            <h1 id="private-hero-title">Welche Heizungsförderung passt zu Ihrem Zuhause?</h1>
             <p class="hero-lead">
-              Seit dem 21.07.2026 gelten neue Förderbedingungen. Ab 2027 sinken weitere Förderbausteine Schritt für
-              Schritt. GEBA prüft unverbindlich, ob sich ein schneller Antrag für Ihr Zuhause noch lohnt.
+              Erfassen Sie kurz Immobilie und Heizung. Das regionale GEBA-Team prüft Ihre Ausgangslage und meldet
+              sich persönlich mit einer ersten Einschätzung und dem nächsten sinnvollen Schritt.
             </p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#check">Kostenlosen Förder-Check anfragen</a>
+              <a class="button button-primary" href="#check">Förder-Check starten &amp; Rückruf anfragen</a>
               <a class="button button-secondary" href="#aenderungen">Was hat sich geändert?</a>
             </div>
-            <p class="assurance">Unverbindlich · regional · keine Fördergarantie</p>
+            <p class="assurance">Persönliche Rückmeldung · unverbindlich · keine Fördergarantie</p>
           </div>
 
           <aside class="urgency-card" aria-label="Wichtiger Förderhinweis" data-hero-reveal>
-            <span>Entscheidungsfenster</span>
-            <strong>Das Zeitfenster verändert sich.</strong>
-            <p>Ab 01.02.2027 sinken Förderhöchstbetrag und Klimageschwindigkeitsbonus erstmals.</p>
-            <a href="#check">Nicht warten. Erst prüfen. <b aria-hidden="true">→</b></a>
+            <span>Ihre Ersteinschätzung</span>
+            <strong>Klarheit statt Förderchaos.</strong>
+            <p>Sie erfahren im persönlichen Rückruf, welche Förderbausteine grundsätzlich passen und was als Nächstes sinnvoll ist.</p>
+            <a href="#check">Angaben in 2 Minuten starten <b aria-hidden="true">→</b></a>
           </aside>
         </div>
       </section>
@@ -252,8 +252,8 @@
         <div class="private-shell">
           <div class="section-heading" data-reveal>
             <p class="eyebrow">Ihr kostenloser Förder-Check</p>
-            <h2 id="check-title">In wenigen Schritten zu einer ersten Einschätzung.</h2>
-            <p>Keine komplizierten Unterlagen. Beginnen Sie mit den Eckdaten zu Immobilie und Heizung.</p>
+            <h2 id="check-title">Ersteinschätzung per persönlichem Rückruf anfragen.</h2>
+            <p>Keine Unterlagen erforderlich. Beginnen Sie mit den Eckdaten zu Immobilie und Heizung.</p>
           </div>
 
           <form class="private-wizard" data-private-wizard data-endpoint="/api/leads" data-reveal novalidate>
@@ -281,7 +281,7 @@
               <p>So lässt sich die Ausgangslage regional und passend zum Gebäudetyp einordnen.</p>
               <div class="field-grid field-grid-location">
                 <label>PLZ<input name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="z. B. 88400" required /></label>
-                <label>Ort<input name="city" autocomplete="address-level2" maxlength="120" placeholder="Ihr Wohnort" required /></label>
+                <label>Ort <span>(optional)</span><input name="city" autocomplete="address-level2" maxlength="120" placeholder="Ihr Wohnort" /></label>
               </div>
               <fieldset>
                 <legend>Immobilientyp</legend>
@@ -457,6 +457,6 @@
     <script src="./marketing-consent.js?v=20260902-consent-mode"></script>
     <script src="./assets/vendor/gsap/gsap.min.js" defer></script>
     <script src="./assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
-    <script src="./private-foerdercheck.js?v=20260902-funnel-ga4" defer></script>
+    <script src="./private-foerdercheck.js?v=20260902-step4-copy" defer></script>
   </body>
 </html>

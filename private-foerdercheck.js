@@ -215,7 +215,8 @@ if (wizard) {
     if (progress) progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
     if (backButton) backButton.hidden = currentStep === 0;
     if (nextButton) {
-      nextButton.textContent = currentStep === steps.length - 1 ? "Einschätzung anfragen" : "Weiter";
+      const nextLabels = ["Weiter zur Heizung", "Weiter zum Interesse", "Weiter zu Kontaktdaten"];
+      nextButton.textContent = currentStep === steps.length - 1 ? "Ersteinschätzung anfragen" : nextLabels[currentStep];
     }
     if (currentStep === steps.length - 1) updateSummary();
     setMessage();
@@ -323,7 +324,7 @@ if (wizard) {
       track("geba_lead_error", { lead_type: "private_funding_check" });
     } finally {
       nextButton.disabled = false;
-      nextButton.textContent = "Förder-Check anfragen";
+      nextButton.textContent = "Ersteinschätzung anfragen";
     }
   };
 

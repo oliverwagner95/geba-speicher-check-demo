@@ -18,6 +18,7 @@ const resultEyebrow = document.querySelector("#resultEyebrow");
 const formNote = document.querySelector("#formNote");
 
 const STORAGE_KEY = "geba-commercial-check-v2";
+const GA4_MEASUREMENT_ID = "G-B75PDGT4F1";
 const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "wbraid", "gbraid"];
 let currentStepIndex = 0;
 let modalReturnFocus = null;
@@ -32,10 +33,17 @@ function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
 }
 
+function trackFunnel(event, payload = {}) {
+  track(event, payload);
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, { ...payload, send_to: GA4_MEASUREMENT_ID });
+  }
+}
+
 function startCheck(entryPoint = "wizard") {
   if (checkStarted) return;
   checkStarted = true;
-  track("geba_check_start", {
+  trackFunnel("geba_check_start", {
     check_type: "speichercheck",
     entry_point: entryPoint,
     page_path: window.location.pathname,
@@ -45,7 +53,7 @@ function startCheck(entryPoint = "wizard") {
 function trackCheckAbandon() {
   if (!checkStarted || checkSubmitted || checkAbandonTracked) return;
   checkAbandonTracked = true;
-  track("geba_check_abandon", {
+  trackFunnel("geba_check_abandon", {
     check_type: "speichercheck",
     step_number: currentStepIndex + 1,
     highest_step_viewed: highestStepViewed,
@@ -180,7 +188,7 @@ function showStep(index, direction = "direct") {
   submitButton.hidden = currentStepIndex !== steps.length - 1;
   saveProgress();
 
-  track("geba_check_step_view", {
+  trackFunnel("geba_check_step_view", {
     step_number: currentStepIndex + 1,
     step_name: activeStep.querySelector(".step-kicker")?.textContent.trim(),
     direction,
@@ -197,7 +205,7 @@ function validateCurrentStep() {
       if (groupedRadios.has(field.name)) continue;
       groupedRadios.add(field.name);
       if (field.required && !step.querySelector(`input[name="${field.name}"]:checked`)) {
-        track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
+        trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
         field.setCustomValidity("Bitte wählen Sie eine Antwort aus.");
         field.reportValidity();
         field.setCustomValidity("");
@@ -206,14 +214,14 @@ function validateCurrentStep() {
       continue;
     }
     if (!field.checkValidity()) {
-      track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
+      trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
       field.reportValidity();
       return false;
     }
   }
 
   if (step.dataset.step === "4" && getCheckedValues("topics").length === 0) {
-    track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: "topics" });
+    trackFunnel("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: "topics" });
     const firstTopic = step.querySelector('input[name="topics"]');
     firstTopic.setCustomValidity("Bitte wählen Sie mindestens ein Ziel aus.");
     firstTopic.reportValidity();
@@ -347,7 +355,7 @@ form.addEventListener("change", (event) => {
 nextButton.addEventListener("click", () => {
   startCheck("wizard");
   if (!validateCurrentStep()) return;
-  track("geba_check_step_complete", { step_number: currentStepIndex + 1 });
+  trackFunnel("geba_check_step_complete", { step_number: currentStepIndex + 1 });
   showStep(currentStepIndex + 1, "next");
 });
 
@@ -429,7 +437,7 @@ if (form.dataset.endpoint?.trim()) {
 restoreProgress();
 showStep(currentStepIndex);
 updatePotentialPreview();
-track("geba_check_loaded", { page_path: window.location.pathname });
+trackFunnel("geba_check_loaded", { page_path: window.location.pathname });
 
 const siteHeader = document.querySelector(".site-header");
 const heroBackground = document.querySelector(".hero-bg");

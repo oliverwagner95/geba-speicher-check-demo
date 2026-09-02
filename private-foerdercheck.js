@@ -2,11 +2,19 @@ const header = document.querySelector("[data-header]");
 const wizard = document.querySelector("[data-private-wizard]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const attributionKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "wbraid", "gbraid"];
+const GA4_MEASUREMENT_ID = "G-B75PDGT4F1";
 
 window.dataLayer = window.dataLayer || [];
 
 function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
+}
+
+function trackFunnel(event, payload = {}) {
+  track(event, payload);
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, { ...payload, send_to: GA4_MEASUREMENT_ID });
+  }
 }
 
 let privateCheckStarted = false;
@@ -17,7 +25,7 @@ let privateHighestStepViewed = 1;
 function startPrivateCheck() {
   if (privateCheckStarted) return;
   privateCheckStarted = true;
-  track("geba_private_check_start", {
+  trackFunnel("geba_private_check_start", {
     check_type: "foerdercheck",
     page_path: window.location.pathname,
   });
@@ -26,7 +34,7 @@ function startPrivateCheck() {
 function trackPrivateCheckAbandon(currentStep) {
   if (!privateCheckStarted || privateCheckSubmitted || privateCheckAbandonTracked) return;
   privateCheckAbandonTracked = true;
-  track("geba_private_check_abandon", {
+  trackFunnel("geba_private_check_abandon", {
     check_type: "foerdercheck",
     step_number: currentStep + 1,
     highest_step_viewed: privateHighestStepViewed,
@@ -211,7 +219,7 @@ if (wizard) {
     }
     if (currentStep === steps.length - 1) updateSummary();
     setMessage();
-    track("geba_private_check_step_view", {
+    trackFunnel("geba_private_check_step_view", {
       step_number: currentStep + 1,
       step_name: steps[currentStep]?.querySelector("h3")?.textContent.trim(),
     });
@@ -250,7 +258,7 @@ if (wizard) {
     }
 
     if (firstInvalid) {
-      track("geba_private_check_validation_error", {
+      trackFunnel("geba_private_check_validation_error", {
         check_type: "foerdercheck",
         step_number: currentStep + 1,
         field_name: firstInvalid.name || "unknown",
@@ -323,7 +331,7 @@ if (wizard) {
     startPrivateCheck();
     if (currentStep < steps.length - 1) {
       if (validateStep()) {
-        track("geba_private_check_step_complete", { step_number: currentStep + 1 });
+        trackFunnel("geba_private_check_step_complete", { step_number: currentStep + 1 });
         updateStep(currentStep + 1);
       }
       return;
@@ -354,4 +362,4 @@ document.querySelectorAll('a[href="#check"], .header-button, .button').forEach((
   });
 });
 
-track("geba_private_check_loaded", { page_path: window.location.pathname });
+trackFunnel("geba_private_check_loaded", { page_path: window.location.pathname });

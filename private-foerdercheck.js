@@ -9,6 +9,31 @@ function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
 }
 
+let privateCheckStarted = false;
+let privateCheckSubmitted = false;
+let privateCheckAbandonTracked = false;
+let privateHighestStepViewed = 1;
+
+function startPrivateCheck() {
+  if (privateCheckStarted) return;
+  privateCheckStarted = true;
+  track("geba_private_check_start", {
+    check_type: "foerdercheck",
+    page_path: window.location.pathname,
+  });
+}
+
+function trackPrivateCheckAbandon(currentStep) {
+  if (!privateCheckStarted || privateCheckSubmitted || privateCheckAbandonTracked) return;
+  privateCheckAbandonTracked = true;
+  track("geba_private_check_abandon", {
+    check_type: "foerdercheck",
+    step_number: currentStep + 1,
+    highest_step_viewed: privateHighestStepViewed,
+    page_path: window.location.pathname,
+  });
+}
+
 function trackLeadSubmitted() {
   const trackingPayload = {
     lead_type: "foerdercheck",
@@ -171,6 +196,7 @@ if (wizard) {
 
   const updateStep = (nextStep, focusHeading = true) => {
     currentStep = Math.max(0, Math.min(nextStep, steps.length - 1));
+    privateHighestStepViewed = Math.max(privateHighestStepViewed, currentStep + 1);
     steps.forEach((step, index) => {
       const active = index === currentStep;
       step.hidden = !active;
@@ -224,6 +250,11 @@ if (wizard) {
     }
 
     if (firstInvalid) {
+      track("geba_private_check_validation_error", {
+        check_type: "foerdercheck",
+        step_number: currentStep + 1,
+        field_name: firstInvalid.name || "unknown",
+      });
       setMessage("Bitte vervollständigen Sie die markierten Angaben.", "error");
       firstInvalid.reportValidity();
       firstInvalid.focus();
@@ -245,6 +276,7 @@ if (wizard) {
   };
 
   const submitWizard = async () => {
+    startPrivateCheck();
     if (!validateStep()) return;
     const endpoint = wizard.dataset.endpoint?.trim();
 
@@ -272,6 +304,7 @@ if (wizard) {
         "success",
       );
       trackLeadSubmitted();
+      privateCheckSubmitted = true;
       wizard.reset();
     } catch (error) {
       console.error("Private Förder-Check submission failed", error);
@@ -287,6 +320,7 @@ if (wizard) {
   };
 
   nextButton?.addEventListener("click", () => {
+    startPrivateCheck();
     if (currentStep < steps.length - 1) {
       if (validateStep()) {
         track("geba_private_check_step_complete", { step_number: currentStep + 1 });
@@ -305,11 +339,13 @@ if (wizard) {
   });
 
   wizard.addEventListener("input", (event) => {
+    startPrivateCheck();
     event.target.setCustomValidity?.("");
     if (!message?.hidden && message?.classList.contains("is-error")) setMessage();
   });
 
   updateStep(0, false);
+  window.addEventListener("pagehide", () => trackPrivateCheckAbandon(currentStep));
 }
 
 document.querySelectorAll('a[href="#check"], .header-button, .button').forEach((cta) => {

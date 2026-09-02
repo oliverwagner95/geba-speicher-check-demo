@@ -21,11 +21,36 @@ const STORAGE_KEY = "geba-commercial-check-v2";
 const ATTRIBUTION_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "wbraid", "gbraid"];
 let currentStepIndex = 0;
 let modalReturnFocus = null;
+let checkStarted = false;
+let checkSubmitted = false;
+let checkAbandonTracked = false;
+let highestStepViewed = 1;
 
 window.dataLayer = window.dataLayer || [];
 
 function track(event, payload = {}) {
   window.dataLayer.push({ event, ...payload });
+}
+
+function startCheck(entryPoint = "wizard") {
+  if (checkStarted) return;
+  checkStarted = true;
+  track("geba_check_start", {
+    check_type: "speichercheck",
+    entry_point: entryPoint,
+    page_path: window.location.pathname,
+  });
+}
+
+function trackCheckAbandon() {
+  if (!checkStarted || checkSubmitted || checkAbandonTracked) return;
+  checkAbandonTracked = true;
+  track("geba_check_abandon", {
+    check_type: "speichercheck",
+    step_number: currentStepIndex + 1,
+    highest_step_viewed: highestStepViewed,
+    page_path: window.location.pathname,
+  });
 }
 
 function trackLeadSubmitted(score) {
@@ -140,6 +165,7 @@ function showStep(index, direction = "direct") {
   syncPvDependentOptions();
   const steps = getActiveSteps();
   currentStepIndex = Math.max(0, Math.min(index, steps.length - 1));
+  highestStepViewed = Math.max(highestStepViewed, currentStepIndex + 1);
 
   form.querySelectorAll(".wizard-step").forEach((step) => step.classList.remove("is-active"));
   const activeStep = steps[currentStepIndex];
@@ -171,6 +197,7 @@ function validateCurrentStep() {
       if (groupedRadios.has(field.name)) continue;
       groupedRadios.add(field.name);
       if (field.required && !step.querySelector(`input[name="${field.name}"]:checked`)) {
+        track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
         field.setCustomValidity("Bitte wählen Sie eine Antwort aus.");
         field.reportValidity();
         field.setCustomValidity("");
@@ -179,12 +206,14 @@ function validateCurrentStep() {
       continue;
     }
     if (!field.checkValidity()) {
+      track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: field.name });
       field.reportValidity();
       return false;
     }
   }
 
   if (step.dataset.step === "4" && getCheckedValues("topics").length === 0) {
+    track("geba_check_validation_error", { check_type: "speichercheck", step_number: currentStepIndex + 1, field_name: "topics" });
     const firstTopic = step.querySelector('input[name="topics"]');
     firstTopic.setCustomValidity("Bitte wählen Sie mindestens ein Ziel aus.");
     firstTopic.reportValidity();
@@ -306,6 +335,7 @@ function closeResult() {
 }
 
 form.addEventListener("change", (event) => {
+  startCheck("wizard");
   if (event.target.name === "pv") {
     currentStepIndex = 0;
     showStep(0, "branch-reset");
@@ -315,6 +345,7 @@ form.addEventListener("change", (event) => {
 });
 
 nextButton.addEventListener("click", () => {
+  startCheck("wizard");
   if (!validateCurrentStep()) return;
   track("geba_check_step_complete", { step_number: currentStepIndex + 1 });
   showStep(currentStepIndex + 1, "next");
@@ -324,6 +355,7 @@ prevButton.addEventListener("click", () => showStep(currentStepIndex - 1, "back"
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  startCheck("wizard");
   if (!validateCurrentStep() || form.elements.website.value) return;
   const score = calculateScore();
   const payload = buildLeadPayload(score);
@@ -331,6 +363,7 @@ form.addEventListener("submit", async (event) => {
   submitButton.textContent = "Wird sicher vorbereitet …";
   try {
     const response = await submitLead(payload);
+    checkSubmitted = true;
     trackLeadSubmitted(score);
     openResult(score, Boolean(response.demo));
     sessionStorage.removeItem(STORAGE_KEY);
@@ -349,6 +382,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 if (quickForm) {
+  quickForm.addEventListener("input", () => startCheck("quick_callback"), { once: true });
   quickForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!quickForm.checkValidity()) {
@@ -386,6 +420,7 @@ document.querySelectorAll("[data-cta]").forEach((cta) => {
 modalClose.addEventListener("click", closeResult);
 modal.addEventListener("click", (event) => { if (event.target === modal) closeResult(); });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeResult(); });
+window.addEventListener("pagehide", trackCheckAbandon);
 
 setAttribution();
 if (form.dataset.endpoint?.trim()) {

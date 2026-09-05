@@ -117,7 +117,7 @@ function validateLead(input) {
   if ((!isPrivateLead || lead.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) errors.push("email");
   if (lead.phone.replace(/\D/g, "").length < 6) errors.push("phone");
   if (!/^\d{5}$/.test(lead.postalCode)) errors.push("postalCode");
-  if (!lead.city) errors.push("city");
+  if (!isPrivateLead && !lead.city) errors.push("city");
   if (input.consent !== "on" && input.consent !== true) errors.push("consent");
   if (input.website) errors.push("spam");
 
